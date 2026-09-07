@@ -920,9 +920,10 @@ body.paused *,body.paused *::before,body.paused *::after{
 <script>
 (function(){
   "use strict";
-  /* Os cinco portoes do hero estatico. Estas cinco strings tem que ser identicas,
-     caractere por caractere, as do bloco @media no CSS. Se divergirem, um lado
-     esconde o palco enquanto o outro carrega os arquivos. */
+  /* Os quatro portoes duros do hero estatico. Estas quatro strings tem que ser
+     identicas, caractere por caractere, as da lista por virgula no CSS. Se
+     divergirem, um lado esconde o palco enquanto o outro carrega os arquivos.
+     O quinto portao, movimento reduzido, e macio e mora logo abaixo. */
   var HARD = [
     "(max-width: 720px)",
     "(orientation: portrait) and (max-width: 1024px)",
@@ -1401,8 +1402,9 @@ body.paused *,body.paused *::before,body.paused *::after{
     if(stage) stage.classList.add("video-failed");
   }
 
-  /* ---------- os cinco portoes, decididos ao vivo ----------
-     As cinco consultas batem caractere por caractere com o bloco @media do CSS.
+  /* ---------- os portoes, decididos ao vivo ----------
+     Quatro duros mais o macio. As consultas duras batem caractere por caractere
+     com a lista por virgula do CSS, e o macio depende tambem da escolha guardada.
      Decidir uma vez no carregamento deixa o hero em branco no instante em que um
      tablet gira, uma janela encostada e maximizada, ou o movimento reduzido e
      desligado no meio da sessao: o CSS reexibe o palco e o JS nao esta armado. */
@@ -1441,7 +1443,10 @@ body.paused *,body.paused *::before,body.paused *::after{
     var offer = RM.matches && !hardMode();
     if(optinEl) optinEl.classList.toggle("on", offer && !motionOk);
     if(noteEl)  noteEl.classList.toggle("on", offer && !motionOk);
-    if(offEl)   offEl.classList.toggle("on", RM.matches && motionOk);
+    /* o !hardMode() tambem aqui: com portao duro valendo o botao de volta fica
+       dentro de uma trilha escondida, invisivel e sem foco, mas marcado como
+       aceso. Estado inutil nao machuca hoje e mente para quem ler amanha. */
+    if(offEl)   offEl.classList.toggle("on", offer && motionOk);
   }
   function setMotionOk(on, moveFocusTo){
     motionOk = on;

@@ -1,0 +1,998 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pedro Maia | Tesouraria, dados e agentes de IA</title>
+<meta name="description" content="Especialista de Tesouraria na Kinross Gold. Caixa, hedge cambial e capital de giro para Brasil e Chile. Automação, dados e agentes de IA construídos de dentro do problema.">
+<link rel="alternate" hreflang="pt-BR" href="/">
+<link rel="alternate" hreflang="en" href="/en/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230A0E13'/%3E%3Cpath d='M6 6h6M6 6v6M26 6h-6M26 6v6M6 26h6M6 26v-6M26 26h-6M26 26v-6' stroke='%239DB2C4' stroke-width='2' fill='none'/%3E%3Ccircle cx='16' cy='16' r='3' fill='%23E9B45A'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@600;800&family=Spline+Sans:wght@400;500&family=Spline+Sans+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --canvas:#0A0E13;
+  --panel:#111823;
+  --panel-line:#1E2A38;
+  /* aço frio: estrutura, etiqueta, contorno, foco. Não é cor, é instrumento. */
+  --accent:#9DB2C4;
+  --accent-hover:#C9D8E4;
+  --accent-muted:#33434F;
+  /* ouro: a única cor saturada da página inteira. Estado ativo, número, chamado. */
+  --gold:#E9B45A;
+  --gold-hover:#F5C978;
+  --text-primary:#E6EDF3;
+  --text-secondary:#8B9AA8;
+  --display:"Saira Condensed",Arial Narrow,sans-serif;
+  --body:"Spline Sans",system-ui,sans-serif;
+  --mono:"Spline Sans Mono",ui-monospace,monospace;
+  --gut:clamp(20px,5vw,64px);
+  --maxw:1180px;
+  /* curvas fortes: as embutidas do CSS nao tem soco */
+  --ease-out:cubic-bezier(.23,1,.32,1);
+  --ease-in-out:cubic-bezier(.77,0,.175,1);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;overflow-x:clip}
+body{
+  margin:0;background:var(--canvas);color:var(--text-primary);
+  font-family:var(--body);font-size:17px;line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+}
+img{max-width:100%;display:block}
+a{color:var(--accent);text-decoration:none}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.skip{position:absolute;left:-9999px;top:0;background:var(--panel);color:var(--text-primary);padding:12px 18px;z-index:99}
+.skip:focus{left:12px;top:12px}
+
+/* ---------- grade de fundo fixa, com plano de profundidade ---------- */
+.depth{position:fixed;inset:-14% -10%;z-index:0;pointer-events:none;will-change:transform}
+.grid-bg{
+  position:absolute;inset:0;
+  background-image:linear-gradient(var(--accent) 1px,transparent 1px),linear-gradient(90deg,var(--accent) 1px,transparent 1px);
+  background-size:64px 64px;opacity:.035;
+  animation:drift 90s linear infinite;
+}
+@keyframes drift{to{transform:translate3d(64px,64px,0)}}
+
+.vignette{position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(120% 90% at 50% 40%,transparent 35%,rgba(5,8,11,.85) 100%)}
+
+/* ---------- cabeçalho ---------- */
+header.top{
+  position:fixed;top:0;left:0;right:0;z-index:40;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px var(--gut);
+  font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--text-secondary);
+  background:linear-gradient(to bottom,rgba(10,14,19,.9),rgba(10,14,19,0));
+  backdrop-filter:blur(3px);
+}
+header.top .mark{color:var(--text-primary);font-weight:600}
+header.top .dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent);
+  margin-right:8px;vertical-align:middle;animation:pulse 3.2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:.35}50%{opacity:1}}
+header.top nav{display:flex;gap:18px;align-items:center}
+header.top nav a{color:var(--text-secondary)}
+
+/* ---------- hero ---------- */
+.hero-track{position:relative;height:420vh;z-index:1}
+.hero{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden}
+.hero-media{position:absolute;inset:0}
+.hero-media video{width:100%;height:100%;object-fit:cover;display:none}
+.hero-plate{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(70% 50% at 50% 10%,rgba(157,178,196,.10),transparent 60%),
+    radial-gradient(50% 40% at 20% 80%,rgba(233,180,90,.08),transparent 70%),
+    linear-gradient(180deg,#0C1219 0%,#070B10 55%,#0A0E13 100%);
+}
+.scrim-a{position:absolute;inset:0;background:linear-gradient(180deg,rgba(7,10,14,.72) 0%,rgba(7,10,14,.25) 45%,rgba(7,10,14,.88) 100%)}
+.scrim-b{position:absolute;inset:0;background:radial-gradient(90% 70% at 50% 55%,transparent 30%,rgba(7,10,14,.75) 100%)}
+
+.hero-svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.hero-svg .stroke{fill:none;stroke:var(--accent);stroke-width:1;vector-effect:non-scaling-stroke}
+.hero-svg .whisper{stroke:var(--accent-muted)}
+
+.bands{position:absolute;inset:0;padding:0 var(--gut)}
+.band{
+  position:absolute;max-width:min(760px,86vw);
+  opacity:0;transform:translateY(18px);
+  transition:opacity .5s ease,transform .5s ease;
+  will-change:opacity,transform;
+}
+.band[data-on="1"]{opacity:1;transform:none}
+.band p.line{
+  font-family:var(--display);font-weight:600;text-transform:uppercase;
+  font-size:clamp(30px,5.4vw,64px);line-height:1.02;letter-spacing:.012em;margin:0;
+  text-shadow:0 2px 30px rgba(0,0,0,.85);
+}
+.band .kicker{font-family:var(--mono);font-size:12px;letter-spacing:.2em;color:var(--accent);margin:0 0 14px}
+.band-1{left:var(--gut);top:26vh;text-align:left}
+.band-2{right:var(--gut);top:32vh;text-align:right;max-width:min(620px,80vw)}
+.band-3{left:var(--gut);bottom:22vh;text-align:left}
+.band-3 .num{color:var(--accent-hover)}
+.band-4{left:50%;top:50%;transform:translate(-50%,calc(-50% + 18px));text-align:center;max-width:min(880px,90vw)}
+.band-4[data-on="1"]{transform:translate(-50%,-50%)}
+.band-4 h1{font-family:var(--display);font-weight:800;text-transform:uppercase;
+  font-size:clamp(46px,9vw,110px);line-height:.92;letter-spacing:.02em;margin:0 0 16px}
+.band-4 .role{font-family:var(--mono);font-size:clamp(12px,1.5vw,14px);letter-spacing:.18em;
+  text-transform:uppercase;color:var(--text-secondary);margin:0 0 6px}
+.band-4 .role b{color:var(--gold);font-weight:600}
+.band-4 .sub{color:var(--text-primary);opacity:.9;margin:0 0 28px}
+
+.cta{
+  display:inline-flex;align-items:center;gap:10px;min-height:44px;
+  padding:13px 26px;border:1px solid var(--accent);color:var(--accent);
+  font-family:var(--mono);font-size:13px;letter-spacing:.16em;text-transform:uppercase;
+  background:transparent;
+  transition:background .25s ease,color .25s ease,border-color .25s ease,transform 140ms var(--ease-out);
+}
+.cta.solid{background:var(--gold);border-color:var(--gold);color:#0A0E13}
+.cta .arw{transition:transform .2s var(--ease-out)}
+
+.scroll-hint{position:absolute;left:50%;bottom:26px;transform:translateX(-50%);
+  font-family:var(--mono);font-size:11px;letter-spacing:.22em;color:var(--text-secondary);
+  text-transform:uppercase;opacity:.7;transition:opacity .4s ease}
+.scroll-hint span{display:block;width:1px;height:26px;background:linear-gradient(var(--accent),transparent);margin:10px auto 0}
+
+/* hero estático */
+.hero-static{display:none;position:relative;min-height:100vh;min-height:100dvh;align-items:center;padding:120px var(--gut) 80px;z-index:1}
+.hero-static h1{font-family:var(--display);font-weight:800;text-transform:uppercase;
+  font-size:clamp(34px,8vw,68px);line-height:.98;margin:0 0 22px}
+.hero-static p{color:var(--text-secondary);max-width:56ch;margin:0 0 30px}
+
+/* ---------- estrutura de seções ---------- */
+main{position:relative;z-index:1}
+section{padding:clamp(80px,11vh,140px) var(--gut);max-width:var(--maxw);margin:0 auto}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--accent);margin:0 0 14px;display:flex;align-items:center;gap:12px}
+.eyebrow::after{content:"";flex:1;height:1px;background:var(--panel-line);max-width:180px}
+h2{font-family:var(--display);font-weight:600;text-transform:uppercase;
+  font-size:clamp(28px,4.4vw,50px);line-height:1.04;letter-spacing:.01em;margin:0 0 26px}
+h3{font-family:var(--display);font-weight:600;text-transform:uppercase;font-size:20px;letter-spacing:.04em;margin:0}
+.lede{color:var(--text-secondary);max-width:62ch}
+.closing{margin-top:34px;padding-top:22px;border-top:1px solid var(--panel-line);
+  color:var(--text-secondary);font-size:15px;max-width:70ch}
+
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .7s cubic-bezier(.22,.61,.36,1),transform .7s cubic-bezier(.22,.61,.36,1)}
+.reveal.in{opacity:1;transform:none}
+
+/* 1 — a ponte */
+#ponte .cols{display:grid;grid-template-columns:1fr 1fr;gap:0;border-top:1px solid var(--panel-line)}
+#ponte .col{padding:34px 30px;border-bottom:1px solid var(--panel-line)}
+#ponte .col.left{border-right:1px solid var(--panel-line);background:rgba(17,24,35,.4)}
+#ponte .col .tag{font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--text-secondary);margin:0 0 12px}
+#ponte .col p{margin:0;color:var(--text-secondary)}
+#ponte .col.mine{grid-column:1/-1}
+#ponte .col.mine .tag{color:var(--accent)}
+#ponte .col.mine p{color:var(--text-primary)}
+#ponte .verdict{margin-top:34px;font-family:var(--display);font-weight:600;text-transform:uppercase;
+  font-size:clamp(20px,2.6vw,30px);line-height:1.2;max-width:24ch}
+#ponte .verdict em{color:var(--accent-hover);font-style:normal}
+
+/* 2 — trajetória */
+#trajetoria .rail{position:relative;padding-left:44px;margin-top:34px}
+#trajetoria .rail::before{content:"";position:absolute;left:9px;top:6px;bottom:6px;width:1px;background:var(--panel-line)}
+#trajetoria .rail .fill{position:absolute;left:9px;top:6px;width:1px;background:var(--accent);
+  height:calc(100% - 12px);transform:scaleY(0);transform-origin:0 0;
+  transition:transform 1.4s cubic-bezier(.22,.61,.36,1)}
+#trajetoria .rail.in .fill{transform:scaleY(1)}
+.job{position:relative;padding:0 0 40px}
+.job::before{content:"";position:absolute;left:-39px;top:9px;width:9px;height:9px;
+  border:1px solid var(--accent);background:var(--canvas);border-radius:50%}
+.job.now::before{background:var(--gold);border-color:var(--gold);box-shadow:0 0 0 4px rgba(233,180,90,.12)}
+.job .when{font-family:var(--mono);font-size:12px;letter-spacing:.16em;color:var(--text-secondary);margin:0}
+.job .co{display:flex;flex-wrap:wrap;align-items:baseline;gap:12px;margin:6px 0 2px}
+.job .co h3{font-size:22px}
+.job .hq{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--text-secondary);border:1px solid var(--panel-line);padding:2px 8px}
+.job .role{font-family:var(--mono);font-size:12px;letter-spacing:.1em;color:var(--accent);margin:0 0 10px}
+.job .desc{margin:0;color:var(--text-secondary);max-width:74ch}
+
+/* 3 — a mesa */
+#mesa .readout{margin-top:30px;border:1px solid var(--panel-line);background:rgba(17,24,35,.42)}
+.field{display:grid;grid-template-columns:minmax(180px,240px) 1fr;gap:20px;
+  padding:16px 24px;border-bottom:1px solid var(--panel-line)}
+.field:last-child{border-bottom:0}
+.field dt{font-family:var(--mono);font-size:12px;letter-spacing:.18em;color:var(--text-secondary)}
+.field dd{margin:0;color:var(--text-primary)}
+#mesa .note{font-family:var(--mono);font-size:12px;color:var(--text-secondary);margin-top:14px}
+
+/* 4 — entregue na mesa: leitura de posição, formato de relatório de caixa */
+#entregue .ledger{margin:36px 0 0;border-top:1px solid var(--panel-line)}
+.lrow{display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:28px;align-items:baseline;
+  padding:26px 0;border-bottom:1px solid var(--panel-line)}
+.lrow dt{min-width:0}
+.lrow .what{display:block;font-family:var(--display);font-weight:600;text-transform:uppercase;
+  font-size:clamp(18px,2.4vw,26px);letter-spacing:.03em;line-height:1.1}
+.lrow .how{display:block;margin-top:6px;color:var(--text-secondary);font-size:14px;max-width:52ch}
+.lrow dd{margin:0;font-family:var(--display);font-weight:800;color:var(--gold);
+  font-size:clamp(38px,6vw,68px);line-height:1;letter-spacing:.01em;
+  font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+.lrow dd.words{font-size:clamp(20px,2.8vw,34px);line-height:1.1;white-space:normal;max-width:8ch}
+
+/* 5 — cadeia */
+#cadeia .chain{margin-top:38px;display:grid;gap:0;max-width:820px}
+.step{position:relative;border:1px solid var(--panel-line);background:rgba(17,24,35,.42);
+  padding:22px 26px;transition:border-color .22s ease,background .22s ease}
+.step + .step{margin-top:34px}
+.step + .step::before{content:"";position:absolute;left:34px;top:-34px;width:1px;height:34px;background:var(--panel-line)}
+.step + .step::after{content:"";position:absolute;left:31px;top:-11px;width:7px;height:7px;
+  border-right:1px solid var(--panel-line);border-bottom:1px solid var(--panel-line);transform:rotate(45deg)}
+.step .n{font-family:var(--mono);font-size:11px;letter-spacing:.22em;color:var(--text-secondary);margin:0}
+.step h3{margin:8px 0 8px;font-size:19px}
+.step .desc{margin:0;color:var(--text-secondary);max-width:62ch}
+.step.lit{border-color:var(--gold);background:rgba(233,180,90,.06)}
+.step.lit h3,.step.lit .n{color:var(--gold)}
+.hold{margin-top:30px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.hold button{min-height:44px;padding:12px 24px;background:transparent;border:1px solid var(--panel-line);
+  color:var(--text-secondary);font-family:var(--mono);font-size:12px;letter-spacing:.18em;
+  text-transform:uppercase;cursor:pointer;
+  transition:border-color .25s ease,color .25s ease,transform 140ms var(--ease-out)}
+.hold button.running{border-color:var(--gold);color:var(--gold)}
+.hold .out{font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--text-secondary);opacity:0;transition:opacity .4s}
+.hold .out.on{opacity:1;color:var(--gold)}
+
+/* 6 — registros */
+#registros .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(420px,1fr));gap:18px;margin-top:34px}
+.card{border:1px solid var(--panel-line);background:rgba(17,24,35,.42);padding:26px;
+  display:flex;flex-direction:column;gap:12px;
+  transition:border-color .3s ease,transform 160ms var(--ease-out)}
+.card .hd{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.card .id{font-family:var(--mono);font-size:12px;letter-spacing:.2em;color:var(--text-secondary)}
+.state{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;
+  padding:3px 9px;border:1px solid var(--panel-line);color:var(--text-secondary);white-space:nowrap}
+.state.no-ar{color:var(--gold);border-color:rgba(233,180,90,.4)}
+.state.comiss{color:var(--accent);border-color:var(--accent-muted)}
+.card p{margin:0;color:var(--text-secondary);font-size:15px}
+
+/* 7 — construção */
+#construcao .rows{margin-top:32px;border-top:1px solid var(--panel-line)}
+.row{display:grid;grid-template-columns:minmax(150px,200px) minmax(90px,120px) 1fr;gap:20px;
+  align-items:baseline;padding:18px 0;border-bottom:1px solid var(--panel-line)}
+.row .tool{font-family:var(--display);font-weight:600;text-transform:uppercase;font-size:19px;letter-spacing:.03em}
+.row .part{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--accent)}
+.row p{margin:0;color:var(--text-secondary);font-size:15px}
+
+/* 8 — formação */
+#formacao .queue{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
+  gap:1px;background:var(--panel-line);border:1px solid var(--panel-line);margin-top:30px}
+.qi{background:var(--canvas);padding:22px 20px}
+.qi .k{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--text-secondary);margin:0 0 8px}
+.qi p{margin:0;font-size:15px}
+
+/* 9 — perguntas */
+#perguntas .acc{margin-top:30px;border-top:1px solid var(--panel-line)}
+details{border-bottom:1px solid var(--panel-line)}
+summary{list-style:none;cursor:pointer;padding:20px 0;display:flex;gap:16px;align-items:baseline;
+  font-family:var(--display);font-weight:600;text-transform:uppercase;font-size:19px;letter-spacing:.03em;
+  min-height:44px}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"+";font-family:var(--mono);color:var(--accent);font-size:16px;flex:0 0 auto}
+details[open] summary::before{content:"\2212"}
+details p{margin:0 0 22px 32px;color:var(--text-secondary);max-width:70ch}
+
+/* 10 — o que eu procuro */
+#procuro{max-width:760px;text-align:center}
+#procuro .eyebrow{justify-content:center}
+#procuro .eyebrow::after{display:none}
+#procuro .want{font-family:var(--display);font-weight:600;
+  font-size:clamp(21px,3vw,32px);line-height:1.3;color:var(--text-primary)}
+
+/* 11 — contato */
+#contato .panel{position:relative;border:1px solid var(--panel-line);background:rgba(17,24,35,.5);
+  padding:clamp(34px,6vw,68px)}
+#contato .brk{position:absolute;width:18px;height:18px;border:1px solid var(--accent)}
+#contato .brk.tl{top:-1px;left:-1px;border-right:0;border-bottom:0}
+#contato .brk.tr{top:-1px;right:-1px;border-left:0;border-bottom:0}
+#contato .brk.bl{bottom:-1px;left:-1px;border-right:0;border-top:0}
+#contato .brk.br{bottom:-1px;right:-1px;border-left:0;border-top:0}
+#contato p{color:var(--text-secondary);max-width:60ch}
+#contato .acts{display:flex;gap:16px;flex-wrap:wrap;margin-top:30px;align-items:center}
+#contato .sec{font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--text-secondary);min-height:44px;display:inline-flex;align-items:center}
+
+footer{border-top:1px solid var(--panel-line);padding:40px var(--gut) 60px;
+  max-width:var(--maxw);margin:0 auto;color:var(--text-secondary);font-size:13px;position:relative;z-index:1}
+footer p{margin:0 0 8px;max-width:78ch}
+footer .mono{font-family:var(--mono);font-size:11px;letter-spacing:.14em;opacity:.7}
+
+.telemetry{position:fixed;right:var(--gut);bottom:18px;z-index:5;pointer-events:none;opacity:.5}
+.telemetry svg{display:block}
+.telemetry path{fill:none;stroke:var(--accent-muted);stroke-width:1}
+
+/* =====================================================================
+   ANIMAÇÃO DIRIGIDA PELO SCROLL (API nativa)
+   Só entra onde o navegador suporta. Sem suporte, o que já existe
+   continua valendo: IntersectionObserver mais transição.
+   ===================================================================== */
+@supports (animation-timeline: view()){
+  /* parallax de profundidade: a grade anda menos que o conteúdo */
+  html.sda .depth{
+    animation:para linear both;
+    animation-timeline:scroll(root block);
+  }
+  @keyframes para{from{transform:translate3d(0,0,0)}to{transform:translate3d(0,-9vh,0)}}
+
+  /* revelação por seção, ligada à posição real e não a um gatilho */
+  html.sda .reveal{
+    opacity:1;transform:none;transition:none;
+    animation:rise linear both;
+    animation-timeline:view(block);
+    animation-range:entry 4% cover 26%;
+  }
+  @keyframes rise{
+    from{opacity:0;transform:translateY(26px)}
+    to{opacity:1;transform:none}
+  }
+
+  /* trilho da trajetória desenhando conforme a seção atravessa a tela */
+  html.sda #trajetoria .rail .fill{
+    transform:scaleY(0);transition:none;
+    animation:railfill linear both;
+    animation-timeline:view(block);
+    animation-range:entry 70% exit 30%;
+  }
+  @keyframes railfill{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+
+  /* cards dos registros: cada um entra na sua vez, pela própria posição */
+  html.sda #registros .card{
+    animation:card linear both;
+    animation-timeline:view(block);
+    animation-range:entry 10% cover 34%;
+  }
+  @keyframes card{
+    from{opacity:0;transform:translateY(30px) scale(.985)}
+    to{opacity:1;transform:none}
+  }
+
+  /* seção de silêncio: entra e sai, o único elemento que se despede */
+  html.sda #procuro .want{
+    animation:breathe linear both;
+    animation-timeline:view(block);
+    animation-range:entry 0% cover 38%;
+  }
+  @keyframes breathe{
+    from{opacity:0;transform:translateY(26px)}
+    to{opacity:1;transform:none}
+  }
+
+}
+
+@media (max-width:860px){
+  #ponte .cols{grid-template-columns:1fr}
+  #ponte .col.left{border-right:0}
+  .lrow{grid-template-columns:1fr;row-gap:12px}
+  .lrow dd{text-align:left}
+  .lrow dd.words{max-width:none}
+  .field{grid-template-columns:1fr;gap:6px}
+  .row{grid-template-columns:1fr;gap:6px}
+  .telemetry{display:none}
+}
+
+/* hover so onde hover existe de verdade: no toque ele gruda depois do tap
+   e pinta por cima do :active */
+@media (hover:hover) and (pointer:fine){
+  a:hover{color:var(--accent-hover)}
+  .cta:hover{background:var(--accent);color:#04080B;transform:translateY(-1px)}
+  .cta.solid:hover{background:var(--gold-hover);border-color:var(--gold-hover);color:#0A0E13}
+  .cta:hover .arw{transform:translateX(4px)}
+  .hold button:hover{border-color:var(--accent);color:var(--accent)}
+  .card:hover{border-color:var(--accent-muted);transform:translateY(-2px)}
+  #contato .sec:hover{color:var(--accent)}
+}
+
+/* pressao tem que ganhar do hover, e quem ganha empate e quem vem depois.
+   Sem :active o celular nao devolve nada ao dedo. */
+.cta:active{transform:scale(.97)}
+.hold button:active{transform:scale(.97)}
+.card:active{transform:scale(.98)}
+
+/* portões do hero estático */
+@media (max-width:760px),(pointer:coarse){
+  .hero-track{display:none}
+  .hero-static{display:flex}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .hero-track{display:none}
+  .hero-static{display:flex}
+  .grid-bg{animation:none}
+  .reveal{opacity:1;transform:none;transition:none}
+  *{animation-duration:.001ms!important;transition-duration:.001ms!important}
+  /* cor e opacidade não deslocam nada. São compreensão, não movimento, então voltam */
+  a,.cta,.hold button,.card,.step,#contato .sec{
+    transition-property:color,background-color,border-color,opacity!important;
+    transition-duration:.2s!important}
+  /* mata a linha do tempo de scroll: sem isso a animação nativa ignora a duração */
+  html.sda *{animation-timeline:none!important;animation-name:none!important}
+  html.sda .depth{transform:none!important}
+  html.sda .reveal,html.sda #registros .card,html.sda #procuro .want{
+    opacity:1!important;transform:none!important}
+  html.sda #trajetoria .rail .fill{transform:scaleY(1)!important}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#conteudo">Pular para o conteúdo</a>
+<div class="depth" aria-hidden="true">
+  <div class="grid-bg"></div>
+</div>
+<div class="vignette" aria-hidden="true"></div>
+
+<header class="top">
+  <div class="mark"><span class="dot"></span>PEDRO MAIA</div>
+  <nav>
+    <a href="#entregue">Entregas</a>
+    <a href="#registros">Registros</a>
+    <a href="#contato">Contato</a>
+    <a href="/en/" hreflang="en">EN</a>
+  </nav>
+</header>
+
+<!-- HERO COM SCRUB -->
+<div class="hero-track" id="heroTrack">
+  <div class="hero">
+    <div class="hero-media">
+      <div class="hero-plate" aria-hidden="true"></div>
+      <video id="heroVideo" muted playsinline preload="none" tabindex="-1" aria-hidden="true"></video>
+    </div>
+    <div class="scrim-a" aria-hidden="true"></div>
+    <div class="scrim-b" aria-hidden="true"></div>
+
+    <svg class="hero-svg" viewBox="0 0 1440 900" preserveAspectRatio="none" aria-hidden="true">
+      <g id="hudPanel" opacity="0">
+        <path class="stroke draw" d="M60 180 h34 M60 180 v34"/>
+        <path class="stroke draw" d="M420 180 h-34 M420 180 v34"/>
+        <path class="stroke draw" d="M60 420 h34 M60 420 v-34"/>
+        <path class="stroke draw" d="M420 420 h-34 M420 420 v-34"/>
+        <path class="stroke whisper draw" d="M60 232 H420"/>
+        <path class="stroke whisper draw" d="M60 300 H300"/>
+        <path class="stroke whisper draw" d="M60 344 H360"/>
+      </g>
+      <g id="hudGuide" opacity="0">
+        <path class="stroke draw" d="M1180 300 H900 L840 380"/>
+        <circle class="stroke" cx="836" cy="384" r="5"/>
+      </g>
+      <g id="hudFlow" opacity="0">
+        <path class="stroke whisper draw" d="M1300 560 V760"/>
+        <circle class="stroke" cx="1300" cy="560" r="4"/>
+        <circle class="stroke" cx="1300" cy="627" r="4"/>
+        <circle class="stroke" cx="1300" cy="694" r="4"/>
+        <circle class="stroke" cx="1300" cy="760" r="4" stroke="#E9B45A"/>
+      </g>
+      <g id="hudFrame" opacity="0">
+        <path class="stroke draw" d="M300 250 h40 M300 250 v40"/>
+        <path class="stroke draw" d="M1140 250 h-40 M1140 250 v40"/>
+        <path class="stroke draw" d="M300 660 h40 M300 660 v-40"/>
+        <path class="stroke draw" d="M1140 660 h-40 M1140 660 v-40"/>
+      </g>
+    </svg>
+
+    <div class="bands">
+      <div class="band band-1" data-band="1">
+        <p class="kicker">A MESA</p>
+        <p class="line">Centenas de milhões de dólares passam pela minha mesa.</p>
+      </div>
+      <div class="band band-2" data-band="2">
+        <p class="kicker">O ESCOPO</p>
+        <p class="line">Brasil e Chile. Caixa, hedge cambial, capital de giro.</p>
+      </div>
+      <div class="band band-3" data-band="3">
+        <p class="kicker">O QUE MUDOU</p>
+        <p class="line">Eu apaguei <span class="num">cinco horas semanais</span> de trabalho manual do calendário da equipe.</p>
+      </div>
+      <div class="band band-4" data-band="4">
+        <h1>Pedro Maia</h1>
+        <p class="role">Especialista de Tesouraria na <b>Kinross Gold</b></p>
+        <p class="sub">Tesouraria, dados e agentes de IA.</p>
+        <a class="cta solid" href="https://www.linkedin.com/in/pedrovmaia/" target="_blank" rel="noopener">Abrir conversa <span class="arw">&rarr;</span></a>
+      </div>
+    </div>
+
+    <div class="scroll-hint" id="scrollHint">Role<span></span></div>
+  </div>
+</div>
+
+<!-- HERO ESTÁTICO -->
+<div class="hero-static">
+  <div>
+    <p class="eyebrow">PEDRO MAIA</p>
+    <h1>Centenas de milhões de dólares passam pela minha mesa. E eu construo o sistema que faz o trabalho.</h1>
+    <p>Especialista de Tesouraria na Kinross Gold. Caixa, hedge cambial e capital de giro para Brasil e Chile. Uma década em finanças, agora com dados e agentes de IA em cima.</p>
+    <a class="cta solid" href="https://www.linkedin.com/in/pedrovmaia/" target="_blank" rel="noopener">Abrir conversa <span class="arw">&rarr;</span></a>
+  </div>
+</div>
+
+<main id="conteudo">
+
+<!-- 1 -->
+<section id="ponte" class="reveal">
+  <p class="eyebrow">POR QUE ESSA COMBINAÇÃO</p>
+  <h2>Quase ninguém está dos dois lados</h2>
+  <div class="cols">
+    <div class="col left">
+      <p class="tag">LADO TÉCNICO</p>
+      <p>Constrói rápido e não sabe o que o negócio precisa.</p>
+    </div>
+    <div class="col">
+      <p class="tag">LADO FINANCEIRO</p>
+      <p>Sabe exatamente o que precisa e não constrói.</p>
+    </div>
+    <div class="col mine">
+      <p class="tag">ONDE EU FICO</p>
+      <p>Eu passo o dia numa mesa de tesouraria de verdade, com fechamento, banco e dinheiro no meio, e construo do outro lado com o problema ainda fresco. Não escolho o que automatizar por curiosidade. Escolho pelo que já me atrasou.</p>
+    </div>
+  </div>
+  <p class="verdict">O valor não está em saber programar. Está em saber <em>o que construir</em>.</p>
+</section>
+
+<!-- 2 -->
+<section id="trajetoria" class="reveal">
+  <p class="eyebrow">TRAJETÓRIA</p>
+  <h2>Onde o ofício foi aprendido</h2>
+  <p class="lede">Em três das quatro, o reporte foi para fora do Brasil, em inglês, no calendário de fechamento da matriz.</p>
+  <div class="rail" id="rail">
+    <div class="fill"></div>
+    <article class="job now">
+      <p class="when">2023 ATÉ HOJE</p>
+      <div class="co"><h3>Kinross Gold Corporation</h3><span class="hq">Matriz: Canadá</span></div>
+      <p class="role">Especialista de Tesouraria (Analista Sênior até 2026)</p>
+      <p class="desc">Gestão de caixa, fluxo, relacionamento bancário e operações financeiras para Brasil e Chile. Programa corporativo de hedge cambial com NDF e Zero Cost Collar. Capital de giro, seguros e garantias. Orçamento e forecast de caixa.</p>
+    </article>
+    <article class="job">
+      <p class="when">2020 A 2023</p>
+      <div class="co"><h3>PETRONAS Lubricants International</h3><span class="hq">Matriz: Malásia</span></div>
+      <p class="role">Analista Sênior de Tesouraria</p>
+      <p class="desc">Caixa e operações bancárias das Américas: Argentina, Brasil, México e Estados Unidos. Negociação e gestão de dívida, hedge, capital de giro e análise do Ciclo de Conversão de Caixa.</p>
+    </article>
+    <article class="job">
+      <p class="when">2017 A 2020</p>
+      <div class="co"><h3>Banco Inter</h3><span class="hq">Matriz: Brasil</span></div>
+      <p class="role">Analista Financeiro de Tesouraria</p>
+      <p class="desc">Operação de câmbio ponta a ponta: análise, classificação, registro e execução junto ao Banco Central do Brasil. Apuração de tributo sobre operação financeira e cambial. Gestão da exposição cambial da instituição.</p>
+    </article>
+    <article class="job">
+      <p class="when">2015 A 2017</p>
+      <div class="co"><h3>Fiat Finanças Brasil</h3><span class="hq">Matriz: Itália</span></div>
+      <p class="role">Estágio, Finanças Estruturadas e Câmbio</p>
+      <p class="desc">Cotação de câmbio, NDF e swap com bancos. Registro em BM&amp;F, SELIC e CETIP. Operações overnight, garantias bancárias e projetos com linha subsidiada.</p>
+    </article>
+  </div>
+</section>
+
+<!-- 3 -->
+<section id="mesa" class="reveal">
+  <p class="eyebrow">A MESA</p>
+  <h2>O tamanho da operação</h2>
+  <dl class="readout">
+    <div class="field"><dt>OPERAÇÃO</dt><dd>Mineração de ouro, uma das maiores do Brasil</dd></div>
+    <div class="field"><dt>PAÍSES HOJE</dt><dd>Brasil, Chile</dd></div>
+    <div class="field"><dt>JÁ OPEROU</dt><dd>Argentina, México, Estados Unidos</dd></div>
+    <div class="field"><dt>REPORTE</dt><dd>Canadá, Malásia e Itália, em inglês, no calendário da matriz</dd></div>
+    <div class="field"><dt>HEDGE</dt><dd>Programa corporativo com NDF e Zero Cost Collar</dd></div>
+    <div class="field"><dt>INSTRUMENTOS</dt><dd>Câmbio, derivativo de hedge, dívida, capital de giro, garantias</dd></div>
+    <div class="field"><dt>ÓRGÃOS E SISTEMAS</dt><dd>Banco Central do Brasil, BM&amp;F, SELIC, CETIP</dd></div>
+    <div class="field"><dt>CICLO</dt><dd>Diário, semanal, mensal, trimestral</dd></div>
+  </dl>
+  <p class="note">Escopo real de responsabilidade, sem número que não seja meu de dizer.</p>
+</section>
+
+<!-- 4 -->
+<section id="entregue" class="reveal">
+  <p class="eyebrow">ENTREGUE NA MESA</p>
+  <h2>Automação que já está rodando no trabalho</h2>
+  <dl class="ledger" id="stats">
+    <div class="lrow">
+      <dt>
+        <span class="what">Trabalho manual eliminado</span>
+        <span class="how">Por semana, do calendário da equipe, com Power Automate, Power BI e DAX</span>
+      </dt>
+      <dd data-count="5" data-prefix="+" data-suffix="h">+0h</dd>
+    </div>
+    <div class="lrow">
+      <dt>
+        <span class="what">Dashboards em uso</span>
+        <span class="how">Tesouraria, Financeiro e Tax, para decisão de caixa, hedge e tributo</span>
+      </dt>
+      <dd data-count="10" data-prefix="+">+0</dd>
+    </div>
+    <div class="lrow">
+      <dt>
+        <span class="what">Caixa sob gestão</span>
+        <span class="how">Em dólares, Brasil e Chile</span>
+      </dt>
+      <dd class="words">Centenas de milhões</dd>
+    </div>
+  </dl>
+  <p class="closing">Isso não é projeto de fim de semana. É processo redesenhado dentro de uma operação que não pode parar.</p>
+</section>
+
+<!-- 5 -->
+<section id="cadeia" class="reveal">
+  <p class="eyebrow">CADEIA DE EXECUÇÃO</p>
+  <h2>Como uma instrução atravessa a câmara</h2>
+  <div class="chain" id="chain">
+    <div class="step" data-step="1">
+      <p class="n">01 / INSTRUÇÃO</p>
+      <h3>A pergunta vira contrato</h3>
+      <p class="desc">Escopo, fonte, periodicidade e formato ficam escritos antes de qualquer código. É o que impede o relatório de virar pedido avulso toda semana.</p>
+    </div>
+    <div class="step" data-step="2">
+      <p class="n">02 / EXECUÇÃO</p>
+      <h3>O relógio opera, não a pessoa</h3>
+      <p class="desc">Coleta, modelo e cálculo rodam agendados. Agentes fazem o repetitivo: buscar série, consolidar, comparar com o ciclo anterior, escrever.</p>
+    </div>
+    <div class="step" data-step="3">
+      <p class="n">03 / ASSINATURA</p>
+      <h3>Toda saída tem procedência</h3>
+      <p class="desc">Fonte, ciclo e transformação ficam gravados junto do resultado. Quem recebe rastreia de onde veio cada número.</p>
+    </div>
+    <div class="step" data-step="4">
+      <p class="n">04 / ENTREGA</p>
+      <h3>No formato de quem usa</h3>
+      <p class="desc">Relatório, painel ou base. O artefato chega pronto pra decisão, não como tarefa pendente.</p>
+    </div>
+  </div>
+  <div class="hold">
+    <button id="runBtn" type="button">Segure para rodar um ciclo</button>
+    <span class="out" id="runOut">ARTEFATO ENTREGUE</span>
+  </div>
+</section>
+
+<!-- 6 -->
+<section id="registros" class="reveal">
+  <p class="eyebrow">REGISTROS</p>
+  <h2>O que está em comissionamento agora</h2>
+  <p class="lede">Projetos meus, fora do trabalho. Cada um mostra o estado real: projetado, em comissionamento ou no ar. Nada aqui é apresentado como pronto antes de estar.</p>
+  <div class="cards">
+    <article class="card">
+      <div class="hd"><span class="id">0002</span><span class="state comiss">Em comissionamento</span></div>
+      <h3>Crew macroeconômico</h3>
+      <p>Conjunto de agentes que escreve sozinho: levanta o panorama, organiza por tema e entrega o texto pronto. A mesma arquitetura serve relatório macro periódico, newsletter e artigo. A operação ainda não fecha um ciclo sem supervisão.</p>
+    </article>
+    <article class="card">
+      <div class="hd"><span class="id">0003</span><span class="state">Projetado</span></div>
+      <h3>Organização financeira</h3>
+      <p>Base de conhecimento que dá nome e categoria à movimentação, com mapeamento de contas e diário das decisões de modelagem. É a espinha de um controle financeiro pessoal. A modelagem está escrita, a aplicação ainda não foi construída.</p>
+    </article>
+    <article class="card">
+      <div class="hd"><span class="id">0004</span><span class="state comiss">Em comissionamento</span></div>
+      <h3>Auditor de perfil</h3>
+      <p>Lê um currículo em PDF e monta um dossiê estruturado. O que é conta sai calculado, e os dados pessoais são retirados antes de qualquer coisa sair da máquina. Fecha ponta a ponta na máquina local.</p>
+    </article>
+    <article class="card">
+      <div class="hd"><span class="id">0005</span><span class="state no-ar">No ar</span></div>
+      <h3>IA local</h3>
+      <p>Assistente rodando em Ollama, na própria máquina, com memória em grafo de conhecimento. Orquestra tarefas, monta relatório, revisa código e responde no dia a dia. Não esquece o que já foi dito e nada do que ele lê sai do computador. Único registro no ar, e o mais usado de todos: está ligado agora.</p>
+    </article>
+  </div>
+  <p class="closing">Dois deles processam sem mandar nada pra fora da máquina. Quem trabalha com número de empresa sabe por que isso importa.</p>
+</section>
+
+<!-- 7 -->
+<section id="construcao" class="reveal">
+  <p class="eyebrow">CONSTRUÇÃO</p>
+  <h2>Com o que eu construo</h2>
+  <div class="rows">
+    <div class="row"><span class="tool">Power BI</span><span class="part">MODELO</span><p>Modelo semântico, DAX, TMDL e automação do ciclo de relatório.</p></div>
+    <div class="row"><span class="tool">Power Automate</span><span class="part">ROTINA</span><p>Fluxo que tira o passo manual do meio do processo financeiro.</p></div>
+    <div class="row"><span class="tool">SQL</span><span class="part">BASE</span><p>Modelagem, consulta e a camada onde o dado ganha categoria estável.</p></div>
+    <div class="row"><span class="tool">Python</span><span class="part">COLETA</span><p>Coleta, tratamento e o que precisa rodar fora da ferramenta de BI.</p></div>
+    <div class="row"><span class="tool">Agentes de IA</span><span class="part">OPERAÇÃO</span><p>MCP e Claude Code operando a parte repetitiva do trabalho de dados.</p></div>
+    <div class="row"><span class="tool">Ollama</span><span class="part">LOCAL</span><p>Modelo rodando na própria máquina, para o que não pode sair dela.</p></div>
+    <div class="row"><span class="tool">Grafo de conhecimento</span><span class="part">MEMÓRIA</span><p>Onde o assistente local guarda contexto e ligação entre as coisas, em vez de recomeçar do zero a cada conversa.</p></div>
+    <div class="row"><span class="tool">Orquestração</span><span class="part">RELÓGIO</span><p>Execução agendada, estado por etapa e registro do que foi feito.</p></div>
+  </div>
+</section>
+
+<!-- 8 -->
+<section id="formacao" class="reveal">
+  <p class="eyebrow">FORMAÇÃO</p>
+  <h2>A base</h2>
+  <div class="queue">
+    <div class="qi"><p class="k">PÓS-GRADUAÇÃO</p><p>Ciência de Dados para o Mercado Financeiro com Inteligência Artificial, XP Educação, concluída em 2026</p></div>
+    <div class="qi"><p class="k">MBA</p><p>Finanças, IBMEC</p></div>
+    <div class="qi"><p class="k">GRADUAÇÃO</p><p>Negócios Internacionais e Comércio Exterior, FUMEC</p></div>
+    <div class="qi"><p class="k">CERTIFICAÇÕES</p><p>Engenharia de Prompts, Formação em Liderança</p></div>
+    <div class="qi"><p class="k">IDIOMAS</p><p>Português, inglês e espanhol, todos fluentes</p></div>
+  </div>
+</section>
+
+<!-- 9 -->
+<section id="perguntas" class="reveal">
+  <p class="eyebrow">PERGUNTAS</p>
+  <h2>As que sempre vêm</h2>
+  <div class="acc">
+    <details><summary>Você ainda trabalha com tesouraria?</summary>
+      <p>Trabalho, e é justamente o ponto. Não larguei finanças pra virar programador. Continuo na mesa da Kinross e construo as ferramentas de dentro do problema.</p></details>
+    <details><summary>Você programa ou só usa ferramenta de IA?</summary>
+      <p>Os dois, e a divisão é proposital. O que regex e aritmética resolvem não passa por modelo. Fiz pós-graduação em ciência de dados para o mercado financeiro com IA pra não depender de intuição nessa divisão.</p></details>
+    <details><summary>Esses projetos são de trabalho ou pessoais?</summary>
+      <p>As duas coisas, e a página separa. A automação com mais de cinco horas semanais eliminadas e os dashboards são trabalho, em produção. Os registros no fim da página são meus, fora do expediente, com o estado real de cada um escrito.</p></details>
+    <details><summary>Dá pra ver o código?</summary>
+      <p>O que está público está no GitHub, com link em cada registro. O que ainda é privado está marcado como tal, não escondido.</p></details>
+    <details><summary>Você quer vaga ou consultoria?</summary>
+      <p>As duas conversas me interessam. Papel de liderança onde automação e IA façam parte do modelo de operação da área financeira, ou projeto pontual de automação de processo financeiro. É a mesma habilidade nas duas.</p></details>
+  </div>
+</section>
+
+<!-- 10 -->
+<section id="procuro" class="reveal">
+  <p class="eyebrow">O QUE EU PROCURO</p>
+  <p class="want">Um papel de liderança em que automação e IA deixem de ser iniciativa isolada e virem parte do modelo de operação da área financeira. Também converso sobre projeto pontual de automação de processo financeiro.</p>
+</section>
+
+<!-- 11 -->
+<section id="contato" class="reveal">
+  <div class="panel">
+    <span class="brk tl"></span><span class="brk tr"></span><span class="brk bl"></span><span class="brk br"></span>
+    <p class="eyebrow">CONTATO</p>
+    <h2>A linha está aberta</h2>
+    <p>Se você precisa de alguém que entende o processo financeiro e constrói o sistema, e não só um dos dois, a próxima instrução é sua.</p>
+    <div class="acts">
+      <a class="cta solid" href="https://www.linkedin.com/in/pedrovmaia/" target="_blank" rel="noopener">Abrir conversa no LinkedIn <span class="arw">&rarr;</span></a>
+      <a class="sec" href="https://github.com/pedroboy975" target="_blank" rel="noopener">GitHub</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <p>As imagens de fundo deste site foram geradas por IA. A trajetória, os números e os estados dos projetos são reais.</p>
+  <p>Nenhum dado de mercado, cotação ou informação confidencial de empregador aparece nesta página.</p>
+  <p class="mono">EMITIDO EM 2026</p>
+</footer>
+
+<div class="telemetry" aria-hidden="true">
+  <svg width="150" height="26" viewBox="0 0 150 26"><path id="telePath" d="M0 13 L150 13"/></svg>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var reduce = matchMedia("(prefers-reduced-motion: reduce)");
+  var coarse = matchMedia("(max-width: 760px), (pointer: coarse)");
+  function staticMode(){ return reduce.matches || coarse.matches; }
+
+  /* animação dirigida pelo scroll: só liga onde o navegador suporta de verdade */
+  var SDA = !!(window.CSS && CSS.supports && CSS.supports("animation-timeline","view()"));
+  if(SDA) document.documentElement.classList.add("sda");
+
+  /* ---------- reveal (queda para quem não tem SDA) ---------- */
+  if(!SDA){
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target); } });
+    },{rootMargin:"0px 0px -12% 0px",threshold:0.08});
+    document.querySelectorAll(".reveal").forEach(function(el){ io.observe(el); });
+
+    var rail = document.getElementById("rail");
+    if(rail){
+      var rio = new IntersectionObserver(function(es){
+        es.forEach(function(e){ if(e.isIntersecting){ rail.classList.add("in"); rio.unobserve(rail); } });
+      },{threshold:0.15});
+      rio.observe(rail);
+    }
+  }
+
+  /* ---------- contadores ---------- */
+  var stats = document.getElementById("stats");
+  if(stats){
+    var sio = new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        if(!e.isIntersecting) return;
+        sio.unobserve(stats);
+        stats.querySelectorAll("[data-count]").forEach(function(el){
+          var target = parseFloat(el.getAttribute("data-count"));
+          var pre = el.getAttribute("data-prefix") || "";
+          var suf = el.getAttribute("data-suffix") || "";
+          if(staticMode()){ el.textContent = pre + target + suf; return; }
+          var t0 = null, dur = 1100, last = "";
+          function frame(ts){
+            if(t0 === null) t0 = ts;
+            var p = Math.min(1,(ts - t0) / dur);
+            var eased = 1 - Math.pow(1 - p, 3);
+            var v = pre + Math.round(target * eased) + suf;
+            if(v !== last){ el.textContent = v; last = v; }
+            if(p < 1) requestAnimationFrame(frame);
+          }
+          requestAnimationFrame(frame);
+        });
+      });
+    },{threshold:0.4});
+    sio.observe(stats);
+  }
+
+  /* ---------- cadeia: segure para rodar ---------- */
+  var btn = document.getElementById("runBtn");
+  var out = document.getElementById("runOut");
+  var steps = Array.prototype.slice.call(document.querySelectorAll("#chain .step"));
+  var chainTimer = null, chainIdx = 0, unwind = null;
+  function chainReset(){
+    clearTimeout(chainTimer); chainTimer = null;
+    clearTimeout(unwind); unwind = null; chainIdx = 0;
+    steps.forEach(function(s){ s.classList.remove("lit"); });
+    if(btn) btn.classList.remove("running");
+    if(out) out.classList.remove("on");
+  }
+  /* soltar cedo desfaz de tras para frente, nunca salta pra zero.
+     Montar e deliberado (620ms por etapa), desfazer e rapido (150ms). */
+  function chainRelease(){
+    clearTimeout(chainTimer); chainTimer = null;
+    if(out) out.classList.remove("on");
+    if(btn) btn.classList.remove("running");
+    if(unwind) return;
+    (function back(){
+      if(chainIdx <= 0){ chainIdx = 0; unwind = null; return; }
+      chainIdx--;
+      steps[chainIdx].classList.remove("lit");
+      unwind = setTimeout(back, 150);
+    })();
+  }
+  function chainTick(){
+    if(chainIdx >= steps.length){
+      out.classList.add("on");
+      chainTimer = setTimeout(chainReset, 1600);
+      return;
+    }
+    steps[chainIdx].classList.add("lit");
+    chainIdx++;
+    chainTimer = setTimeout(chainTick, 620);
+  }
+  function chainStart(ev){
+    if(ev && ev.preventDefault) ev.preventDefault();
+    /* captura de ponteiro: escorregar o dedo pra fora nao mata mais o gesto */
+    if(ev && ev.pointerId != null && btn.setPointerCapture){
+      try{ btn.setPointerCapture(ev.pointerId); }catch(e){}
+    }
+    if(chainTimer) return;
+    if(staticMode()){ steps.forEach(function(s){ s.classList.add("lit"); }); out.classList.add("on"); return; }
+    clearTimeout(unwind); unwind = null;   // retoma de onde parou, nao do zero
+    btn.classList.add("running"); chainTick();
+  }
+  if(btn){
+    btn.addEventListener("pointerdown", chainStart);
+    btn.addEventListener("pointerup", chainRelease);
+    btn.addEventListener("pointercancel", chainRelease);
+    btn.addEventListener("keydown", function(e){ if(e.key === "Enter" || e.key === " ") chainStart(e); });
+    btn.addEventListener("keyup", chainRelease);
+  }
+
+  /* ---------- telemetria ambiente ---------- */
+  var tele = document.getElementById("telePath");
+  if(tele && !staticMode()){
+    var teleT = 0;
+    setInterval(function(){
+      teleT++;
+      var d = "M0 13";
+      for(var x = 6; x <= 150; x += 6){
+        var y = 13 + Math.sin((x + teleT * 7) / 11) * (2 + Math.sin((x + teleT * 3) / 29) * 5);
+        d += " L" + x + " " + y.toFixed(1);
+      }
+      tele.setAttribute("d", d);
+    }, 140);
+  }
+
+  /* ---------- HERO SCRUB ---------- */
+  var track = document.getElementById("heroTrack");
+  if(track && !staticMode()){
+    var bands = Array.prototype.slice.call(document.querySelectorAll(".band"));
+    var hint = document.getElementById("scrollHint");
+    var video = document.getElementById("heroVideo");
+    var groups = {
+      hudPanel: document.getElementById("hudPanel"),
+      hudGuide: document.getElementById("hudGuide"),
+      hudFlow:  document.getElementById("hudFlow"),
+      hudFrame: document.getElementById("hudFrame")
+    };
+    document.querySelectorAll(".hero-svg .draw").forEach(function(p){
+      var L = p.getTotalLength();
+      p.style.strokeDasharray = L;
+      p.style.strokeDashoffset = L;
+    });
+
+    var BANDS = [
+      {el: bands[0], a: 0.00, b: 0.16, g: "hudPanel"},
+      {el: bands[1], a: 0.20, b: 0.40, g: "hudGuide"},
+      {el: bands[2], a: 0.46, b: 0.68, g: "hudFlow"},
+      {el: bands[3], a: 0.76, b: 1.00, g: "hudFrame"}
+    ];
+
+    var plate = document.querySelector(".hero-plate");
+    var svgLayer = document.querySelector(".hero-svg");
+    if(plate) plate.style.transform = "scale(1.14)";
+
+    var target = 0, shown = -1, lastT = 0, raf = null, dirty = true;
+    var state = [-1,-1,-1,-1];
+    var lastHint = -1;
+    var lastPlate = -1, lastSvg = -1;
+
+    function progress(){
+      var r = track.getBoundingClientRect();
+      var total = track.offsetHeight - window.innerHeight;
+      if(total <= 0) return 0;
+      return Math.min(1, Math.max(0, -r.top / total));
+    }
+
+    function paint(p){
+      for(var i = 0; i < BANDS.length; i++){
+        var B = BANDS[i];
+        var on = (p >= B.a && p <= B.b + 0.03) ? 1 : 0;
+        if(state[i] !== on){
+          state[i] = on;
+          B.el.setAttribute("data-on", on ? "1" : "0");
+          if(groups[B.g]) groups[B.g].style.opacity = on ? "1" : "0";
+        }
+        if(on && groups[B.g]){
+          var local = Math.min(1, Math.max(0, (p - B.a) / Math.max(0.001, B.b - B.a)));
+          var e = 1 - Math.pow(1 - local, 2);
+          groups[B.g].querySelectorAll(".draw").forEach(function(pa){
+            var L = pa.getTotalLength();
+            pa.style.strokeDashoffset = (L * (1 - e)).toFixed(2);
+          });
+        }
+      }
+      var h = p > 0.04 ? 0 : 1;
+      if(hint && lastHint !== h){ lastHint = h; hint.style.opacity = h ? "0.7" : "0"; }
+
+      /* parallax do hero: o fundo anda menos que a instrumentação.
+         Escrita com portão de delta, igual ao resto do laço. */
+      if(plate){
+        var py = Math.round(p * -600) / 100;
+        if(py !== lastPlate){
+          lastPlate = py;
+          plate.style.transform = "translate3d(0," + py + "%,0) scale(1.14)";
+        }
+      }
+      if(svgLayer){
+        var sy = Math.round(p * 250) / 100;
+        if(sy !== lastSvg){
+          lastSvg = sy;
+          svgLayer.style.transform = "translate3d(0," + sy + "%,0)";
+        }
+      }
+
+      /* o vídeo entra aqui quando existir: seek com portão */
+      if(video && video.readyState >= 2 && video.duration){
+        var want = p * video.duration;
+        if(!video.seeking && Math.abs(video.currentTime - want) > 0.03){
+          video.currentTime = want;
+        }
+      }
+    }
+
+    function loop(ts){
+      var dt = lastT ? Math.min(64, ts - lastT) : 16;
+      lastT = ts;
+      var k = 1 - Math.pow(0.0016, dt / 1000);
+      shown += (target - shown) * k;
+      if(Math.abs(target - shown) < 0.0004){ shown = target; dirty = false; }
+      paint(shown);
+      if(dirty){ raf = requestAnimationFrame(loop); }
+      else { raf = null; lastT = 0; }
+    }
+
+    function kick(){
+      target = progress();
+      if(shown < 0) shown = target;
+      dirty = true;
+      if(!raf) raf = requestAnimationFrame(loop);
+    }
+
+    addEventListener("scroll", kick, {passive:true});
+    addEventListener("resize", kick);
+    kick();
+
+    /* portão dinâmico do hero estático */
+    function gate(){ if(staticMode()) location.reload(); }
+    if(reduce.addEventListener) reduce.addEventListener("change", gate);
+    if(coarse.addEventListener) coarse.addEventListener("change", gate);
+  }
+})();
+</script>
+</body>
+</html>

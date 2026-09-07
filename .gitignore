@@ -1,0 +1,16 @@
+# revisao: video cru, frames de inspecao, provas. Nunca publicado, nunca versionado.
+review/
+
+# saidas de empacotamento
+*.zip
+site.zip
+
+# crus de geracao, que sao grandes e sao descartaveis
+raw*.mp4
+*-raw.mp4
+*.png.raw
+
+# ruido do sistema
+Thumbs.db
+desktop.ini
+.DS_Store

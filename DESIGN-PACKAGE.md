@@ -154,8 +154,27 @@ portfólio de tecnologia para a de documento financeiro.
 
 ## 4. O mapa de faixas do hero
 
-Vídeo: descida vertical por um espaço escuro instrumentado. A ação vive na
-faixa central. O texto vive nas laterais e no terço inferior.
+**Atualizado contra a filmagem entregue.** O vídeo existe: 8.04s, queda vertical
+por um poço de aço instrumentado, chegada numa bacia de ouro fundido. Aprovado
+na terceira rodada.
+
+Duas coisas mudaram porque a filmagem mandou, e não o contrário:
+
+**O texto mora numa coluna à esquerda, altura cheia.** Não mais "laterais e terço
+inferior". A chapa lisa com a solda vertical, à esquerda, é a única região calma
+dos dois quadros-chave. Isso também amarra o hero à mesma goteira das onze seções
+abaixo e mata a faixa 4 centralizada.
+
+**A vedação com autenticação foi cortada.** Duas rodadas, duas falhas no mesmo
+ponto: mecanismo com mudança de estado, tomada contínua e chegada obrigatória num
+quadro fixo são exigências que brigam entre si. A ideia de acesso vive na camada
+de HUD vetorial, que é SVG desenhado à mão e nunca falha.
+
+**Alcances validados**, não escolhidos no olho. Teste de flick: 6, 6, 6 e 13
+passos de 120px, contra o mínimo de 5. Auditoria de legibilidade do pior quadro,
+medida nos quadros do arquivo com o scrim aplicado: 7.75:1, 7.76:1, 7.86:1 e
+7.98:1, contra o piso de 3.5:1. Sem o scrim o pior pixel bate 0.998, por causa
+das réguas de luz do teto.
 
 ### PT
 

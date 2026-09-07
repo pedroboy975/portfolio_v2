@@ -199,6 +199,30 @@ checagem de largura e não tem altura nenhuma para a jornada. O reload sai e
 entram `enableScrub` e `disableScrub`, armados pelo evento de mudança das cinco
 consultas.
 
+**3.2b Revisão: quatro portões duros e um macio.** Os quatro primeiros
+continuam duros — ali o scrub não é bom e não há o que oferecer. O quinto virou
+macio. Movimento reduzido continua respeitado por padrão, mas o leitor pode
+desfazer, porque no Windows esse sinal sai ligado de qualquer desligamento de
+animação nas opções do sistema, e nesse caso a pessoa nunca fica sabendo que o
+hero existe. Blocos separados no CSS por razão mecânica: numa lista separada
+por vírgula não dá para cancelar um ramo só.
+
+```
+@media (os quatro duros){ .hero-track{display:none} .hero-static{display:flex} }
+@media (prefers-reduced-motion: reduce){
+  html:not(.motion-ok) .hero-track{display:none}
+  html:not(.motion-ok) .hero-static{display:flex} }
+```
+
+A escolha mora em `localStorage` sob `camara:motion-ok`, é lida por um script de
+quatro linhas no `<head>` para não piscar antes da primeira pintura, e todo
+acesso ao armazenamento vai embrulhado em `try` porque aba anônima lança. O
+convite só aparece quando nenhum portão duro está valendo: botão que promete o
+que não vai entregar é pior que botão nenhum. O resto do sossego de movimento
+reduzido continua ligado mesmo depois do opt-in — a pessoa pediu o hero, não
+pediu a página inteira se mexendo. O caminho de volta é um botão com chapa
+própria no canto do palco, porque ali não passa scrim nenhum.
+
 **3.3 O portão de seek com escape de travamento.** O código atual usa
 `!video.seeking`, que evita sobreposição mas não coalesce nem se recupera de
 erro. O padrão do skill guarda o alvo mais novo, dispara exatamente um seek de

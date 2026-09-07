@@ -479,17 +479,54 @@ footer .mono{font-family:var(--mono);font-size:11px;letter-spacing:.14em;opacity
 .hold button:active{transform:scale(.97)}
 .card:active{transform:scale(.98)}
 
-/* Os cinco portões do hero estático. Idênticos, caractere por caractere, ao
-   array GATES do JavaScript. Divergir é o bug em que um lado esconde o palco
-   enquanto o outro baixa vídeo. */
+/* Quatro portões duros e um macio.
+   Duros: tela pequena, retrato, toque. Ali o scrub não é bom e não há o que
+   oferecer — o estático é a versão certa, ponto final.
+   Macio: movimento reduzido. Respeitado por padrão, porque é pedido real de
+   acessibilidade, mas reversível pelo próprio leitor. Quem só desligou animação
+   nas opções do Windows não pode ficar sem saber que o hero existe.
+   html.motion-ok é a marca de que a pessoa pediu, e por isso o macio precisa de
+   bloco próprio: numa lista separada por vírgula não dá para cancelar um ramo só.
+   Os quatro duros são idênticos, caractere por caractere, ao array HARD do JS. */
 @media (max-width: 720px),
        (orientation: portrait) and (max-width: 1024px),
        (orientation: portrait) and (pointer: coarse),
-       (orientation: landscape) and (pointer: coarse) and (max-height: 560px),
-       (prefers-reduced-motion: reduce){
+       (orientation: landscape) and (pointer: coarse) and (max-height: 560px){
   .hero-track{display:none}
   .hero-static{display:flex}
 }
+@media (prefers-reduced-motion: reduce){
+  html:not(.motion-ok) .hero-track{display:none}
+  html:not(.motion-ok) .hero-static{display:flex}
+}
+
+/* Os dois controles do portão macio. Ficam escondidos por padrão e só o JS
+   acende, porque a decisão depende de duas coisas que o CSS não sabe junto:
+   se algum portão duro também está valendo, e se a pessoa já escolheu. */
+.motion-optin,.motion-off{display:none;font-family:var(--mono);text-transform:uppercase;
+  letter-spacing:.16em;background:none;cursor:pointer;
+  transition:border-color .2s var(--ease-out),color .2s var(--ease-out)}
+.motion-optin.on,.motion-off.on{display:inline-flex;align-items:center;gap:10px}
+.motion-optin{margin-top:8px;font-size:12px;padding:13px 20px;border-radius:2px;
+  border:1px solid var(--accent-muted);color:var(--text-secondary)}
+.motion-optin .dot{width:6px;height:6px;border-radius:50%;background:var(--gold);flex:none}
+.motion-optin:active{transform:scale(.97)}
+/* Chapa própria porque aqui não passa scrim nenhum: a faixa 3 para em bottom:24vh
+   e o rodapé do poço é a parte mais clara do quadro em boa parte da descida.
+   Rótulo pequeno sobre vídeo pede plano de fundo, não só sombra. */
+.motion-off{position:absolute;left:var(--gut);bottom:26px;z-index:6;
+  font-size:11px;padding:9px 13px;border:1px solid rgba(51,67,79,.9);border-radius:2px;
+  color:var(--text-secondary);opacity:.85;
+  background:rgba(5,8,12,.62);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.motion-off:active{transform:scale(.97)}
+@media (hover:hover) and (pointer:fine){
+  .motion-optin:hover{border-color:var(--accent);color:var(--accent)}
+  .motion-off:hover{opacity:1;border-color:var(--accent-muted);color:var(--accent)}
+}
+/* nota abaixo do botão: explica o que muda, sem prometer o que não muda */
+.motion-note{font-family:var(--mono);font-size:11px;letter-spacing:.06em;line-height:1.7;
+  color:var(--text-secondary);opacity:.7;margin:18px 0 0;max-width:62ch;display:none}
+.motion-note.on{display:block}
 
 /* tela rasa mas capaz de scrub: mantém a jornada, esconde o que não cabe */
 @media (max-height:560px){
@@ -500,10 +537,11 @@ footer .mono{font-family:var(--mono);font-size:11px;letter-spacing:.14em;opacity
    animation-play-state não é herdado, então valor no pai nunca chega no filho. */
 body.paused *,body.paused *::before,body.paused *::after{
   animation-play-state:paused!important}
+/* O resto do sossego continua valendo mesmo depois do opt-in, de propósito: a
+   pessoa pediu o hero, não pediu a página inteira se mexendo. O portão do palco
+   mora só no bloco macio acima; repetir aqui era a duplicata que ia divergir. */
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
-  .hero-track{display:none}
-  .hero-static{display:flex}
   .grid-bg{animation:none}
   .reveal{opacity:1;transform:none;transition:none}
   *{animation-duration:.001ms!important;transition-duration:.001ms!important}
@@ -519,6 +557,12 @@ body.paused *,body.paused *::before,body.paused *::after{
   html.sda #trajetoria .rail .fill{transform:scaleY(1)!important}
 }
 </style>
+
+<!-- Antes da primeira pintura, de propósito. Se essa classe só chegasse com o
+     script principal, quem já escolheu ver o movimento veria o hero estático
+     aparecer e sumir a cada carregamento, e o pisca é pior que o problema. -->
+<script>try{if(localStorage.getItem("camara:motion-ok")==="1"){
+  document.documentElement.classList.add("motion-ok")}}catch(e){}</script>
 </head>
 <body>
 <a class="skip" href="#conteudo">Pular para o conteúdo</a>
@@ -605,6 +649,8 @@ body.paused *,body.paused *::before,body.paused *::after{
     </div>
 
     <div class="scroll-hint" id="scrollHint">Role<span></span></div>
+
+    <button type="button" class="motion-off" id="motionOff">Voltar ao modo parado</button>
   </div>
 </div>
 
@@ -615,6 +661,14 @@ body.paused *,body.paused *::before,body.paused *::after{
     <h1>Centenas de milhões de dólares passam pela minha mesa. E eu construo o sistema que faz o trabalho.</h1>
     <p>Especialista de Tesouraria na Kinross Gold. Caixa, hedge cambial e capital de giro para Brasil e Chile. Uma década em finanças, agora com dados e agentes de IA em cima.</p>
     <a class="cta solid" href="https://www.linkedin.com/in/pedrovmaia/" target="_blank" rel="noopener">Abrir conversa <span class="arw">&rarr;</span></a>
+
+    <!-- Só aparece para quem foi barrado por movimento reduzido. Num celular ou
+         numa janela estreita fica escondido: prometer o que o portão duro não
+         entrega é pior do que não oferecer nada. -->
+    <button type="button" class="motion-optin" id="motionOptin">
+      <span class="dot" aria-hidden="true"></span>Ver a abertura em movimento</button>
+    <p class="motion-note" id="motionNote">Seu sistema pede menos movimento e o site obedece.
+      O resto da página continua parado de qualquer forma.</p>
   </div>
 </div>
 
@@ -869,20 +923,29 @@ body.paused *,body.paused *::before,body.paused *::after{
   /* Os cinco portoes do hero estatico. Estas cinco strings tem que ser identicas,
      caractere por caractere, as do bloco @media no CSS. Se divergirem, um lado
      esconde o palco enquanto o outro carrega os arquivos. */
-  var GATES = [
+  var HARD = [
     "(max-width: 720px)",
     "(orientation: portrait) and (max-width: 1024px)",
     "(orientation: portrait) and (pointer: coarse)",
-    "(orientation: landscape) and (pointer: coarse) and (max-height: 560px)",
-    "(prefers-reduced-motion: reduce)"
+    "(orientation: landscape) and (pointer: coarse) and (max-height: 560px)"
   ];
   /* as consultas ficam referenciadas de proposito: as soltas ja perderam
      seus listeners em navegadores antigos */
-  var MQLS = GATES.map(function(q){ return matchMedia(q); });
-  function staticMode(){
+  var MQLS = HARD.map(function(q){ return matchMedia(q); });
+  var RM = matchMedia("(prefers-reduced-motion: reduce)");
+  var WATCH = MQLS.concat([RM]);
+
+  /* O portao macio. A escolha ja foi lida antes da primeira pintura pelo script
+     do <head>; ler a classe aqui mantem uma fonte so da verdade e evita um
+     segundo acesso ao armazenamento, que pode lancar. */
+  var MOTION_KEY = "camara:motion-ok";
+  var motionOk = document.documentElement.classList.contains("motion-ok");
+
+  function hardMode(){
     for(var i = 0; i < MQLS.length; i++){ if(MQLS[i].matches) return true; }
     return false;
   }
+  function staticMode(){ return hardMode() || (RM.matches && !motionOk); }
 
   /* animação dirigida pelo scroll: só liga onde o navegador suporta de verdade */
   var SDA = !!(window.CSS && CSS.supports && CSS.supports("animation-timeline","view()"));
@@ -1362,11 +1425,53 @@ body.paused *,body.paused *::before,body.paused *::after{
     if(raf !== null){ cancelAnimationFrame(raf); raf = null; lastT = 0; }
   }
   function applyHeroMode(){ if(staticMode()) disableScrub(); else enableScrub(); }
-  for(var mi = 0; mi < MQLS.length; mi++){
-    if(MQLS[mi].addEventListener) MQLS[mi].addEventListener("change", applyHeroMode);
-    else if(MQLS[mi].addListener) MQLS[mi].addListener(applyHeroMode);
+
+  /* ---------- os dois controles do portao macio ----------
+     Nunca ignorar o pedido de menos movimento por conta propria. Oferecer a
+     saida, deixar a pessoa escolher, e guardar a escolha para nao perguntar de
+     novo a cada visita. */
+  var optinEl = document.getElementById("motionOptin");
+  var noteEl  = document.getElementById("motionNote");
+  var offEl   = document.getElementById("motionOff");
+
+  function syncMotionControls(){
+    /* Num celular ou numa janela estreita o portao duro manda, e ai o convite
+       fica escondido: um botao que promete o que nao vai entregar e pior do que
+       botao nenhum. */
+    var offer = RM.matches && !hardMode();
+    if(optinEl) optinEl.classList.toggle("on", offer && !motionOk);
+    if(noteEl)  noteEl.classList.toggle("on", offer && !motionOk);
+    if(offEl)   offEl.classList.toggle("on", RM.matches && motionOk);
   }
-  applyHeroMode();
+  function setMotionOk(on, moveFocusTo){
+    motionOk = on;
+    document.documentElement.classList.toggle("motion-ok", on);
+    try{
+      if(on) localStorage.setItem(MOTION_KEY, "1");
+      else localStorage.removeItem(MOTION_KEY);
+    }catch(e){}          /* aba anonima e dados do site bloqueados lancam aqui */
+    applyHeroMode();
+    syncMotionControls();
+    /* o botao clicado some junto com o palco que o continha: sem mover o foco
+       ele cai no corpo e quem navega por teclado perde o lugar */
+    if(moveFocusTo && moveFocusTo.classList.contains("on")){
+      try{ moveFocusTo.focus(); }catch(e){}
+    }
+  }
+  if(optinEl) optinEl.addEventListener("click", function(){ setMotionOk(true, offEl); });
+  if(offEl)   offEl.addEventListener("click", function(){
+    setMotionOk(false, optinEl);
+    /* a trilha some e a pagina encolhe: sem voltar ao topo a leitura reaparece
+       no meio de uma secao qualquer */
+    window.scrollTo(0, 0);
+  });
+
+  for(var mi = 0; mi < WATCH.length; mi++){
+    if(WATCH[mi].addEventListener) WATCH[mi].addEventListener("change", onGateChange);
+    else if(WATCH[mi].addListener) WATCH[mi].addListener(onGateChange);
+  }
+  function onGateChange(){ applyHeroMode(); syncMotionControls(); }
+  onGateChange();
 
   /* o laco nunca roda com o hero fora da tela */
   if("IntersectionObserver" in window){

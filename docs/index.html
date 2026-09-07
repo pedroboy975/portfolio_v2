@@ -5,9 +5,22 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Pedro Maia | Tesouraria, dados e agentes de IA</title>
 <meta name="description" content="Especialista de Tesouraria na Kinross Gold. Caixa, hedge cambial e capital de giro para Brasil e Chile. Automação, dados e agentes de IA construídos de dentro do problema.">
-<link rel="alternate" hreflang="pt-BR" href="/">
-<link rel="alternate" hreflang="en" href="/en/">
+<link rel="alternate" hreflang="pt-BR" href="./">
+<link rel="alternate" hreflang="en" href="./en/">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230A0E13'/%3E%3Cpath d='M6 6h6M6 6v6M26 6h-6M26 6v6M6 26h6M6 26v-6M26 26h-6M26 26v-6' stroke='%239DB2C4' stroke-width='2' fill='none'/%3E%3Ccircle cx='16' cy='16' r='3' fill='%23E9B45A'/%3E%3C/svg%3E">
+<meta name="theme-color" content="#0A0E13">
+<meta property="og:type" content="profile">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:title" content="Pedro Maia | Tesouraria, dados e agentes de IA">
+<meta property="og:description" content="Especialista de Tesouraria na Kinross Gold. Caixa, hedge cambial e capital de giro para Brasil e Chile. Automação, dados e agentes de IA construídos de dentro do problema.">
+<meta name="twitter:card" content="summary_large_image">
+<!-- DEPLOY STEP: og:url e og:image precisam de URL absoluta, que so existe depois do deploy.
+     Preencher com o endereco vivo antes de publicar. Editar com editor, nunca com sed:
+     substituicao por linha de comando corrompe os acentos deste arquivo. -->
+<meta property="og:url" content="">
+<meta property="og:image" content="">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@600;800&family=Spline+Sans:wght@400;500&family=Spline+Sans+Mono:wght@400;600&display=swap" rel="stylesheet">
@@ -33,9 +46,13 @@
   /* curvas fortes: as embutidas do CSS nao tem soco */
   --ease-out:cubic-bezier(.23,1,.32,1);
   --ease-in-out:cubic-bezier(.77,0,.175,1);
+  /* tres camadas: borda apertada, brilho medio, queda larga.
+     Desligada nos botoes, onde sombra em rotulo le como sujeira. */
+  --tshadow:0 1px 2px rgba(5,8,12,.95),0 3px 12px rgba(5,8,12,.78),0 10px 44px rgba(5,8,12,.8);
 }
 *{box-sizing:border-box}
-html{scroll-behavior:smooth;overflow-x:clip}
+html,body{overflow-x:hidden;overflow-x:clip}
+html{scroll-behavior:smooth}
 body{
   margin:0;background:var(--canvas);color:var(--text-primary);
   font-family:var(--body);font-size:17px;line-height:1.65;
@@ -78,10 +95,15 @@ header.top nav{display:flex;gap:18px;align-items:center}
 header.top nav a{color:var(--text-secondary)}
 
 /* ---------- hero ---------- */
-.hero-track{position:relative;height:420vh;z-index:1}
+/* 560vh de trilha. Nao e capricho: com 420vh cada faixa tinha um plato de 51 a
+   70vh e o teste de flick reprovava tres das quatro. O padrao pede 80 a 130vh
+   de plato por batida, e e a distancia de scroll que manda, nao os segundos. */
+.hero-track{position:relative;height:560vh;z-index:1}
 .hero{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden}
-.hero-media{position:absolute;inset:0}
-.hero-media video{width:100%;height:100%;object-fit:cover;display:none}
+
+/* leito do hero: chapa, poster e video empilhados. O parallax anda no leito,
+   entao e uma escrita de transform por quadro em vez de tres. */
+.hero-media{position:absolute;inset:0;will-change:transform;transform:translateZ(0)}
 .hero-plate{
   position:absolute;inset:0;
   background:
@@ -89,6 +111,22 @@ header.top nav a{color:var(--text-secondary)}
     radial-gradient(50% 40% at 20% 80%,rgba(233,180,90,.08),transparent 70%),
     linear-gradient(180deg,#0C1219 0%,#070B10 55%,#0A0E13 100%);
 }
+.hero-poster{position:absolute;inset:0;background-size:cover;background-position:50% 50%;
+  background-repeat:no-repeat;opacity:0;transition:opacity .6s var(--ease-out)}
+.hero-poster.on{opacity:1}
+.hero-media video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  opacity:0;transition:opacity .6s var(--ease-out)}
+.hero.video-ready video{opacity:1}
+.hero.video-failed video{display:none}
+
+/* anel de carregamento: honesto, e nunca fica preso.
+   Sem cao de guarda um fluxo travado congela o anel, que e pior que nao ter anel. */
+.hero-load{position:absolute;right:var(--gut);bottom:30px;width:34px;height:34px;
+  color:var(--accent);opacity:0;transition:opacity .4s var(--ease-out);pointer-events:none}
+.hero-load.on{opacity:.8}
+.hero-load svg{width:100%;height:100%;transform:rotate(-90deg)}
+.hero-load circle{transition:stroke-dashoffset .12s linear}
+
 .scrim-a{position:absolute;inset:0;background:linear-gradient(180deg,rgba(7,10,14,.72) 0%,rgba(7,10,14,.25) 45%,rgba(7,10,14,.88) 100%)}
 .scrim-b{position:absolute;inset:0;background:radial-gradient(90% 70% at 50% 55%,transparent 30%,rgba(7,10,14,.75) 100%)}
 
@@ -96,32 +134,75 @@ header.top nav a{color:var(--text-secondary)}
 .hero-svg .stroke{fill:none;stroke:var(--accent);stroke-width:1;vector-effect:non-scaling-stroke}
 .hero-svg .whisper{stroke:var(--accent-muted)}
 
-.bands{position:absolute;inset:0;padding:0 var(--gut)}
+/* ---------- faixas ----------
+   Todas moram numa coluna a esquerda, sobre a chapa lisa do poco, que e a unica
+   regiao calma da filmagem. Isso tambem amarra o hero a mesma goteira que as
+   onze secoes abaixo usam. */
+.bands{position:absolute;inset:0;padding:0 var(--gut);pointer-events:none}
 .band{
-  position:absolute;max-width:min(760px,86vw);
-  opacity:0;transform:translateY(18px);
-  transition:opacity .5s ease,transform .5s ease;
-  will-change:opacity,transform;
+  position:absolute;left:var(--gut);width:min(46ch,44vw);
+  opacity:0;text-shadow:var(--tshadow);
 }
-.band[data-on="1"]{opacity:1;transform:none}
+.band .cta{text-shadow:none;pointer-events:auto}
+
+/* scrim por faixa: elipse ancorada na coluna esquerda, nunca esticada pelo meio.
+   Escurece so enquanto a faixa esta acesa, e morre antes dos cantos para a
+   filmagem continuar viva. */
+.band::before{content:"";position:absolute;inset:-14% -46% -14% -34%;z-index:-1;pointer-events:none;
+  opacity:calc(.28 + .72*var(--k,1));
+  background:radial-gradient(ellipse 66% 58% at 34% 50%,
+    rgba(5,8,12,.74) 0%,rgba(5,8,12,.52) 46%,rgba(5,8,12,0) 78%)}
+
 .band p.line{
   font-family:var(--display);font-weight:600;text-transform:uppercase;
-  font-size:clamp(30px,5.4vw,64px);line-height:1.02;letter-spacing:.012em;margin:0;
-  text-shadow:0 2px 30px rgba(0,0,0,.85);
+  font-size:clamp(28px,3.9vw,56px);line-height:1.04;letter-spacing:.012em;margin:0;
 }
-.band .kicker{font-family:var(--mono);font-size:12px;letter-spacing:.2em;color:var(--accent);margin:0 0 14px}
-.band-1{left:var(--gut);top:26vh;text-align:left}
-.band-2{right:var(--gut);top:32vh;text-align:right;max-width:min(620px,80vw)}
-.band-3{left:var(--gut);bottom:22vh;text-align:left}
+/* texto pequeno sobre filmagem nao ganha o radial grande, ganha uma pastilha */
+.band .kicker{display:inline-block;font-family:var(--mono);font-size:12px;letter-spacing:.2em;
+  color:var(--accent);margin:0 0 16px;padding:5px 11px;
+  background:rgba(8,12,18,.55);border:1px solid rgba(157,178,196,.22);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  text-shadow:0 1px 3px rgba(5,8,12,.85)}
+
+.band-1{top:24vh}
+.band-2{top:30vh}
+.band-3{bottom:24vh}
 .band-3 .num{color:var(--accent-hover)}
-.band-4{left:50%;top:50%;transform:translate(-50%,calc(-50% + 18px));text-align:center;max-width:min(880px,90vw)}
-.band-4[data-on="1"]{transform:translate(-50%,-50%)}
+.band-4{top:20vh;width:min(40ch,46vw)}
 .band-4 h1{font-family:var(--display);font-weight:800;text-transform:uppercase;
-  font-size:clamp(46px,9vw,110px);line-height:.92;letter-spacing:.02em;margin:0 0 16px}
+  font-size:clamp(44px,6.6vw,92px);line-height:.94;letter-spacing:.02em;margin:0 0 18px}
 .band-4 .role{font-family:var(--mono);font-size:clamp(12px,1.5vw,14px);letter-spacing:.18em;
   text-transform:uppercase;color:var(--text-secondary);margin:0 0 6px}
 .band-4 .role b{color:var(--gold);font-weight:600}
 .band-4 .sub{color:var(--text-primary);opacity:.9;margin:0 0 28px}
+.band-4 .ctawrap{display:block}
+
+/* ---------- entradas, uma por faixa ----------
+   Tudo roda em transform e opacity, preso ao --k da faixa, e tudo desfaz na
+   volta do scroll. So transform e opacity: nada aqui forca layout ou pintura. */
+.band .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.band .w{display:inline-block;white-space:pre}
+.band .c{display:inline-block}
+.band .w,.band .c{will-change:transform,opacity}
+
+/* faixa 1, queda: as palavras descem no lugar, como a poeira do poco */
+.band-1 .line .w{--kc:clamp(0,(var(--k,0) - var(--th,0))*2.8,1);opacity:var(--kc);
+  transform:translateY(calc((1 - var(--kc)) * -26px))}
+/* faixa 2, aproximacao: a linha cresce como se viesse do fundo */
+.band-2 .line .w{--kc:clamp(0,(var(--k,0) - var(--th,0))*2.6,1);opacity:var(--kc);
+  transform:scale(calc(.86 + .14*var(--kc)))}
+/* faixa 3, dispersao: os caracteres se juntam, como instrumento assentando */
+.band-3 .line .c{--kc:clamp(0,(var(--k,0) - var(--th,0))*2.6,1);opacity:var(--kc);
+  transform:translate(calc((1 - var(--kc)) * var(--jx,0px)),calc((1 - var(--kc)) * var(--jy,0px)))
+            rotate(calc((1 - var(--kc)) * var(--jr,0deg)))}
+/* faixa 4, chegada em tres tempos: nome, depois cargo, depois botao */
+.band-4 h1 .w{--kc:clamp(0,(var(--k,0) - var(--th,0))*3,1);opacity:var(--kc);
+  transform:translateY(calc((1 - var(--kc)) * 24px))}
+.band-4 .role,.band-4 .sub{--ks:clamp(0,(var(--k,0) - .48)*3.2,1);opacity:var(--ks);
+  transform:translateY(calc((1 - var(--ks)) * 14px))}
+.band-4 .ctawrap{--kb:clamp(0,(var(--k,0) - .68)*4,1);opacity:var(--kb);
+  transform:translateY(calc((1 - var(--kb)) * 14px))}
+
 
 .cta{
   display:inline-flex;align-items:center;gap:10px;min-height:44px;
@@ -237,7 +318,11 @@ h3{font-family:var(--display);font-weight:600;text-transform:uppercase;font-size
 .hold .out.on{opacity:1;color:var(--gold)}
 
 /* 6 — registros */
-#registros .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(420px,1fr));gap:18px;margin-top:34px}
+/* min() no minimo: sem ele a coluna fica travada em 420px numa tela de 375 e o
+   card sai cortado. O overflow-x:clip esconde a barra, entao o defeito passa
+   despercebido justamente onde ele acontece. */
+#registros .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(420px,100%),1fr));
+  gap:18px;margin-top:34px}
 .card{border:1px solid var(--panel-line);background:rgba(17,24,35,.42);padding:26px;
   display:flex;flex-direction:column;gap:12px;
   transition:border-color .3s ease,transform 160ms var(--ease-out)}
@@ -391,11 +476,27 @@ footer .mono{font-family:var(--mono);font-size:11px;letter-spacing:.14em;opacity
 .hold button:active{transform:scale(.97)}
 .card:active{transform:scale(.98)}
 
-/* portões do hero estático */
-@media (max-width:760px),(pointer:coarse){
+/* Os cinco portões do hero estático. Idênticos, caractere por caractere, ao
+   array GATES do JavaScript. Divergir é o bug em que um lado esconde o palco
+   enquanto o outro baixa vídeo. */
+@media (max-width: 720px),
+       (orientation: portrait) and (max-width: 1024px),
+       (orientation: portrait) and (pointer: coarse),
+       (orientation: landscape) and (pointer: coarse) and (max-height: 560px),
+       (prefers-reduced-motion: reduce){
   .hero-track{display:none}
   .hero-static{display:flex}
 }
+
+/* tela rasa mas capaz de scrub: mantém a jornada, esconde o que não cabe */
+@media (max-height:560px){
+  .scroll-hint,.hero-load,.telemetry{display:none}
+}
+
+/* aba escondida não anima nada. Precisa alcançar os pseudo-elementos:
+   animation-play-state não é herdado, então valor no pai nunca chega no filho. */
+body.paused *,body.paused *::before,body.paused *::after{
+  animation-play-state:paused!important}
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
   .hero-track{display:none}
@@ -429,15 +530,16 @@ footer .mono{font-family:var(--mono);font-size:11px;letter-spacing:.14em;opacity
     <a href="#entregue">Entregas</a>
     <a href="#registros">Registros</a>
     <a href="#contato">Contato</a>
-    <a href="/en/" hreflang="en">EN</a>
+    <a href="./en/" hreflang="en">EN</a>
   </nav>
 </header>
 
 <!-- HERO COM SCRUB -->
 <div class="hero-track" id="heroTrack">
   <div class="hero">
-    <div class="hero-media">
+    <div class="hero-media" id="heroBed">
       <div class="hero-plate" aria-hidden="true"></div>
+      <div class="hero-poster" id="heroPoster" aria-hidden="true"></div>
       <video id="heroVideo" muted playsinline preload="none" tabindex="-1" aria-hidden="true"></video>
     </div>
     <div class="scrim-a" aria-hidden="true"></div>
@@ -489,8 +591,14 @@ footer .mono{font-family:var(--mono);font-size:11px;letter-spacing:.14em;opacity
         <h1>Pedro Maia</h1>
         <p class="role">Especialista de Tesouraria na <b>Kinross Gold</b></p>
         <p class="sub">Tesouraria, dados e agentes de IA.</p>
-        <a class="cta solid" href="https://www.linkedin.com/in/pedrovmaia/" target="_blank" rel="noopener">Abrir conversa <span class="arw">&rarr;</span></a>
+        <span class="ctawrap"><a class="cta solid" href="https://www.linkedin.com/in/pedrovmaia/" target="_blank" rel="noopener">Abrir conversa <span class="arw">&rarr;</span></a></span>
       </div>
+    </div>
+
+    <div class="hero-load" id="heroLoad" aria-hidden="true">
+      <svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="20" fill="none" stroke="currentColor"
+        stroke-width="3" stroke-linecap="round" stroke-dasharray="126"
+        style="stroke-dashoffset:var(--ld,126)"/></svg>
     </div>
 
     <div class="scroll-hint" id="scrollHint">Role<span></span></div>
@@ -755,9 +863,23 @@ footer .mono{font-family:var(--mono);font-size:11px;letter-spacing:.14em;opacity
 <script>
 (function(){
   "use strict";
-  var reduce = matchMedia("(prefers-reduced-motion: reduce)");
-  var coarse = matchMedia("(max-width: 760px), (pointer: coarse)");
-  function staticMode(){ return reduce.matches || coarse.matches; }
+  /* Os cinco portoes do hero estatico. Estas cinco strings tem que ser identicas,
+     caractere por caractere, as do bloco @media no CSS. Se divergirem, um lado
+     esconde o palco enquanto o outro carrega os arquivos. */
+  var GATES = [
+    "(max-width: 720px)",
+    "(orientation: portrait) and (max-width: 1024px)",
+    "(orientation: portrait) and (pointer: coarse)",
+    "(orientation: landscape) and (pointer: coarse) and (max-height: 560px)",
+    "(prefers-reduced-motion: reduce)"
+  ];
+  /* as consultas ficam referenciadas de proposito: as soltas ja perderam
+     seus listeners em navegadores antigos */
+  var MQLS = GATES.map(function(q){ return matchMedia(q); });
+  function staticMode(){
+    for(var i = 0; i < MQLS.length; i++){ if(MQLS[i].matches) return true; }
+    return false;
+  }
 
   /* animação dirigida pelo scroll: só liga onde o navegador suporta de verdade */
   var SDA = !!(window.CSS && CSS.supports && CSS.supports("animation-timeline","view()"));
@@ -877,121 +999,388 @@ footer .mono{font-family:var(--mono);font-size:11px;letter-spacing:.14em;opacity
     }, 140);
   }
 
-  /* ---------- HERO SCRUB ---------- */
+  /* ================= HERO: JORNADA DIRIGIDA PELO SCROLL =================
+     A trilha tem 420vh. O progresso por ela vai de 0 a 1 e comanda o tempo do
+     video, as faixas de texto e a camada vetorial. A pagina descansa exatamente
+     quando o video chega no quadro composto do fim. */
   var track = document.getElementById("heroTrack");
-  if(track && !staticMode()){
-    var bands = Array.prototype.slice.call(document.querySelectorAll(".band"));
-    var hint = document.getElementById("scrollHint");
-    var video = document.getElementById("heroVideo");
-    var groups = {
-      hudPanel: document.getElementById("hudPanel"),
-      hudGuide: document.getElementById("hudGuide"),
-      hudFlow:  document.getElementById("hudFlow"),
-      hudFrame: document.getElementById("hudFrame")
-    };
-    document.querySelectorAll(".hero-svg .draw").forEach(function(p){
-      var L = p.getTotalLength();
-      p.style.strokeDasharray = L;
-      p.style.strokeDashoffset = L;
-    });
+  if(track){
 
-    var BANDS = [
-      {el: bands[0], a: 0.00, b: 0.16, g: "hudPanel"},
-      {el: bands[1], a: 0.20, b: 0.40, g: "hudGuide"},
-      {el: bands[2], a: 0.46, b: 0.68, g: "hudFlow"},
-      {el: bands[3], a: 0.76, b: 1.00, g: "hudFrame"}
-    ];
+  var stage    = track.querySelector(".hero");
+  var bedEl    = document.getElementById("heroBed");
+  var posterEl = document.getElementById("heroPoster");
+  var video    = document.getElementById("heroVideo");
+  var loadEl   = document.getElementById("heroLoad");
+  var ringEl   = loadEl && loadEl.querySelector("circle");
+  var hint     = document.getElementById("scrollHint");
+  var svgLayer = track.querySelector(".hero-svg");
+  var bandEls  = track.querySelectorAll(".band");
 
-    var plate = document.querySelector(".hero-plate");
-    var svgLayer = document.querySelector(".hero-svg");
-    if(plate) plate.style.transform = "scale(1.14)";
+  var VIDEO_URL   = "assets/hero-scrub.mp4";
+  var POSTER_URL  = "assets/hero-poster.jpg";
+  var VIDEO_BYTES = 6000000;   /* reserva quando o servidor nao manda Content-Length */
+  var RING_AFTER  = 250;       /* so mostra o anel se a espera passar disso */
 
-    var target = 0, shown = -1, lastT = 0, raf = null, dirty = true;
-    var state = [-1,-1,-1,-1];
-    var lastHint = -1;
-    var lastPlate = -1, lastSvg = -1;
+  var groups = {
+    hudPanel: document.getElementById("hudPanel"),
+    hudGuide: document.getElementById("hudGuide"),
+    hudFlow:  document.getElementById("hudFlow"),
+    hudFrame: document.getElementById("hudFrame")
+  };
 
-    function progress(){
-      var r = track.getBoundingClientRect();
-      var total = track.offsetHeight - window.innerHeight;
-      if(total <= 0) return 0;
-      return Math.min(1, Math.max(0, -r.top / total));
-    }
+  var BANDS = [
+    /* Alcances validados pelo teste de flick, nao escolhidos no olho.
+       Em 560vh cada plato fica entre 83 e 95vh. Os vaos entre faixas sao
+       de proposito: sao os momentos em que a filmagem corre sem texto. */
+    {el: bandEls[0], a: 0.00, b: 0.20, g: "hudPanel", first: true},
+    {el: bandEls[1], a: 0.24, b: 0.45, g: "hudGuide"},
+    {el: bandEls[2], a: 0.50, b: 0.71, g: "hudFlow"},
+    {el: bandEls[3], a: 0.77, b: 1.00, g: "hudFrame", last: true}
+  ];
 
-    function paint(p){
-      for(var i = 0; i < BANDS.length; i++){
-        var B = BANDS[i];
-        var on = (p >= B.a && p <= B.b + 0.03) ? 1 : 0;
-        if(state[i] !== on){
-          state[i] = on;
-          B.el.setAttribute("data-on", on ? "1" : "0");
-          if(groups[B.g]) groups[B.g].style.opacity = on ? "1" : "0";
-        }
-        if(on && groups[B.g]){
-          var local = Math.min(1, Math.max(0, (p - B.a) / Math.max(0.001, B.b - B.a)));
-          var e = 1 - Math.pow(1 - local, 2);
-          groups[B.g].querySelectorAll(".draw").forEach(function(pa){
-            var L = pa.getTotalLength();
-            pa.style.strokeDashoffset = (L * (1 - e)).toFixed(2);
-          });
-        }
-      }
-      var h = p > 0.04 ? 0 : 1;
-      if(hint && lastHint !== h){ lastHint = h; hint.style.opacity = h ? "0.7" : "0"; }
-
-      /* parallax do hero: o fundo anda menos que a instrumentação.
-         Escrita com portão de delta, igual ao resto do laço. */
-      if(plate){
-        var py = Math.round(p * -600) / 100;
-        if(py !== lastPlate){
-          lastPlate = py;
-          plate.style.transform = "translate3d(0," + py + "%,0) scale(1.14)";
-        }
-      }
-      if(svgLayer){
-        var sy = Math.round(p * 250) / 100;
-        if(sy !== lastSvg){
-          lastSvg = sy;
-          svgLayer.style.transform = "translate3d(0," + sy + "%,0)";
-        }
-      }
-
-      /* o vídeo entra aqui quando existir: seek com portão */
-      if(video && video.readyState >= 2 && video.duration){
-        var want = p * video.duration;
-        if(!video.seeking && Math.abs(video.currentTime - want) > 0.03){
-          video.currentTime = want;
-        }
-      }
-    }
-
-    function loop(ts){
-      var dt = lastT ? Math.min(64, ts - lastT) : 16;
-      lastT = ts;
-      var k = 1 - Math.pow(0.0016, dt / 1000);
-      shown += (target - shown) * k;
-      if(Math.abs(target - shown) < 0.0004){ shown = target; dirty = false; }
-      paint(shown);
-      if(dirty){ raf = requestAnimationFrame(loop); }
-      else { raf = null; lastT = 0; }
-    }
-
-    function kick(){
-      target = progress();
-      if(shown < 0) shown = target;
-      dirty = true;
-      if(!raf) raf = requestAnimationFrame(loop);
-    }
-
-    addEventListener("scroll", kick, {passive:true});
-    addEventListener("resize", kick);
-    kick();
-
-    /* portão dinâmico do hero estático */
-    function gate(){ if(staticMode()) location.reload(); }
-    if(reduce.addEventListener) reduce.addEventListener("change", gate);
-    if(coarse.addEventListener) coarse.addEventListener("change", gate);
+  /* ---------- divisao do texto, feita uma vez ----------
+     Gerador semeado: o "aleatorio" e identico em toda visita, entao a pagina
+     nunca monta diferente duas vezes. */
+  function rng(seed){
+    var s = seed >>> 0;
+    return function(){ s = (s * 1664525 + 1013904223) >>> 0; return s / 4294967296; };
   }
+  /* Percorre os nos filhos em vez de ler textContent, senao qualquer marcacao
+     inline morre na divisao. A faixa 3 tem um <span class="num"> em volta de
+     "cinco horas semanais", e era exatamente ele que estava sendo apagado. */
+  function splitText(el, mode, spread, seed){
+    if(!el || el.getAttribute("data-split")) return;
+    var full = el.textContent.replace(/\s+/g, " ").trim();
+    if(!full) return;
+    var rand = rng(seed);
+    var totalWords = full.split(" ").length;
+    var totalChars = full.replace(/ /g, "").length;
+    var n = {w: 0, c: 0};
+
+    function wordSpan(text){
+      var w = document.createElement("span");
+      w.className = "w";
+      w.style.setProperty("--th", (mode === "word"
+        ? (n.w / Math.max(1, totalWords - 1)) * spread + rand() * 0.05
+        : 0).toFixed(3));
+      n.w++;
+      for(var k = 0; k < text.length; k++){
+        var c = document.createElement("span");
+        c.className = "c";
+        c.textContent = text.charAt(k);
+        if(mode === "char"){
+          c.style.setProperty("--th", ((n.c / Math.max(1, totalChars - 1)) * spread + rand() * 0.06).toFixed(3));
+          c.style.setProperty("--jx", ((rand() - 0.5) * 90).toFixed(1) + "px");
+          c.style.setProperty("--jy", ((rand() - 0.5) * 70).toFixed(1) + "px");
+          c.style.setProperty("--jr", ((rand() - 0.5) * 24).toFixed(1) + "deg");
+        }
+        n.c++;
+        w.appendChild(c);
+      }
+      return w;
+    }
+    function walk(src, dst){
+      for(var i = 0; i < src.childNodes.length; i++){
+        var node = src.childNodes[i];
+        if(node.nodeType === 3){
+          var parts = node.nodeValue.replace(/\s+/g, " ").split(" ");
+          for(var q = 0; q < parts.length; q++){
+            if(parts[q]) dst.appendChild(wordSpan(parts[q]));
+            if(q < parts.length - 1) dst.appendChild(document.createTextNode(" "));
+          }
+        }else if(node.nodeType === 1){
+          var clone = node.cloneNode(false);   /* mantem tag e classes, larga o conteudo */
+          walk(node, clone);
+          dst.appendChild(clone);
+        }
+      }
+    }
+
+    var visual = document.createElement("span");
+    visual.setAttribute("aria-hidden", "true");
+    walk(el, visual);
+    var sr = document.createElement("span");
+    sr.className = "sr";
+    sr.textContent = full;
+    el.textContent = "";
+    el.appendChild(sr);
+    el.appendChild(visual);
+    el.setAttribute("data-split", "1");
+  }
+
+  var splitDone = false;
+  function splitAll(){
+    if(splitDone) return;
+    splitDone = true;
+    splitText(BANDS[0].el.querySelector(".line"), "word", 0.55, 20240001);
+    splitText(BANDS[1].el.querySelector(".line"), "word", 0.50, 20240002);
+    splitText(BANDS[2].el.querySelector(".line"), "char", 0.55, 20240003);
+    splitText(BANDS[3].el.querySelector("h1"),    "word", 0.34, 20240004);
+  }
+
+  var drawPaths = [];
+  track.querySelectorAll(".hero-svg .draw").forEach(function(pa){
+    var L = pa.getTotalLength();
+    pa.style.strokeDasharray = L;
+    pa.style.strokeDashoffset = L;
+    drawPaths.push({el: pa, L: L, last: -1});
+  });
+
+  /* ---------- estado do laco ---------- */
+  var target = 0, shown = -1, lastT = 0, raf = null;
+  var lastHint = -1, lastBed = null, lastSvg = null;
+  var onScreen = true, scrubOn = false, loadK = 0, loadT0 = 0;
+
+  function clamp(v, lo, hi){ return v < lo ? lo : (v > hi ? hi : v); }
+  function smoothstep(p, e0, e1){
+    var t = clamp((p - e0) / (e1 - e0), 0, 1);
+    return t * t * (3 - 2 * t);
+  }
+  function progress(){
+    var total = track.offsetHeight - window.innerHeight;
+    if(total <= 0) return 0;
+    return clamp(-track.getBoundingClientRect().top / total, 0, 1);
+  }
+  function resetCaches(){
+    for(var i = 0; i < BANDS.length; i++){ BANDS[i].op = -1; BANDS[i].k = -1; }
+    for(var d = 0; d < drawPaths.length; d++){ drawPaths[d].last = -1; }
+    lastBed = null; lastSvg = null; lastHint = -1;
+  }
+  resetCaches();
+
+  /* ---------- portao de seek ----------
+     Nunca escrever currentTime com um seek em voo: eles empilham, e e isso que
+     separa liso de picotado no Chrome. Guarda so o alvo mais novo, dispara
+     exatamente um seguimento no "seeked", e destrava no "error" para que a
+     trava nunca vire impasse permanente. */
+  var seekBusy = false, pendingTime = null;
+  function requestSeek(t){
+    if(!video || !video.duration || !isFinite(video.duration)) return;
+    t = clamp(t, 0, Math.max(0, video.duration - 0.02));
+    if(seekBusy){ pendingTime = t; return; }
+    if(Math.abs(video.currentTime - t) < 0.016) return;
+    seekBusy = true;
+    try{ video.currentTime = t; }
+    catch(e){ seekBusy = false; pendingTime = null; }
+  }
+  if(video){
+    video.addEventListener("seeked", function(){
+      seekBusy = false;
+      if(pendingTime !== null){ var t = pendingTime; pendingTime = null; requestSeek(t); }
+    });
+    video.addEventListener("error", function(){
+      seekBusy = false; pendingTime = null; failVideo();
+    });
+  }
+
+  /* ---------- pintura: tudo escrito so quando muda ---------- */
+  function paint(p){
+    for(var i = 0; i < BANDS.length; i++){
+      var B = BANDS[i], a = B.a, b = B.b;
+      var f = Math.min(0.02, (b - a) / 3);
+      var op;
+      if(p < a) op = B.first ? 1 : 0;
+      else if(p > b) op = B.last ? 1 : 0;
+      else op = (B.first ? 1 : smoothstep(p, a, a + f)) *
+                (B.last  ? 1 : (1 - smoothstep(p, b - f, b)));
+      var opr = Math.round(op * 100) / 100;
+      if(opr !== B.op){
+        B.op = opr;
+        B.el.style.opacity = opr;
+        B.el.style.visibility = opr > 0 ? "visible" : "hidden";
+        if(groups[B.g]) groups[B.g].style.opacity = opr;
+      }
+      if(opr <= 0) continue;
+
+      var ramp = parseFloat(B.el.getAttribute("data-ramp")) || Math.min(0.025, (b - a) * 0.35);
+      var k = clamp((p - a) / ramp, 0, 1);
+      if(B.first) k = Math.max(k, loadK);
+      var kr = Math.round(k * 125) / 125;          /* portao de 0.008 */
+      if(kr !== B.k){
+        B.k = kr;
+        B.el.style.setProperty("--k", kr);
+        var g = groups[B.g];
+        if(g){
+          var e = 1 - Math.pow(1 - kr, 2);
+          for(var d = 0; d < drawPaths.length; d++){
+            var D = drawPaths[d];
+            if(D.el.parentNode !== g) continue;
+            var off = Math.round(D.L * (1 - e) * 10) / 10;
+            if(off !== D.last){ D.last = off; D.el.style.strokeDashoffset = off; }
+          }
+        }
+      }
+    }
+
+    var h = p > 0.04 ? 0 : 1;
+    if(hint && lastHint !== h){ lastHint = h; hint.style.opacity = h ? ".7" : "0"; }
+
+    /* parallax: o leito anda menos que a instrumentacao vetorial */
+    if(bedEl){
+      var by = (Math.round(p * -600) / 100) + "%";
+      if(by !== lastBed){ lastBed = by; bedEl.style.transform = "translate3d(0," + by + ",0) scale(1.14)"; }
+    }
+    if(svgLayer){
+      var sy = (Math.round(p * 250) / 100) + "%";
+      if(sy !== lastSvg){ lastSvg = sy; svgLayer.style.transform = "translate3d(0," + sy + ",0)"; }
+    }
+
+    if(video && video.readyState >= 2) requestSeek(p * video.duration);
+  }
+
+  /* ---------- laco rAF que descansa ----------
+     A normalizacao por dt e o que faz a sensacao ser a mesma em 60 e em 120Hz.
+     Uma constante por quadro converge o dobro mais rapido num monitor de 120. */
+  function loop(ts){
+    var dt = lastT ? Math.min(100, ts - lastT) : 16.667;
+    lastT = ts;
+    var k = 1 - Math.pow(1 - 0.16, dt / 16.667);
+    shown += (target - shown) * k;
+    var moving = Math.abs(target - shown) >= 0.0005;
+    if(!moving) shown = target;
+    if(loadK < 1 && loadT0){
+      var t = clamp((ts - loadT0) / 900, 0, 1);
+      loadK = t * t * (3 - 2 * t);
+    }
+    paint(shown);
+    if((moving || loadK < 1) && onScreen && scrubOn){ raf = requestAnimationFrame(loop); }
+    else { raf = null; lastT = 0; }
+  }
+  function kick(){
+    if(!scrubOn) return;
+    target = progress();
+    if(shown < 0) shown = target;
+    if(raf === null && onScreen) raf = requestAnimationFrame(loop);
+  }
+
+  /* ---------- carregamento do video ----------
+     Blob inteiro, porque muitos servidores nao suportam download parcial e sem
+     isso todo seek trava em zero no ar enquanto funciona perfeitamente no local. */
+  var heroInit = false, fetchStarted = false;
+  var vWatchdog = null, vRingTimer = null;
+  function initHeroOnce(){
+    if(heroInit) return;
+    heroInit = true;
+    loadT0 = performance.now();
+    var img = new Image();
+    img.onload = function(){
+      posterEl.style.backgroundImage = "url('" + POSTER_URL + "')";
+      posterEl.classList.add("on");
+      startFetch();
+    };
+    img.onerror = startFetch;      /* sem poster a chapa segura, e o video ainda vem */
+    img.src = POSTER_URL;
+    setTimeout(startFetch, 4000);  /* poster travado nunca bloqueia o video para sempre */
+  }
+  function startFetch(){
+    if(fetchStarted) return;
+    fetchStarted = true;
+    try{ loadHeroVideo().catch(failVideo); }
+    catch(e){ failVideo(); }
+  }
+  function ring(frac){
+    if(ringEl) ringEl.style.strokeDashoffset = Math.round(126 * (1 - frac));
+  }
+  function loadHeroVideo(){
+    if(!video || !window.fetch) return Promise.reject(new Error("sem fetch"));
+    var ctrl = ("AbortController" in window) ? new AbortController() : null;
+    function arm(){
+      if(!ctrl) return;
+      clearTimeout(vWatchdog);
+      vWatchdog = setTimeout(function(){ try{ ctrl.abort(); }catch(e){} }, 20000);
+    }
+    arm();
+    return fetch(VIDEO_URL, ctrl ? {signal: ctrl.signal} : undefined).then(function(res){
+      if(!res.ok) throw new Error("http " + res.status);
+      var total = Number(res.headers.get("Content-Length")) || VIDEO_BYTES;
+      /* Um caminho so. Transmitir sempre que houver leitor: para um arquivo
+         pequeno o anel nunca chega a aparecer, e para um grande a pagina nao
+         fica muda esperando o arquivo inteiro cair. */
+      if(!res.body || !res.body.getReader){
+        return res.blob().then(function(b){ clearTimeout(vWatchdog); return b; });
+      }
+      vRingTimer = setTimeout(function(){ if(loadEl) loadEl.classList.add("on"); }, RING_AFTER);
+      var reader = res.body.getReader(), chunks = [], got = 0, lastRing = 0;
+      return (function pump(){
+        return reader.read().then(function(r){
+          if(r.done){ clearTimeout(vWatchdog); clearTimeout(vRingTimer); return new Blob(chunks); }
+          arm();
+          chunks.push(r.value); got += r.value.length;
+          var frac = Math.min(1, got / total), now = performance.now();
+          if(now - lastRing > 100 || frac === 1){ lastRing = now; ring(frac); }
+          return pump();
+        });
+      })();
+    }).then(function(blob){
+      ring(1);
+      clearTimeout(vRingTimer);
+      if(loadEl) loadEl.classList.remove("on");
+      video.src = URL.createObjectURL(blob);
+      video.load();
+      video.addEventListener("loadeddata", function(){
+        if(stage) stage.classList.add("video-ready");
+        resetCaches();
+        shown = -1;
+        kick();
+        requestSeek(progress() * video.duration);
+      }, {once: true});
+    });
+  }
+  function failVideo(){
+    /* Nunca um anel preso. Matar os dois temporizadores antes de esconder o anel:
+       sem isso um ringTimer pendente reacende o anel logo depois da falha, que e
+       exatamente o estado travado que o anel deveria evitar. */
+    clearTimeout(vWatchdog); clearTimeout(vRingTimer);
+    if(loadEl) loadEl.classList.remove("on");
+    if(stage) stage.classList.add("video-failed");
+  }
+
+  /* ---------- os cinco portoes, decididos ao vivo ----------
+     As cinco consultas batem caractere por caractere com o bloco @media do CSS.
+     Decidir uma vez no carregamento deixa o hero em branco no instante em que um
+     tablet gira, uma janela encostada e maximizada, ou o movimento reduzido e
+     desligado no meio da sessao: o CSS reexibe o palco e o JS nao esta armado. */
+  function enableScrub(){
+    if(scrubOn) return;
+    scrubOn = true;
+    splitAll();
+    initHeroOnce();
+    addEventListener("scroll", kick, {passive: true});
+    addEventListener("resize", kick, {passive: true});
+    resetCaches();
+    shown = -1;
+    kick();
+  }
+  function disableScrub(){
+    if(!scrubOn) return;
+    scrubOn = false;
+    removeEventListener("scroll", kick);
+    removeEventListener("resize", kick);
+    if(raf !== null){ cancelAnimationFrame(raf); raf = null; lastT = 0; }
+  }
+  function applyHeroMode(){ if(staticMode()) disableScrub(); else enableScrub(); }
+  for(var mi = 0; mi < MQLS.length; mi++){
+    if(MQLS[mi].addEventListener) MQLS[mi].addEventListener("change", applyHeroMode);
+    else if(MQLS[mi].addListener) MQLS[mi].addListener(applyHeroMode);
+  }
+  applyHeroMode();
+
+  /* o laco nunca roda com o hero fora da tela */
+  if("IntersectionObserver" in window){
+    new IntersectionObserver(function(es){
+      onScreen = es[0].isIntersecting;
+      if(onScreen) kick();
+      else if(raf !== null){ cancelAnimationFrame(raf); raf = null; lastT = 0; }
+    }, {rootMargin: "10% 0px"}).observe(track);
+  }
+
+  }
+
+  /* Nada anima em aba escondida. animation-play-state nao e herdado, entao o
+     seletor precisa alcancar cada elemento e cada pseudo-elemento direto. */
+  document.addEventListener("visibilitychange", function(){
+    document.body.classList.toggle("paused", document.hidden);
+  });
 })();
 </script>
 </body>

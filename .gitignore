@@ -14,3 +14,9 @@ raw*.mp4
 Thumbs.db
 desktop.ini
 .DS_Store
+
+# O video do hero. Enquanto o arquivo em assets for o clipe sintetico de teste,
+# esta linha impede que ele va parar no repositorio. REMOVER esta linha no dia
+# em que o video real for aprovado, porque o GitHub Pages so serve o que esta
+# versionado.
+docs/assets/hero-scrub.mp4

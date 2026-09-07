@@ -146,7 +146,30 @@ de execução e Formação.
 
 ---
 
-## Bloco 3. Preencher os buracos de engenharia (sem custo, pode rodar hoje)
+## Bloco 3. Preencher os buracos de engenharia (FEITO)
+
+**Estado: construído e verificado em Chrome real, dirigido pelo protocolo
+DevTools.** O que a sonda mediu, com um clipe sintético de 6 segundos no lugar
+do vídeo:
+
+- Scrub linear e correto: progresso 0.10 leva o vídeo a 0.59s, 0.55 a 3.27s,
+  1.00 a 5.98s.
+- Teste de flick aprovado: as quatro faixas ficam legíveis por 6, 6, 6 e 13
+  passos de 120px, contra o mínimo de 5. Em passos de 360px nenhuma é pulável.
+- Os cinco portões respondem: telefone em pé, telefone deitado e tablet em pé
+  caem no hero estático, e o telefone baixa zero arquivo do hero.
+- Movimento reduzido vira nos dois sentidos com a página aberta.
+- Com o vídeo bloqueado a página fica completa: onze seções, o botão no lugar,
+  e o anel de carregamento não fica preso.
+- Nenhum erro de console, nenhum vazamento lateral, de 375px a 1920px.
+
+Dois defeitos foram achados e corrigidos nessa passagem: a divisão de texto
+apagava o `<span class="num">` da faixa 3, e a trilha de 420vh dava platôs de
+51 a 70vh, abaixo do mínimo de 80, o que reprovava três faixas no teste de
+flick. A trilha passou para 560vh e os alcances foram refeitos.
+
+### O que foi construído
+
 
 A página está bonita e o motor do hero não está construído. Estes são os itens
 do padrão de `scrub-pipeline.md` que faltam. Todos independem do vídeo, então

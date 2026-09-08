@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@600;800&family=Spline+Sans:wght@400;500&family=Spline+Sans+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --canvas:#0A0E13;
+  --accent:#9DB2C4;
+  --gold:#E9B45A;
+  --text-primary:#E6EDF3;
+  --text-secondary:#8B9AA8;
+  --display:"Saira Condensed",Arial Narrow,sans-serif;
+  --mono:"Spline Sans Mono",ui-monospace,monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1200px;height:630px;overflow:hidden;background:var(--canvas)}
+.card{position:relative;width:1200px;height:630px}
+
+/* o quadro de chegada, cortado de 1600x900 para 1200x630. O corte come o topo
+   porque lá só há fumaça: a poça e o chão são o assunto. */
+.card img{position:absolute;inset:0;width:1200px;height:675px;top:-45px;object-fit:cover;display:block}
+
+/* Dois scrims. O da esquerda abre espaço para o texto sem apagar a poça; o de
+   baixo assenta a moldura. Nenhum dos dois toca o centro, que é o que faz a
+   pessoa parar de rolar. */
+/* O perfil medido do quadro: até x=300 a luminância é 0.005, em x=500 já é 0.27
+   e no núcleo da poça passa de 0.7. O scrim tem que segurar escuro até onde o
+   texto chega e soltar logo depois, senão apaga o que faz alguém parar de rolar. */
+.card::before{content:"";position:absolute;inset:0;z-index:1;
+  background:linear-gradient(100deg,rgba(5,8,12,.95) 0%,rgba(5,8,12,.90) 32%,
+    rgba(5,8,12,.70) 46%,rgba(5,8,12,.26) 60%,rgba(5,8,12,0) 74%)}
+.card::after{content:"";position:absolute;inset:0;z-index:1;
+  background:linear-gradient(to top,rgba(5,8,12,.7) 0%,rgba(5,8,12,0) 34%)}
+
+/* 470px de coluna, não 640: a medição diz que passando de x=540 o texto entra na
+   borda quente da poça e o contraste desaba. Coluna curta é a correção honesta;
+   scrim forte o bastante para cobrir 640 apagaria a imagem inteira. */
+.txt{position:absolute;z-index:2;left:74px;bottom:84px;width:470px}
+.eyebrow{font-family:var(--mono);font-size:15px;letter-spacing:.28em;
+  text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:14px}
+.eyebrow::after{content:"";height:1px;flex:1;background:linear-gradient(90deg,#33434F,transparent)}
+h1{font-family:var(--display);font-weight:800;text-transform:uppercase;
+  font-size:76px;line-height:.92;letter-spacing:-.01em;color:var(--text-primary);
+  margin:20px 0 0}
+/* 15px de mono cabem os 58 caracteres da segunda linha dentro dos 640 da coluna.
+   A 17px ela estourava e "Chile." caía sozinho numa terceira linha. */
+/* balance para as três linhas ficarem parelhas: sem isso a última fica com duas
+   palavras órfãs e o bloco parece quebrado */
+.role{font-family:var(--mono);font-size:15px;letter-spacing:.08em;line-height:1.7;
+  color:var(--text-secondary);margin:22px 0 0;text-wrap:balance}
+.role b{color:var(--gold);font-weight:600}
+
+/* canto oposto: marca discreta, o mesmo ponto dourado do cabeçalho do site */
+.mark{position:absolute;z-index:2;right:56px;top:48px;display:flex;align-items:center;gap:12px;
+  font-family:var(--mono);font-size:14px;letter-spacing:.26em;text-transform:uppercase;
+  color:var(--accent);text-shadow:0 1px 2px rgba(5,8,12,.95),0 3px 12px rgba(5,8,12,.78)}
+.mark .dot{width:7px;height:7px;border-radius:50%;background:var(--gold)}
+</style></head>
+<body>
+<div class="card">
+  <img src="hero-ending.jpg" alt="">
+  <div class="mark"><span class="dot"></span>A CÂMARA</div>
+  <div class="txt">
+    <p class="eyebrow">TESOURARIA E AUTOMAÇÃO</p>
+    <h1>Pedro Maia</h1>
+    <p class="role">Especialista de Tesouraria na <b>Kinross Gold</b>. Caixa, hedge cambial e capital de giro para Brasil e Chile.</p>
+  </div>
+</div>
+</body></html>

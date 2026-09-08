@@ -1,0 +1,1612 @@
+<!doctype html>
+<!-- GERADO. Nao edite este arquivo a mao: ele e reconstruido a partir de
+     docs/index.html por ferramentas/build-en.py. Editar aqui faz as duas
+     edicoes divergirem em silencio, que e exatamente o que o script evita. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pedro Maia | Treasury, data and AI agents</title>
+<meta name="description" content="Treasury Specialist at Kinross Gold. Cash, FX hedging and working capital for Brazil and Chile. Automation, data and AI agents built from inside the problem.">
+<link rel="alternate" hreflang="pt-BR" href="../">
+<link rel="alternate" hreflang="en" href="./">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230A0E13'/%3E%3Cpath d='M6 6h6M6 6v6M26 6h-6M26 6v6M6 26h6M6 26v-6M26 26h-6M26 26v-6' stroke='%239DB2C4' stroke-width='2' fill='none'/%3E%3Ccircle cx='16' cy='16' r='3' fill='%23E9B45A'/%3E%3C/svg%3E">
+<meta name="theme-color" content="#0A0E13">
+<meta property="og:type" content="profile">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="Pedro Maia | Treasury, data and AI agents">
+<meta property="og:description" content="Treasury Specialist at Kinross Gold. Cash, FX hedging and working capital for Brazil and Chile. Automation, data and AI agents built from inside the problem.">
+<meta name="twitter:card" content="summary_large_image">
+<meta property="og:url" content="https://pedroboy975.github.io/portfolio_v2/en/">
+<link rel="canonical" href="https://pedroboy975.github.io/portfolio_v2/en/">
+<!-- O cartao social. URL absoluta de proposito: rastreador de rede social nao
+     resolve caminho relativo. A fonte e review/card-social.html, montada com as
+     mesmas fontes e tokens do site e fotografada em 1200x630 a 2x. -->
+<meta property="og:image" content="https://pedroboy975.github.io/portfolio_v2/assets/social-en.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Pedro Maia, Treasury Specialist at Kinross Gold. Behind him, a pool of molten gold in the floor of a steel chamber.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@600;800&family=Spline+Sans:wght@400;500&family=Spline+Sans+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --canvas:#0A0E13;
+  --panel:#111823;
+  --panel-line:#1E2A38;
+  /* aço frio: estrutura, etiqueta, contorno, foco. Não é cor, é instrumento. */
+  --accent:#9DB2C4;
+  --accent-hover:#C9D8E4;
+  --accent-muted:#33434F;
+  /* ouro: a única cor saturada da página inteira. Estado ativo, número, chamado. */
+  --gold:#E9B45A;
+  --gold-hover:#F5C978;
+  --text-primary:#E6EDF3;
+  --text-secondary:#8B9AA8;
+  --display:"Saira Condensed",Arial Narrow,sans-serif;
+  --body:"Spline Sans",system-ui,sans-serif;
+  --mono:"Spline Sans Mono",ui-monospace,monospace;
+  --gut:clamp(20px,5vw,64px);
+  --maxw:1180px;
+  /* curvas fortes: as embutidas do CSS nao tem soco */
+  --ease-out:cubic-bezier(.23,1,.32,1);
+  --ease-in-out:cubic-bezier(.77,0,.175,1);
+  /* tres camadas: borda apertada, brilho medio, queda larga.
+     Desligada nos botoes, onde sombra em rotulo le como sujeira. */
+  --tshadow:0 1px 2px rgba(5,8,12,.95),0 3px 12px rgba(5,8,12,.78),0 10px 44px rgba(5,8,12,.8);
+}
+*{box-sizing:border-box}
+html,body{overflow-x:hidden;overflow-x:clip}
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:var(--canvas);color:var(--text-primary);
+  font-family:var(--body);font-size:17px;line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+}
+img{max-width:100%;display:block}
+a{color:var(--accent);text-decoration:none}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.skip{position:absolute;left:-9999px;top:0;background:var(--panel);color:var(--text-primary);padding:12px 18px;z-index:99}
+.skip:focus{left:12px;top:12px}
+
+/* ---------- grade de fundo fixa, com plano de profundidade ---------- */
+.depth{position:fixed;inset:-14% -10%;z-index:0;pointer-events:none;will-change:transform}
+.grid-bg{
+  position:absolute;inset:0;
+  background-image:linear-gradient(var(--accent) 1px,transparent 1px),linear-gradient(90deg,var(--accent) 1px,transparent 1px);
+  background-size:64px 64px;opacity:.035;
+  animation:drift 90s linear infinite;
+}
+@keyframes drift{to{transform:translate3d(64px,64px,0)}}
+
+.vignette{position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(120% 90% at 50% 40%,transparent 35%,rgba(5,8,11,.85) 100%)}
+
+/* ---------- cabeçalho ---------- */
+header.top{
+  position:fixed;top:0;left:0;right:0;z-index:40;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px var(--gut);
+  font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--text-secondary);
+  background:linear-gradient(to bottom,rgba(10,14,19,.9),rgba(10,14,19,0));
+  backdrop-filter:blur(3px);
+}
+/* nowrap: em 390px o nome quebrava em duas linhas e empurrava o cabeçalho */
+header.top .mark{color:var(--text-primary);font-weight:600;white-space:nowrap}
+header.top .dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent);
+  margin-right:8px;vertical-align:middle;animation:pulse 3.2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:.35}50%{opacity:1}}
+header.top nav{display:flex;gap:18px;align-items:center}
+header.top nav a{color:var(--text-secondary)}
+/* Em 390px o nome e os quatro links somam 438px numa faixa de 350. Antes disso o
+   nome quebrava no meio; forçar nowrap só trocou a quebra por colisão. A saída é
+   duas fileiras: nome em cima, menu embaixo espalhado na largura toda. */
+@media (max-width:520px){
+  header.top{flex-wrap:wrap;row-gap:9px;font-size:11px;letter-spacing:.1em}
+  header.top .mark{flex:1 0 100%}
+  header.top nav{width:100%;gap:12px;justify-content:space-between}
+}
+
+/* ---------- hero ---------- */
+/* 560vh de trilha. Nao e capricho: com 420vh cada faixa tinha um plato de 51 a
+   70vh e o teste de flick reprovava tres das quatro. O padrao pede 80 a 130vh
+   de plato por batida, e e a distancia de scroll que manda, nao os segundos. */
+.hero-track{position:relative;height:560vh;z-index:1}
+.hero{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden}
+
+/* leito do hero: chapa, poster e video empilhados. O parallax anda no leito,
+   entao e uma escrita de transform por quadro em vez de tres. */
+.hero-media{position:absolute;inset:0;will-change:transform;transform:translateZ(0)}
+.hero-plate{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(70% 50% at 50% 10%,rgba(157,178,196,.10),transparent 60%),
+    radial-gradient(50% 40% at 20% 80%,rgba(233,180,90,.08),transparent 70%),
+    linear-gradient(180deg,#0C1219 0%,#070B10 55%,#0A0E13 100%);
+}
+.hero-poster{position:absolute;inset:0;background-size:cover;background-position:50% 50%;
+  background-repeat:no-repeat;opacity:0;transition:opacity .6s var(--ease-out)}
+.hero-poster.on{opacity:1}
+.hero-media video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  opacity:0;transition:opacity .6s var(--ease-out)}
+.hero.video-ready video{opacity:1}
+.hero.video-failed video{display:none}
+
+/* anel de carregamento: honesto, e nunca fica preso.
+   Sem cao de guarda um fluxo travado congela o anel, que e pior que nao ter anel. */
+.hero-load{position:absolute;right:var(--gut);bottom:30px;width:34px;height:34px;
+  color:var(--accent);opacity:0;transition:opacity .4s var(--ease-out);pointer-events:none}
+.hero-load.on{opacity:.8}
+.hero-load svg{width:100%;height:100%;transform:rotate(-90deg)}
+.hero-load circle{transition:stroke-dashoffset .12s linear}
+
+.scrim-a{position:absolute;inset:0;background:linear-gradient(180deg,rgba(7,10,14,.72) 0%,rgba(7,10,14,.25) 45%,rgba(7,10,14,.88) 100%)}
+.scrim-b{position:absolute;inset:0;background:radial-gradient(90% 70% at 50% 55%,transparent 30%,rgba(7,10,14,.75) 100%)}
+
+.hero-svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.hero-svg .stroke{fill:none;stroke:var(--accent);stroke-width:1;vector-effect:non-scaling-stroke}
+.hero-svg .whisper{stroke:var(--accent-muted)}
+
+/* ---------- faixas ----------
+   Todas moram numa coluna a esquerda, sobre a chapa lisa do poco, que e a unica
+   regiao calma da filmagem. Isso tambem amarra o hero a mesma goteira que as
+   onze secoes abaixo usam. */
+.bands{position:absolute;inset:0;padding:0 var(--gut);pointer-events:none}
+.band{
+  position:absolute;left:var(--gut);width:min(46ch,44vw);
+  opacity:0;text-shadow:var(--tshadow);
+}
+.band .cta{text-shadow:none;pointer-events:auto}
+
+/* scrim por faixa: elipse ancorada na coluna esquerda, nunca esticada pelo meio.
+   Escurece so enquanto a faixa esta acesa, e morre antes dos cantos para a
+   filmagem continuar viva. */
+.band::before{content:"";position:absolute;inset:-14% -46% -14% -34%;z-index:-1;pointer-events:none;
+  opacity:calc(.28 + .72*var(--k,1));
+  background:radial-gradient(ellipse 66% 58% at 34% 50%,
+    rgba(5,8,12,.74) 0%,rgba(5,8,12,.52) 46%,rgba(5,8,12,0) 78%)}
+
+.band p.line{
+  font-family:var(--display);font-weight:600;text-transform:uppercase;
+  font-size:clamp(28px,3.9vw,56px);line-height:1.04;letter-spacing:.012em;margin:0;
+}
+/* texto pequeno sobre filmagem nao ganha o radial grande, ganha uma pastilha */
+.band .kicker{display:inline-block;font-family:var(--mono);font-size:12px;letter-spacing:.2em;
+  color:var(--accent);margin:0 0 16px;padding:5px 11px;
+  background:rgba(8,12,18,.55);border:1px solid rgba(157,178,196,.22);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  text-shadow:0 1px 3px rgba(5,8,12,.85)}
+
+.band-1{top:24vh}
+.band-2{top:30vh}
+.band-3{bottom:24vh}
+.band-3 .num{color:var(--accent-hover)}
+.band-4{top:20vh;width:min(40ch,46vw)}
+.band-4 h1{font-family:var(--display);font-weight:800;text-transform:uppercase;
+  font-size:clamp(44px,6.6vw,92px);line-height:.94;letter-spacing:.02em;margin:0 0 18px}
+.band-4 .role{font-family:var(--mono);font-size:clamp(12px,1.5vw,14px);letter-spacing:.18em;
+  text-transform:uppercase;color:var(--text-secondary);margin:0 0 6px}
+.band-4 .role b{color:var(--gold);font-weight:600}
+.band-4 .sub{color:var(--text-primary);opacity:.9;margin:0 0 28px}
+.band-4 .ctawrap{display:block}
+
+/* ---------- entradas, uma por faixa ----------
+   Tudo roda em transform e opacity, preso ao --k da faixa, e tudo desfaz na
+   volta do scroll. So transform e opacity: nada aqui forca layout ou pintura. */
+.band .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.band .w{display:inline-block;white-space:pre}
+.band .c{display:inline-block}
+.band .w,.band .c{will-change:transform,opacity}
+
+/* faixa 1, queda: as palavras descem no lugar, como a poeira do poco */
+.band-1 .line .w{--kc:clamp(0,(var(--k,0) - var(--th,0))*2.8,1);opacity:var(--kc);
+  transform:translateY(calc((1 - var(--kc)) * -26px))}
+/* faixa 2, aproximacao: a linha cresce como se viesse do fundo */
+.band-2 .line .w{--kc:clamp(0,(var(--k,0) - var(--th,0))*2.6,1);opacity:var(--kc);
+  transform:scale(calc(.86 + .14*var(--kc)))}
+/* faixa 3, dispersao: os caracteres se juntam, como instrumento assentando */
+.band-3 .line .c{--kc:clamp(0,(var(--k,0) - var(--th,0))*2.6,1);opacity:var(--kc);
+  transform:translate(calc((1 - var(--kc)) * var(--jx,0px)),calc((1 - var(--kc)) * var(--jy,0px)))
+            rotate(calc((1 - var(--kc)) * var(--jr,0deg)))}
+/* faixa 4, chegada em tres tempos: nome, depois cargo, depois botao */
+.band-4 h1 .w{--kc:clamp(0,(var(--k,0) - var(--th,0))*3,1);opacity:var(--kc);
+  transform:translateY(calc((1 - var(--kc)) * 24px))}
+.band-4 .role,.band-4 .sub{--ks:clamp(0,(var(--k,0) - .48)*3.2,1);opacity:var(--ks);
+  transform:translateY(calc((1 - var(--ks)) * 14px))}
+.band-4 .ctawrap{--kb:clamp(0,(var(--k,0) - .68)*4,1);opacity:var(--kb);
+  transform:translateY(calc((1 - var(--kb)) * 14px))}
+
+
+.cta{
+  display:inline-flex;align-items:center;gap:10px;min-height:44px;
+  padding:13px 26px;border:1px solid var(--accent);color:var(--accent);
+  font-family:var(--mono);font-size:13px;letter-spacing:.16em;text-transform:uppercase;
+  background:transparent;
+  transition:background .25s ease,color .25s ease,border-color .25s ease,transform 140ms var(--ease-out);
+}
+.cta.solid{background:var(--gold);border-color:var(--gold);color:#0A0E13}
+.cta .arw{transition:transform .2s var(--ease-out)}
+
+.scroll-hint{position:absolute;left:50%;bottom:26px;transform:translateX(-50%);
+  font-family:var(--mono);font-size:11px;letter-spacing:.22em;color:var(--text-secondary);
+  text-transform:uppercase;opacity:.7;transition:opacity .4s ease}
+.scroll-hint span{display:block;width:1px;height:26px;background:linear-gradient(var(--accent),transparent);margin:10px auto 0}
+
+/* hero estático */
+.hero-static{display:none;position:relative;min-height:100vh;min-height:100dvh;align-items:center;padding:120px var(--gut) 80px;z-index:1}
+
+/* O quadro de chegada como fundo. É o mesmo destino da jornada rolada: quem cai
+   aqui vê o fim, não uma tela lisa. Nos dois pseudo-elementos de propósito —
+   imagem e scrim separados, porque só o scrim muda de força entre os tamanhos.
+   Nada disso baixa onde o hero estático está display:none: pseudo-elemento de
+   elemento não exibido não é gerado, então o desktop normal continua sem custo.
+   z-index -1 fica preso aqui dentro, já que .hero-static abre contexto com z-index 1. */
+.hero-static::before{content:"";position:absolute;inset:0;z-index:-1;
+  background:url("../assets/hero-static-sm.jpg") center 62%/cover no-repeat}
+@media (min-width:901px){
+  .hero-static::before{background-image:url("../assets/hero-ending.jpg")}
+}
+/* Dois scrims. O da esquerda abre a coluna do texto, o de baixo assenta a base.
+   A poça fica no centro e nenhum dos dois a apaga. */
+.hero-static::after{content:"";position:absolute;inset:0;z-index:-1;
+  background:
+    linear-gradient(100deg,rgba(5,8,12,.95) 0%,rgba(5,8,12,.93) 40%,
+      rgba(5,8,12,.72) 56%,rgba(5,8,12,.30) 70%,rgba(5,8,12,0) 84%),
+    linear-gradient(to top,rgba(5,8,12,.78) 0%,rgba(5,8,12,.1) 38%,rgba(5,8,12,.4) 100%)}
+/* Retrato: a coluna de texto ocupa a largura toda, então o scrim vira vertical.
+   Manter o gradiente lateral aqui deixaria o lado direito do título no claro. */
+/* Retrato: o quadro é deitado e não cabe em pé. Com cover ele vira uma tira
+   vertical e a poça cai exatamente onde o texto está — foi o que aconteceu, e
+   o véu necessário para salvar a leitura apagava a imagem inteira. Então a
+   composição muda: texto no alto, no escuro, e o quadro como faixa ancorada
+   embaixo, com a poça brilhando no rodapé. */
+@media (orientation:portrait){
+  .hero-static{align-items:flex-start}
+  /* Cover, não faixa recortada. Tentei ancorar o quadro embaixo em 130% e a borda
+     de cima cortava seco contra a chapa; máscara não conserta, porque acima da
+     borda não existe imagem para fundir — o degradê só suaviza metade do salto.
+     Com cover não há borda nenhuma, e o scrim faz todo o trabalho: quase opaco em
+     cima, onde mora o texto, e aliviando a partir de 62%, onde a poça aparece. */
+  /* Dimensionado pela ALTURA, não por largura nem cover. Cover amplia tanto num
+     retrato estreito que a poça vira um arco abstrato; largura em porcentagem
+     deixa a borda de cima numa posição que depende da proporção do aparelho, e aí
+     nenhuma máscara acerta. Altura em porcentagem fixa a borda em 36% sempre, e a
+     máscara pode ser escrita contra esse número. A poça inteira volta a caber. */
+  .hero-static::before{background-size:auto 64%;background-position:center bottom;
+    -webkit-mask-image:linear-gradient(to bottom,transparent 36%,#000 56%);
+            mask-image:linear-gradient(to bottom,transparent 36%,#000 56%)}
+  .hero-static::after{background:
+    linear-gradient(to bottom,rgba(5,8,12,.93) 0%,rgba(5,8,12,.88) 56%,
+      rgba(5,8,12,.34) 72%,rgba(5,8,12,.2) 100%)}
+}
+/* Celular deitado: 390px de altura, e o título sozinho ocupa quase o quadro
+   inteiro em cima da poça — medido em 1.00:1, ilegível. Aqui nenhum gradiente
+   direcional resolve, porque não sobra direção livre. O quadro vira textura sob
+   véu chapado, que é a troca honesta: perde-se a imagem, ganha-se o recado. */
+@media (orientation:landscape) and (max-height:560px){
+  .hero-static::after{background:rgba(5,8,12,.9)}
+}
+.hero-static h1,.hero-static .eyebrow,.hero-static p{text-shadow:var(--tshadow)}
+.hero-static .cta{text-shadow:none}
+.hero-static h1{font-family:var(--display);font-weight:800;text-transform:uppercase;
+  font-size:clamp(34px,8vw,68px);line-height:.98;margin:0 0 22px}
+.hero-static p{color:var(--text-secondary);max-width:56ch;margin:0 0 30px}
+
+/* ---------- estrutura de seções ---------- */
+main{position:relative;z-index:1}
+section{padding:clamp(80px,11vh,140px) var(--gut);max-width:var(--maxw);margin:0 auto}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--accent);margin:0 0 14px;display:flex;align-items:center;gap:12px}
+.eyebrow::after{content:"";flex:1;height:1px;background:var(--panel-line);max-width:180px}
+h2{font-family:var(--display);font-weight:600;text-transform:uppercase;
+  font-size:clamp(28px,4.4vw,50px);line-height:1.04;letter-spacing:.01em;margin:0 0 26px}
+h3{font-family:var(--display);font-weight:600;text-transform:uppercase;font-size:20px;letter-spacing:.04em;margin:0}
+.lede{color:var(--text-secondary);max-width:62ch}
+
+/* Faixa da seção: um corte do mesmo mundo do hero, fino, entre a abertura e o
+   corpo. Fina de propósito — é respiro e ambientação, não ilustração. Nenhum
+   texto vai por cima, então não precisa de scrim de legibilidade; os dois
+   degradês existem só para a faixa encostar na página em vez de brilhar nela.
+   A proporção vem do arquivo (1600x340) e width/height evitam o pulo de layout. */
+.secband{position:relative;margin:32px 0 4px;overflow:hidden;border-radius:2px;
+  border:1px solid var(--panel-line);aspect-ratio:1600/340}
+.secband img{display:block;width:100%;height:100%;object-fit:cover}
+/* Telefone recebe um corte mais alto, não o mesmo corte encolhido: a 350px de
+   largura a faixa fina fica com 76px e vira borrão. A proporção muda junto com o
+   arquivo, e é por isso que a altura vem de aspect-ratio e não do width/height
+   da imagem — com dois recortes diferentes o atributo mentiria em um dos dois. */
+@media (max-width:820px){ .secband{aspect-ratio:800/352} }
+/* Só o degradê de baixo. O da esquerda foi tirado: o lado escuro já é escuro no
+   próprio quadro, e escurecer de novo transformava metade da faixa em preto liso. */
+.secband::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(to top,rgba(5,8,12,.38),rgba(5,8,12,0) 62%)}
+.closing{margin-top:34px;padding-top:22px;border-top:1px solid var(--panel-line);
+  color:var(--text-secondary);font-size:15px;max-width:70ch}
+
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .7s cubic-bezier(.22,.61,.36,1),transform .7s cubic-bezier(.22,.61,.36,1)}
+.reveal.in{opacity:1;transform:none}
+
+/* 1 — a ponte */
+#ponte .cols{display:grid;grid-template-columns:1fr 1fr;gap:0;border-top:1px solid var(--panel-line)}
+#ponte .col{padding:34px 30px;border-bottom:1px solid var(--panel-line)}
+#ponte .col.left{border-right:1px solid var(--panel-line);background:rgba(17,24,35,.4)}
+#ponte .col .tag{font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--text-secondary);margin:0 0 12px}
+#ponte .col p{margin:0;color:var(--text-secondary)}
+#ponte .col.mine{grid-column:1/-1}
+#ponte .col.mine .tag{color:var(--accent)}
+#ponte .col.mine p{color:var(--text-primary)}
+#ponte .verdict{margin-top:34px;font-family:var(--display);font-weight:600;text-transform:uppercase;
+  font-size:clamp(20px,2.6vw,30px);line-height:1.2;max-width:24ch}
+#ponte .verdict em{color:var(--accent-hover);font-style:normal}
+
+/* 2 — trajetória */
+#trajetoria .rail{position:relative;padding-left:44px;margin-top:34px}
+#trajetoria .rail::before{content:"";position:absolute;left:9px;top:6px;bottom:6px;width:1px;background:var(--panel-line)}
+#trajetoria .rail .fill{position:absolute;left:9px;top:6px;width:1px;background:var(--accent);
+  height:calc(100% - 12px);transform:scaleY(0);transform-origin:0 0;
+  transition:transform 1.4s cubic-bezier(.22,.61,.36,1)}
+#trajetoria .rail.in .fill{transform:scaleY(1)}
+.job{position:relative;padding:0 0 40px}
+.job::before{content:"";position:absolute;left:-39px;top:9px;width:9px;height:9px;
+  border:1px solid var(--accent);background:var(--canvas);border-radius:50%}
+.job.now::before{background:var(--gold);border-color:var(--gold);box-shadow:0 0 0 4px rgba(233,180,90,.12)}
+.job .when{font-family:var(--mono);font-size:12px;letter-spacing:.16em;color:var(--text-secondary);margin:0}
+.job .co{display:flex;flex-wrap:wrap;align-items:baseline;gap:12px;margin:6px 0 2px}
+.job .co h3{font-size:22px}
+.job .hq{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--text-secondary);border:1px solid var(--panel-line);padding:2px 8px}
+.job .role{font-family:var(--mono);font-size:12px;letter-spacing:.1em;color:var(--accent);margin:0 0 10px}
+.job .desc{margin:0;color:var(--text-secondary);max-width:74ch}
+
+/* 3 — a mesa */
+#mesa .readout{margin-top:30px;border:1px solid var(--panel-line);background:rgba(17,24,35,.42)}
+.field{display:grid;grid-template-columns:minmax(180px,240px) 1fr;gap:20px;
+  padding:16px 24px;border-bottom:1px solid var(--panel-line)}
+.field:last-child{border-bottom:0}
+.field dt{font-family:var(--mono);font-size:12px;letter-spacing:.18em;color:var(--text-secondary)}
+.field dd{margin:0;color:var(--text-primary)}
+#mesa .note{font-family:var(--mono);font-size:12px;color:var(--text-secondary);margin-top:14px}
+
+/* 4 — entregue na mesa: leitura de posição, formato de relatório de caixa */
+#entregue .ledger{margin:36px 0 0;border-top:1px solid var(--panel-line)}
+.lrow{display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:28px;align-items:baseline;
+  padding:26px 0;border-bottom:1px solid var(--panel-line)}
+.lrow dt{min-width:0}
+.lrow .what{display:block;font-family:var(--display);font-weight:600;text-transform:uppercase;
+  font-size:clamp(18px,2.4vw,26px);letter-spacing:.03em;line-height:1.1}
+.lrow .how{display:block;margin-top:6px;color:var(--text-secondary);font-size:14px;max-width:52ch}
+.lrow dd{margin:0;font-family:var(--display);font-weight:800;color:var(--gold);
+  font-size:clamp(38px,6vw,68px);line-height:1;letter-spacing:.01em;
+  font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+.lrow dd.words{font-size:clamp(20px,2.8vw,34px);line-height:1.1;white-space:normal;max-width:8ch}
+
+/* 5 — cadeia */
+#cadeia .chain{margin-top:38px;display:grid;gap:0;max-width:820px}
+.step{position:relative;border:1px solid var(--panel-line);background:rgba(17,24,35,.42);
+  padding:22px 26px;transition:border-color .22s ease,background .22s ease}
+.step + .step{margin-top:34px}
+.step + .step::before{content:"";position:absolute;left:34px;top:-34px;width:1px;height:34px;background:var(--panel-line)}
+.step + .step::after{content:"";position:absolute;left:31px;top:-11px;width:7px;height:7px;
+  border-right:1px solid var(--panel-line);border-bottom:1px solid var(--panel-line);transform:rotate(45deg)}
+.step .n{font-family:var(--mono);font-size:11px;letter-spacing:.22em;color:var(--text-secondary);margin:0}
+.step h3{margin:8px 0 8px;font-size:19px}
+.step .desc{margin:0;color:var(--text-secondary);max-width:62ch}
+.step.lit{border-color:var(--gold);background:rgba(233,180,90,.06)}
+.step.lit h3,.step.lit .n{color:var(--gold)}
+.hold{margin-top:30px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.hold button{min-height:44px;padding:12px 24px;background:transparent;border:1px solid var(--panel-line);
+  color:var(--text-secondary);font-family:var(--mono);font-size:12px;letter-spacing:.18em;
+  text-transform:uppercase;cursor:pointer;
+  transition:border-color .25s ease,color .25s ease,transform 140ms var(--ease-out)}
+.hold button.running{border-color:var(--gold);color:var(--gold)}
+.hold .out{font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--text-secondary);opacity:0;transition:opacity .4s}
+.hold .out.on{opacity:1;color:var(--gold)}
+
+/* 6 — registros */
+/* min() no minimo: sem ele a coluna fica travada em 420px numa tela de 375 e o
+   card sai cortado. O overflow-x:clip esconde a barra, entao o defeito passa
+   despercebido justamente onde ele acontece. */
+#registros .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(420px,100%),1fr));
+  gap:18px;margin-top:34px}
+.card{border:1px solid var(--panel-line);background:rgba(17,24,35,.42);padding:26px;
+  display:flex;flex-direction:column;gap:12px;
+  transition:border-color .3s ease,transform 160ms var(--ease-out)}
+.card .hd{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.card .id{font-family:var(--mono);font-size:12px;letter-spacing:.2em;color:var(--text-secondary)}
+.state{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;
+  padding:3px 9px;border:1px solid var(--panel-line);color:var(--text-secondary);white-space:nowrap}
+.state.no-ar{color:var(--gold);border-color:rgba(233,180,90,.4)}
+.state.comiss{color:var(--accent);border-color:var(--accent-muted)}
+.card p{margin:0;color:var(--text-secondary);font-size:15px}
+
+/* 7 — construção */
+#construcao .rows{margin-top:32px;border-top:1px solid var(--panel-line)}
+.row{display:grid;grid-template-columns:minmax(150px,200px) minmax(90px,120px) 1fr;gap:20px;
+  align-items:baseline;padding:18px 0;border-bottom:1px solid var(--panel-line)}
+.row .tool{font-family:var(--display);font-weight:600;text-transform:uppercase;font-size:19px;letter-spacing:.03em}
+.row .part{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--accent)}
+.row p{margin:0;color:var(--text-secondary);font-size:15px}
+
+/* 8 — formação */
+#formacao .queue{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
+  gap:1px;background:var(--panel-line);border:1px solid var(--panel-line);margin-top:30px}
+.qi{background:var(--canvas);padding:22px 20px}
+.qi .k{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--text-secondary);margin:0 0 8px}
+.qi p{margin:0;font-size:15px}
+
+/* 9 — perguntas */
+#perguntas .acc{margin-top:30px;border-top:1px solid var(--panel-line)}
+details{border-bottom:1px solid var(--panel-line)}
+summary{list-style:none;cursor:pointer;padding:20px 0;display:flex;gap:16px;align-items:baseline;
+  font-family:var(--display);font-weight:600;text-transform:uppercase;font-size:19px;letter-spacing:.03em;
+  min-height:44px}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"+";font-family:var(--mono);color:var(--accent);font-size:16px;flex:0 0 auto}
+details[open] summary::before{content:"\2212"}
+details p{margin:0 0 22px 32px;color:var(--text-secondary);max-width:70ch}
+
+/* 10 — o que eu procuro */
+#procuro{max-width:760px;text-align:center}
+#procuro .eyebrow{justify-content:center}
+#procuro .eyebrow::after{display:none}
+#procuro .want{font-family:var(--display);font-weight:600;
+  font-size:clamp(21px,3vw,32px);line-height:1.3;color:var(--text-primary)}
+
+/* 11 — contato */
+#contato .panel{position:relative;border:1px solid var(--panel-line);background:rgba(17,24,35,.5);
+  padding:clamp(34px,6vw,68px)}
+#contato .brk{position:absolute;width:18px;height:18px;border:1px solid var(--accent)}
+#contato .brk.tl{top:-1px;left:-1px;border-right:0;border-bottom:0}
+#contato .brk.tr{top:-1px;right:-1px;border-left:0;border-bottom:0}
+#contato .brk.bl{bottom:-1px;left:-1px;border-right:0;border-top:0}
+#contato .brk.br{bottom:-1px;right:-1px;border-left:0;border-top:0}
+#contato p{color:var(--text-secondary);max-width:60ch}
+#contato .acts{display:flex;gap:16px;flex-wrap:wrap;margin-top:30px;align-items:center}
+#contato .sec{font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--text-secondary);min-height:44px;display:inline-flex;align-items:center}
+
+footer{border-top:1px solid var(--panel-line);padding:40px var(--gut) 60px;
+  max-width:var(--maxw);margin:0 auto;color:var(--text-secondary);font-size:13px;position:relative;z-index:1}
+footer p{margin:0 0 8px;max-width:78ch}
+footer .mono{font-family:var(--mono);font-size:11px;letter-spacing:.14em;opacity:.7}
+
+.telemetry{position:fixed;right:var(--gut);bottom:18px;z-index:5;pointer-events:none;opacity:.5}
+.telemetry svg{display:block}
+.telemetry path{fill:none;stroke:var(--accent-muted);stroke-width:1}
+
+/* =====================================================================
+   ANIMAÇÃO DIRIGIDA PELO SCROLL (API nativa)
+   Só entra onde o navegador suporta. Sem suporte, o que já existe
+   continua valendo: IntersectionObserver mais transição.
+   ===================================================================== */
+@supports (animation-timeline: view()){
+  /* parallax de profundidade: a grade anda menos que o conteúdo */
+  html.sda .depth{
+    animation:para linear both;
+    animation-timeline:scroll(root block);
+  }
+  @keyframes para{from{transform:translate3d(0,0,0)}to{transform:translate3d(0,-9vh,0)}}
+
+  /* revelação por seção, ligada à posição real e não a um gatilho */
+  html.sda .reveal{
+    opacity:1;transform:none;transition:none;
+    animation:rise linear both;
+    animation-timeline:view(block);
+    animation-range:entry 4% cover 26%;
+  }
+  @keyframes rise{
+    from{opacity:0;transform:translateY(26px)}
+    to{opacity:1;transform:none}
+  }
+
+  /* trilho da trajetória desenhando conforme a seção atravessa a tela */
+  html.sda #trajetoria .rail .fill{
+    transform:scaleY(0);transition:none;
+    animation:railfill linear both;
+    animation-timeline:view(block);
+    animation-range:entry 70% exit 30%;
+  }
+  @keyframes railfill{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+
+  /* cards dos registros: cada um entra na sua vez, pela própria posição */
+  html.sda #registros .card{
+    animation:card linear both;
+    animation-timeline:view(block);
+    animation-range:entry 10% cover 34%;
+  }
+  @keyframes card{
+    from{opacity:0;transform:translateY(30px) scale(.985)}
+    to{opacity:1;transform:none}
+  }
+
+  /* seção de silêncio: entra e sai, o único elemento que se despede */
+  html.sda #procuro .want{
+    animation:breathe linear both;
+    animation-timeline:view(block);
+    animation-range:entry 0% cover 38%;
+  }
+  @keyframes breathe{
+    from{opacity:0;transform:translateY(26px)}
+    to{opacity:1;transform:none}
+  }
+
+}
+
+@media (max-width:860px){
+  #ponte .cols{grid-template-columns:1fr}
+  #ponte .col.left{border-right:0}
+  .lrow{grid-template-columns:1fr;row-gap:12px}
+  .lrow dd{text-align:left}
+  .lrow dd.words{max-width:none}
+  .field{grid-template-columns:1fr;gap:6px}
+  .row{grid-template-columns:1fr;gap:6px}
+  .telemetry{display:none}
+}
+
+/* hover so onde hover existe de verdade: no toque ele gruda depois do tap
+   e pinta por cima do :active */
+@media (hover:hover) and (pointer:fine){
+  a:hover{color:var(--accent-hover)}
+  .cta:hover{background:var(--accent);color:#04080B;transform:translateY(-1px)}
+  .cta.solid:hover{background:var(--gold-hover);border-color:var(--gold-hover);color:#0A0E13}
+  .cta:hover .arw{transform:translateX(4px)}
+  .hold button:hover{border-color:var(--accent);color:var(--accent)}
+  .card:hover{border-color:var(--accent-muted);transform:translateY(-2px)}
+  #contato .sec:hover{color:var(--accent)}
+}
+
+/* pressao tem que ganhar do hover, e quem ganha empate e quem vem depois.
+   Sem :active o celular nao devolve nada ao dedo. */
+.cta:active{transform:scale(.97)}
+.hold button:active{transform:scale(.97)}
+.card:active{transform:scale(.98)}
+
+/* Quatro portões duros e um macio.
+   Duros: tela pequena, retrato, toque. Ali o scrub não é bom e não há o que
+   oferecer — o estático é a versão certa, ponto final.
+   Macio: movimento reduzido. Respeitado por padrão, porque é pedido real de
+   acessibilidade, mas reversível pelo próprio leitor. Quem só desligou animação
+   nas opções do Windows não pode ficar sem saber que o hero existe.
+   html.motion-ok é a marca de que a pessoa pediu, e por isso o macio precisa de
+   bloco próprio: numa lista separada por vírgula não dá para cancelar um ramo só.
+   Os quatro duros são idênticos, caractere por caractere, ao array HARD do JS. */
+@media (max-width: 720px),
+       (orientation: portrait) and (max-width: 1024px),
+       (orientation: portrait) and (pointer: coarse),
+       (orientation: landscape) and (pointer: coarse) and (max-height: 560px){
+  .hero-track{display:none}
+  .hero-static{display:flex}
+}
+@media (prefers-reduced-motion: reduce){
+  html:not(.motion-ok) .hero-track{display:none}
+  html:not(.motion-ok) .hero-static{display:flex}
+}
+
+/* Os dois controles do portão macio. Ficam escondidos por padrão e só o JS
+   acende, porque a decisão depende de duas coisas que o CSS não sabe junto:
+   se algum portão duro também está valendo, e se a pessoa já escolheu. */
+.motion-optin,.motion-off{display:none;font-family:var(--mono);text-transform:uppercase;
+  letter-spacing:.16em;background:none;cursor:pointer;
+  transition:border-color .2s var(--ease-out),color .2s var(--ease-out)}
+.motion-optin.on,.motion-off.on{display:inline-flex;align-items:center;gap:10px}
+.motion-optin{margin-top:8px;font-size:12px;padding:13px 20px;border-radius:2px;
+  border:1px solid var(--accent-muted);color:var(--text-secondary)}
+.motion-optin .dot{width:6px;height:6px;border-radius:50%;background:var(--gold);flex:none}
+.motion-optin:active{transform:scale(.97)}
+/* Chapa própria porque aqui não passa scrim nenhum: a faixa 3 para em bottom:24vh
+   e o rodapé do poço é a parte mais clara do quadro em boa parte da descida.
+   Rótulo pequeno sobre vídeo pede plano de fundo, não só sombra. */
+.motion-off{position:absolute;left:var(--gut);bottom:26px;z-index:6;
+  font-size:11px;padding:9px 13px;border:1px solid rgba(51,67,79,.9);border-radius:2px;
+  color:var(--text-secondary);opacity:.85;
+  background:rgba(5,8,12,.62);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.motion-off:active{transform:scale(.97)}
+@media (hover:hover) and (pointer:fine){
+  .motion-optin:hover{border-color:var(--accent);color:var(--accent)}
+  .motion-off:hover{opacity:1;border-color:var(--accent-muted);color:var(--accent)}
+}
+/* nota abaixo do botão: explica o que muda, sem prometer o que não muda */
+.motion-note{font-family:var(--mono);font-size:11px;letter-spacing:.06em;line-height:1.7;
+  color:var(--text-secondary);opacity:.7;margin:18px 0 0;max-width:62ch;display:none}
+.motion-note.on{display:block}
+
+/* tela rasa mas capaz de scrub: mantém a jornada, esconde o que não cabe */
+@media (max-height:560px){
+  .scroll-hint,.hero-load,.telemetry{display:none}
+}
+
+/* aba escondida não anima nada. Precisa alcançar os pseudo-elementos:
+   animation-play-state não é herdado, então valor no pai nunca chega no filho. */
+body.paused *,body.paused *::before,body.paused *::after{
+  animation-play-state:paused!important}
+/* O resto do sossego continua valendo mesmo depois do opt-in, de propósito: a
+   pessoa pediu o hero, não pediu a página inteira se mexendo. O portão do palco
+   mora só no bloco macio acima; repetir aqui era a duplicata que ia divergir. */
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .grid-bg{animation:none}
+  .reveal{opacity:1;transform:none;transition:none}
+  *{animation-duration:.001ms!important;transition-duration:.001ms!important}
+  /* cor e opacidade não deslocam nada. São compreensão, não movimento, então voltam */
+  a,.cta,.hold button,.card,.step,#contato .sec{
+    transition-property:color,background-color,border-color,opacity!important;
+    transition-duration:.2s!important}
+  /* mata a linha do tempo de scroll: sem isso a animação nativa ignora a duração */
+  html.sda *{animation-timeline:none!important;animation-name:none!important}
+  html.sda .depth{transform:none!important}
+  html.sda .reveal,html.sda #registros .card,html.sda #procuro .want{
+    opacity:1!important;transform:none!important}
+  html.sda #trajetoria .rail .fill{transform:scaleY(1)!important}
+}
+</style>
+
+<!-- Antes da primeira pintura, de propósito. Se essa classe só chegasse com o
+     script principal, quem já escolheu ver o movimento veria o hero estático
+     aparecer e sumir a cada carregamento, e o pisca é pior que o problema. -->
+<script>try{if(localStorage.getItem("camara:motion-ok")==="1"){
+  document.documentElement.classList.add("motion-ok")}}catch(e){}</script>
+</head>
+<body>
+<a class="skip" href="#conteudo">Skip to content</a>
+<div class="depth" aria-hidden="true">
+  <div class="grid-bg"></div>
+</div>
+<div class="vignette" aria-hidden="true"></div>
+
+<header class="top">
+  <div class="mark"><span class="dot"></span>PEDRO MAIA</div>
+  <nav>
+    <a href="#entregue">Delivered</a>
+    <a href="#registros">Records</a>
+    <a href="#contato">Contact</a>
+    <a href="../" hreflang="pt-BR">PT</a>
+  </nav>
+</header>
+
+<!-- HERO COM SCRUB -->
+<div class="hero-track" id="heroTrack">
+  <div class="hero">
+    <div class="hero-media" id="heroBed">
+      <div class="hero-plate" aria-hidden="true"></div>
+      <div class="hero-poster" id="heroPoster" aria-hidden="true"></div>
+      <video id="heroVideo" muted playsinline preload="none" tabindex="-1" aria-hidden="true"></video>
+    </div>
+    <div class="scrim-a" aria-hidden="true"></div>
+    <div class="scrim-b" aria-hidden="true"></div>
+
+    <svg class="hero-svg" viewBox="0 0 1440 900" preserveAspectRatio="none" aria-hidden="true">
+      <g id="hudPanel" opacity="0">
+        <path class="stroke draw" d="M60 180 h34 M60 180 v34"/>
+        <path class="stroke draw" d="M420 180 h-34 M420 180 v34"/>
+        <path class="stroke draw" d="M60 420 h34 M60 420 v-34"/>
+        <path class="stroke draw" d="M420 420 h-34 M420 420 v-34"/>
+        <path class="stroke whisper draw" d="M60 232 H420"/>
+        <path class="stroke whisper draw" d="M60 300 H300"/>
+        <path class="stroke whisper draw" d="M60 344 H360"/>
+      </g>
+      <g id="hudGuide" opacity="0">
+        <path class="stroke draw" d="M1180 300 H900 L840 380"/>
+        <circle class="stroke" cx="836" cy="384" r="5"/>
+      </g>
+      <g id="hudFlow" opacity="0">
+        <path class="stroke whisper draw" d="M1300 560 V760"/>
+        <circle class="stroke" cx="1300" cy="560" r="4"/>
+        <circle class="stroke" cx="1300" cy="627" r="4"/>
+        <circle class="stroke" cx="1300" cy="694" r="4"/>
+        <circle class="stroke" cx="1300" cy="760" r="4" stroke="#E9B45A"/>
+      </g>
+      <g id="hudFrame" opacity="0">
+        <path class="stroke draw" d="M300 250 h40 M300 250 v40"/>
+        <path class="stroke draw" d="M1140 250 h-40 M1140 250 v40"/>
+        <path class="stroke draw" d="M300 660 h40 M300 660 v-40"/>
+        <path class="stroke draw" d="M1140 660 h-40 M1140 660 v-40"/>
+      </g>
+    </svg>
+
+    <div class="bands">
+      <div class="band band-1" data-band="1">
+        <p class="kicker">THE DESK</p>
+        <p class="line">Hundreds of millions of dollars cross my desk.</p>
+      </div>
+      <div class="band band-2" data-band="2">
+        <p class="kicker">THE SCOPE</p>
+        <p class="line">Brazil and Chile. Cash, FX hedging, working capital.</p>
+      </div>
+      <div class="band band-3" data-band="3">
+        <p class="kicker">WHAT CHANGED</p>
+        <p class="line">I wiped <span class="num">five hours a week</span> of manual work off my team's calendar.</p>
+      </div>
+      <div class="band band-4" data-band="4">
+        <h1>Pedro Maia</h1>
+        <p class="role">Treasury Specialist at <b>Kinross Gold</b></p>
+        <p class="sub">Treasury, data and AI agents.</p>
+        <span class="ctawrap"><a class="cta solid" href="https://www.linkedin.com/in/pedrovmaia/" target="_blank" rel="noopener">Start a conversation <span class="arw">&rarr;</span></a></span>
+      </div>
+    </div>
+
+    <div class="hero-load" id="heroLoad" aria-hidden="true">
+      <svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="20" fill="none" stroke="currentColor"
+        stroke-width="3" stroke-linecap="round" stroke-dasharray="126"
+        style="stroke-dashoffset:var(--ld,126)"/></svg>
+    </div>
+
+    <div class="scroll-hint" id="scrollHint">Scroll<span></span></div>
+
+    <button type="button" class="motion-off" id="motionOff">Back to the still version</button>
+  </div>
+</div>
+
+<!-- HERO ESTÁTICO -->
+<div class="hero-static">
+  <div>
+    <p class="eyebrow">PEDRO MAIA</p>
+    <h1>Hundreds of millions of dollars cross my desk. And I build the system that does the work.</h1>
+    <p>Treasury Specialist at Kinross Gold. Cash, FX hedging and working capital for Brazil and Chile. A decade in finance, now with data and AI agents on top.</p>
+    <a class="cta solid" href="https://www.linkedin.com/in/pedrovmaia/" target="_blank" rel="noopener">Start a conversation <span class="arw">&rarr;</span></a>
+
+    <!-- Só aparece para quem foi barrado por movimento reduzido. Num celular ou
+         numa janela estreita fica escondido: prometer o que o portão duro não
+         entrega é pior do que não oferecer nada. -->
+    <button type="button" class="motion-optin" id="motionOptin">
+      <span class="dot" aria-hidden="true"></span>See the opening in motion</button>
+    <p class="motion-note" id="motionNote">Your system asks for less motion and the site obeys.
+      The rest of the page stays still either way.</p>
+  </div>
+</div>
+
+<main id="conteudo">
+
+<!-- 1 -->
+<section id="ponte" class="reveal">
+  <p class="eyebrow">WHY THIS COMBINATION</p>
+  <h2>Almost nobody sits on both sides</h2>
+  <div class="cols">
+    <div class="col left">
+      <p class="tag">THE TECHNICAL SIDE</p>
+      <p>Builds fast and does not know what the business needs.</p>
+    </div>
+    <div class="col">
+      <p class="tag">THE FINANCE SIDE</p>
+      <p>Knows exactly what it needs and does not build.</p>
+    </div>
+    <div class="col mine">
+      <p class="tag">WHERE I SIT</p>
+      <p>I spend my day at a real treasury desk, with closing, banks and money in the middle of it, and I build on the other side with the problem still fresh. I do not pick what to automate out of curiosity. I pick what has already cost me time.</p>
+    </div>
+  </div>
+  <p class="verdict">The value is not in knowing how to code. It is in knowing <em>what to build</em>.</p>
+</section>
+
+<!-- 2 -->
+<section id="trajetoria" class="reveal">
+  <p class="eyebrow">TRACK RECORD</p>
+  <h2>Where the craft was learned</h2>
+  <p class="lede">In three of the four, reporting went outside Brazil, in English, on the parent company's closing calendar.</p>
+  <div class="secband">
+    <picture>
+      <source media="(max-width:820px)" srcset="../assets/sec-trajetoria-sm.jpg">
+      <img src="../assets/sec-trajetoria.jpg" loading="lazy" decoding="async"
+           alt="A welded steel ladder climbing the wall of a chamber, with a warm glow at its foot.">
+    </picture>
+  </div>
+  <div class="rail" id="rail">
+    <div class="fill"></div>
+    <article class="job now">
+      <p class="when">2023 TO TODAY</p>
+      <div class="co"><h3>Kinross Gold Corporation</h3><span class="hq">Head office: Canada</span></div>
+      <p class="role">Treasury Specialist (Senior Analyst until 2026)</p>
+      <p class="desc">Cash management, forecasting, banking relationships and financial operations for Brazil and Chile. Corporate FX hedging programme with NDF and Zero Cost Collar. Working capital, insurance and guarantees. Budget and cash forecast.</p>
+    </article>
+    <article class="job">
+      <p class="when">2020 TO 2023</p>
+      <div class="co"><h3>PETRONAS Lubricants International</h3><span class="hq">Head office: Malaysia</span></div>
+      <p class="role">Senior Treasury Analyst</p>
+      <p class="desc">Cash and banking operations across the Americas: Argentina, Brazil, Mexico and the United States. Debt negotiation and management, hedging, working capital and Cash Conversion Cycle analysis.</p>
+    </article>
+    <article class="job">
+      <p class="when">2017 TO 2020</p>
+      <div class="co"><h3>Banco Inter</h3><span class="hq">Head office: Brazil</span></div>
+      <p class="role">Treasury Financial Analyst</p>
+      <p class="desc">End-to-end FX operations: analysis, classification, registration and execution with the Central Bank of Brazil. Assessment of tax on financial and FX transactions. Management of the institution's FX exposure.</p>
+    </article>
+    <article class="job">
+      <p class="when">2015 TO 2017</p>
+      <div class="co"><h3>Fiat Finanças Brasil</h3><span class="hq">Head office: Italy</span></div>
+      <p class="role">Internship, Structured Finance and FX</p>
+      <p class="desc">FX, NDF and swap quoting with banks. Registration with BM&amp;F, SELIC and CETIP. Overnight operations, bank guarantees and subsidised credit line projects.</p>
+    </article>
+  </div>
+</section>
+
+<!-- 3 -->
+<section id="mesa" class="reveal">
+  <p class="eyebrow">THE DESK</p>
+  <h2>The size of the operation</h2>
+  <div class="secband">
+    <picture>
+      <source media="(max-width:820px)" srcset="../assets/sec-mesa-sm.jpg">
+      <img src="../assets/sec-mesa.jpg" loading="lazy" decoding="async"
+           alt="A solid steel workbench in the middle of a cold chamber, with a warm reflection across the top.">
+    </picture>
+  </div>
+  <dl class="readout">
+    <div class="field"><dt>OPERATION</dt><dd>Gold mining, one of the largest in Brazil</dd></div>
+    <div class="field"><dt>COUNTRIES TODAY</dt><dd>Brazil, Chile</dd></div>
+    <div class="field"><dt>PREVIOUSLY COVERED</dt><dd>Argentina, Mexico, United States</dd></div>
+    <div class="field"><dt>REPORTING</dt><dd>Canada, Malaysia and Italy, in English, on the parent company's calendar</dd></div>
+    <div class="field"><dt>HEDGING</dt><dd>Corporate programme with NDF and Zero Cost Collar</dd></div>
+    <div class="field"><dt>INSTRUMENTS</dt><dd>FX, hedging derivatives, debt, working capital, guarantees</dd></div>
+    <div class="field"><dt>BODIES AND SYSTEMS</dt><dd>Central Bank of Brazil, BM&amp;F, SELIC, CETIP</dd></div>
+    <div class="field"><dt>CYCLE</dt><dd>Daily, weekly, monthly, quarterly</dd></div>
+  </dl>
+  <p class="note">Real scope of responsibility, with no number that is not mine to state.</p>
+</section>
+
+<!-- 4 -->
+<section id="entregue" class="reveal">
+  <p class="eyebrow">DELIVERED AT THE DESK</p>
+  <h2>Automation already running at work</h2>
+  <dl class="ledger" id="stats">
+    <div class="lrow">
+      <dt>
+        <span class="what">Manual work eliminated</span>
+        <span class="how">Per week, off my team's calendar, with Power Automate, Power BI and DAX</span>
+      </dt>
+      <dd data-count="5" data-prefix="+" data-suffix="h">+0h</dd>
+    </div>
+    <div class="lrow">
+      <dt>
+        <span class="what">Dashboards in use</span>
+        <span class="how">Treasury, Finance and Tax, for cash, hedging and tax decisions</span>
+      </dt>
+      <dd data-count="10" data-prefix="+">+0</dd>
+    </div>
+    <div class="lrow">
+      <dt>
+        <span class="what">Cash under management</span>
+        <span class="how">In dollars, Brazil and Chile</span>
+      </dt>
+      <dd class="words">Hundreds of millions</dd>
+    </div>
+  </dl>
+  <p class="closing">This is not a weekend project. It is process redesigned inside an operation that cannot stop.</p>
+</section>
+
+<!-- 5 -->
+<section id="cadeia" class="reveal">
+  <p class="eyebrow">EXECUTION CHAIN</p>
+  <h2>How an instruction crosses the chamber</h2>
+  <div class="secband">
+    <picture>
+      <source media="(max-width:820px)" srcset="../assets/sec-cadeia-sm.jpg">
+      <img src="../assets/sec-cadeia.jpg" loading="lazy" decoding="async"
+           alt="A steel conduit segmented by bolted flanges, receding along the wall.">
+    </picture>
+  </div>
+  <div class="chain" id="chain">
+    <div class="step" data-step="1">
+      <p class="n">01 / INSTRUCTION</p>
+      <h3>The question becomes a contract</h3>
+      <p class="desc">Scope, source, frequency and format are written down before any code. That is what stops the report from becoming a fresh request every week.</p>
+    </div>
+    <div class="step" data-step="2">
+      <p class="n">02 / EXECUTION</p>
+      <h3>The clock runs it, not a person</h3>
+      <p class="desc">Collection, model and calculation run on a schedule. Agents do the repetitive part: pull the series, consolidate, compare against the previous cycle, write.</p>
+    </div>
+    <div class="step" data-step="3">
+      <p class="n">03 / SIGNATURE</p>
+      <h3>Every output carries its provenance</h3>
+      <p class="desc">Source, cycle and transformation are recorded alongside the result. Whoever receives it can trace where each number came from.</p>
+    </div>
+    <div class="step" data-step="4">
+      <p class="n">04 / DELIVERY</p>
+      <h3>In the format the reader uses</h3>
+      <p class="desc">Report, dashboard or dataset. The artefact arrives ready for a decision, not as a pending task.</p>
+    </div>
+  </div>
+  <div class="hold">
+    <button id="runBtn" type="button">Hold to run a cycle</button>
+    <span class="out" id="runOut">ARTEFACT DELIVERED</span>
+  </div>
+</section>
+
+<!-- 6 -->
+<section id="registros" class="reveal">
+  <p class="eyebrow">RECORDS</p>
+  <h2>What is in commissioning right now</h2>
+  <p class="lede">My own projects, outside work. Each one shows its real state: designed, in commissioning or live. Nothing here is presented as finished before it is.</p>
+  <div class="cards">
+    <article class="card">
+      <div class="hd"><span class="id">0002</span><span class="state comiss">In commissioning</span></div>
+      <h3>Macroeconomic crew</h3>
+      <p>A set of agents that writes on its own: it gathers the picture, organises it by theme and delivers finished text. The same architecture serves a periodic macro report, a newsletter and an article. The operation still cannot close a cycle without supervision.</p>
+    </article>
+    <article class="card">
+      <div class="hd"><span class="id">0003</span><span class="state">Designed</span></div>
+      <h3>Financial organisation</h3>
+      <p>A knowledge base that gives transactions a name and a category, with account mapping and a journal of modelling decisions. It is the spine of a personal finance control. The modelling is written, the application has not been built yet.</p>
+    </article>
+    <article class="card">
+      <div class="hd"><span class="id">0004</span><span class="state comiss">In commissioning</span></div>
+      <h3>Profile auditor</h3>
+      <p>It reads a CV in PDF and assembles a structured dossier. What is arithmetic comes out calculated, and personal data is stripped before anything leaves the machine. It closes end to end on the local machine.</p>
+    </article>
+    <article class="card">
+      <div class="hd"><span class="id">0005</span><span class="state no-ar">Live</span></div>
+      <h3>Local AI</h3>
+      <p>An assistant running on Ollama, on the machine itself, with memory in a knowledge graph. It orchestrates tasks, assembles reports, reviews code and answers day to day. It does not forget what has been said and nothing it reads leaves the computer. The only record that is live, and the most used of them all: it is running right now.</p>
+    </article>
+  </div>
+  <p class="closing">Two of them process without sending anything off the machine. Anyone who works with company numbers knows why that matters.</p>
+</section>
+
+<!-- 7 -->
+<section id="construcao" class="reveal">
+  <p class="eyebrow">TOOLING</p>
+  <h2>What I build with</h2>
+  <div class="rows">
+    <div class="row"><span class="tool">Power BI</span><span class="part">MODEL</span><p>Semantic model, DAX, TMDL and automation of the reporting cycle.</p></div>
+    <div class="row"><span class="tool">Power Automate</span><span class="part">ROUTINE</span><p>Flows that take the manual step out of the middle of a finance process.</p></div>
+    <div class="row"><span class="tool">SQL</span><span class="part">DATABASE</span><p>Modelling, querying and the layer where data gets a stable category.</p></div>
+    <div class="row"><span class="tool">Python</span><span class="part">COLLECTION</span><p>Collection, treatment and whatever has to run outside the BI tool.</p></div>
+    <div class="row"><span class="tool">AI agents</span><span class="part">OPERATION</span><p>MCP and Claude Code running the repetitive part of data work.</p></div>
+    <div class="row"><span class="tool">Ollama</span><span class="part">LOCAL</span><p>A model running on the machine itself, for what cannot leave it.</p></div>
+    <div class="row"><span class="tool">Knowledge graph</span><span class="part">MEMORY</span><p>Where the local assistant keeps context and the links between things, instead of starting from zero in every conversation.</p></div>
+    <div class="row"><span class="tool">Orchestration</span><span class="part">CLOCK</span><p>Scheduled execution, state per step and a record of what was done.</p></div>
+  </div>
+</section>
+
+<!-- 8 -->
+<section id="formacao" class="reveal">
+  <p class="eyebrow">EDUCATION</p>
+  <h2>The groundwork</h2>
+  <div class="secband">
+    <picture>
+      <source media="(max-width:820px)" srcset="../assets/sec-formacao-sm.jpg">
+      <img src="../assets/sec-formacao.jpg" loading="lazy" decoding="async"
+           alt="A rectangular mould set into a steel floor, with metal still glowing inside.">
+    </picture>
+  </div>
+  <div class="queue">
+    <div class="qi"><p class="k">POSTGRADUATE</p><p>Data Science for Financial Markets with Artificial Intelligence, XP Educação, completed in 2026</p></div>
+    <div class="qi"><p class="k">MBA</p><p>Finance, IBMEC</p></div>
+    <div class="qi"><p class="k">BACHELOR&rsquo;S</p><p>International Business and Foreign Trade, FUMEC</p></div>
+    <div class="qi"><p class="k">CERTIFICATIONS</p><p>Prompt Engineering, Leadership Programme</p></div>
+    <div class="qi"><p class="k">LANGUAGES</p><p>Portuguese, English and Spanish, all fluent</p></div>
+  </div>
+</section>
+
+<!-- 9 -->
+<section id="perguntas" class="reveal">
+  <p class="eyebrow">QUESTIONS</p>
+  <h2>The ones that always come up</h2>
+  <div class="acc">
+    <details><summary>Do you still work in treasury?</summary>
+      <p>I do, and that is exactly the point. I did not leave finance to become a programmer. I am still at the Kinross desk and I build the tools from inside the problem.</p></details>
+    <details><summary>Do you code, or do you just use AI tools?</summary>
+      <p>Both, and the split is deliberate. What regex and arithmetic can solve does not go through a model. I took a postgraduate degree in data science for financial markets with AI so that I would not have to rely on intuition for that split.</p></details>
+    <details><summary>Are these projects from work or personal?</summary>
+      <p>Both, and the page keeps them apart. The automation with more than five hours a week eliminated and the dashboards are work, in production. The records at the end of the page are mine, outside working hours, with the real state of each one written down.</p></details>
+    <details><summary>Can I see the code?</summary>
+      <p>What is public is on GitHub, linked from each record. What is still private is marked as such, not hidden.</p></details>
+    <details><summary>Are you after a role or consulting work?</summary>
+      <p>Both conversations interest me. A leadership role where automation and AI are part of how the finance function operates, or a one-off financial process automation project. It is the same skill in both.</p></details>
+  </div>
+</section>
+
+<!-- 10 -->
+<section id="procuro" class="reveal">
+  <p class="eyebrow">WHAT I AM LOOKING FOR</p>
+  <p class="want">A leadership role where automation and AI stop being an isolated initiative and become part of how the finance function operates. I am also open to a one-off financial process automation project.</p>
+</section>
+
+<!-- 11 -->
+<section id="contato" class="reveal">
+  <div class="panel">
+    <span class="brk tl"></span><span class="brk tr"></span><span class="brk bl"></span><span class="brk br"></span>
+    <p class="eyebrow">CONTACT</p>
+    <h2>The line is open</h2>
+    <p>If you need someone who understands the finance process and builds the system, not just one of the two, the next instruction is yours.</p>
+    <div class="acts">
+      <a class="cta solid" href="https://www.linkedin.com/in/pedrovmaia/" target="_blank" rel="noopener">Start a conversation on LinkedIn <span class="arw">&rarr;</span></a>
+      <a class="sec" href="https://github.com/pedroboy975" target="_blank" rel="noopener">GitHub</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <p>The background images on this site were generated by AI. The track record, the numbers and the project states are real.</p>
+  <p>No market data, quotes or confidential employer information appear on this page.</p>
+  <p class="mono">ISSUED IN 2026</p>
+</footer>
+
+<div class="telemetry" aria-hidden="true">
+  <svg width="150" height="26" viewBox="0 0 150 26"><path id="telePath" d="M0 13 L150 13"/></svg>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  /* Os quatro portoes duros do hero estatico. Estas quatro strings tem que ser
+     identicas, caractere por caractere, as da lista por virgula no CSS. Se
+     divergirem, um lado esconde o palco enquanto o outro carrega os arquivos.
+     O quinto portao, movimento reduzido, e macio e mora logo abaixo. */
+  var HARD = [
+    "(max-width: 720px)",
+    "(orientation: portrait) and (max-width: 1024px)",
+    "(orientation: portrait) and (pointer: coarse)",
+    "(orientation: landscape) and (pointer: coarse) and (max-height: 560px)"
+  ];
+  /* as consultas ficam referenciadas de proposito: as soltas ja perderam
+     seus listeners em navegadores antigos */
+  var MQLS = HARD.map(function(q){ return matchMedia(q); });
+  var RM = matchMedia("(prefers-reduced-motion: reduce)");
+  var WATCH = MQLS.concat([RM]);
+
+  /* O portao macio. A escolha ja foi lida antes da primeira pintura pelo script
+     do <head>; ler a classe aqui mantem uma fonte so da verdade e evita um
+     segundo acesso ao armazenamento, que pode lancar. */
+  var MOTION_KEY = "camara:motion-ok";
+  var motionOk = document.documentElement.classList.contains("motion-ok");
+
+  function hardMode(){
+    for(var i = 0; i < MQLS.length; i++){ if(MQLS[i].matches) return true; }
+    return false;
+  }
+  function staticMode(){ return hardMode() || (RM.matches && !motionOk); }
+
+  /* animação dirigida pelo scroll: só liga onde o navegador suporta de verdade */
+  var SDA = !!(window.CSS && CSS.supports && CSS.supports("animation-timeline","view()"));
+  if(SDA) document.documentElement.classList.add("sda");
+
+  /* ---------- reveal (queda para quem não tem SDA) ---------- */
+  if(!SDA){
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target); } });
+    },{rootMargin:"0px 0px -12% 0px",threshold:0.08});
+    document.querySelectorAll(".reveal").forEach(function(el){ io.observe(el); });
+
+    var rail = document.getElementById("rail");
+    if(rail){
+      var rio = new IntersectionObserver(function(es){
+        es.forEach(function(e){ if(e.isIntersecting){ rail.classList.add("in"); rio.unobserve(rail); } });
+      },{threshold:0.15});
+      rio.observe(rail);
+    }
+  }
+
+  /* ---------- contadores ---------- */
+  var stats = document.getElementById("stats");
+  if(stats){
+    var sio = new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        if(!e.isIntersecting) return;
+        sio.unobserve(stats);
+        stats.querySelectorAll("[data-count]").forEach(function(el){
+          var target = parseFloat(el.getAttribute("data-count"));
+          var pre = el.getAttribute("data-prefix") || "";
+          var suf = el.getAttribute("data-suffix") || "";
+          if(staticMode()){ el.textContent = pre + target + suf; return; }
+          var t0 = null, dur = 1100, last = "";
+          function frame(ts){
+            if(t0 === null) t0 = ts;
+            var p = Math.min(1,(ts - t0) / dur);
+            var eased = 1 - Math.pow(1 - p, 3);
+            var v = pre + Math.round(target * eased) + suf;
+            if(v !== last){ el.textContent = v; last = v; }
+            if(p < 1) requestAnimationFrame(frame);
+          }
+          requestAnimationFrame(frame);
+        });
+      });
+    },{threshold:0.4});
+    sio.observe(stats);
+  }
+
+  /* ---------- cadeia: segure para rodar ---------- */
+  var btn = document.getElementById("runBtn");
+  var out = document.getElementById("runOut");
+  var steps = Array.prototype.slice.call(document.querySelectorAll("#chain .step"));
+  var chainTimer = null, chainIdx = 0, unwind = null;
+  function chainReset(){
+    clearTimeout(chainTimer); chainTimer = null;
+    clearTimeout(unwind); unwind = null; chainIdx = 0;
+    steps.forEach(function(s){ s.classList.remove("lit"); });
+    if(btn) btn.classList.remove("running");
+    if(out) out.classList.remove("on");
+  }
+  /* soltar cedo desfaz de tras para frente, nunca salta pra zero.
+     Montar e deliberado (620ms por etapa), desfazer e rapido (150ms). */
+  function chainRelease(){
+    clearTimeout(chainTimer); chainTimer = null;
+    if(out) out.classList.remove("on");
+    if(btn) btn.classList.remove("running");
+    if(unwind) return;
+    (function back(){
+      if(chainIdx <= 0){ chainIdx = 0; unwind = null; return; }
+      chainIdx--;
+      steps[chainIdx].classList.remove("lit");
+      unwind = setTimeout(back, 150);
+    })();
+  }
+  function chainTick(){
+    if(chainIdx >= steps.length){
+      out.classList.add("on");
+      chainTimer = setTimeout(chainReset, 1600);
+      return;
+    }
+    steps[chainIdx].classList.add("lit");
+    chainIdx++;
+    chainTimer = setTimeout(chainTick, 620);
+  }
+  function chainStart(ev){
+    if(ev && ev.preventDefault) ev.preventDefault();
+    /* captura de ponteiro: escorregar o dedo pra fora nao mata mais o gesto */
+    if(ev && ev.pointerId != null && btn.setPointerCapture){
+      try{ btn.setPointerCapture(ev.pointerId); }catch(e){}
+    }
+    if(chainTimer) return;
+    if(staticMode()){ steps.forEach(function(s){ s.classList.add("lit"); }); out.classList.add("on"); return; }
+    clearTimeout(unwind); unwind = null;   // retoma de onde parou, nao do zero
+    btn.classList.add("running"); chainTick();
+  }
+  if(btn){
+    btn.addEventListener("pointerdown", chainStart);
+    btn.addEventListener("pointerup", chainRelease);
+    btn.addEventListener("pointercancel", chainRelease);
+    btn.addEventListener("keydown", function(e){ if(e.key === "Enter" || e.key === " ") chainStart(e); });
+    btn.addEventListener("keyup", chainRelease);
+  }
+
+  /* ---------- telemetria ambiente ---------- */
+  var tele = document.getElementById("telePath");
+  if(tele && !staticMode()){
+    var teleT = 0;
+    setInterval(function(){
+      teleT++;
+      var d = "M0 13";
+      for(var x = 6; x <= 150; x += 6){
+        var y = 13 + Math.sin((x + teleT * 7) / 11) * (2 + Math.sin((x + teleT * 3) / 29) * 5);
+        d += " L" + x + " " + y.toFixed(1);
+      }
+      tele.setAttribute("d", d);
+    }, 140);
+  }
+
+  /* ================= HERO: JORNADA DIRIGIDA PELO SCROLL =================
+     A trilha tem 420vh. O progresso por ela vai de 0 a 1 e comanda o tempo do
+     video, as faixas de texto e a camada vetorial. A pagina descansa exatamente
+     quando o video chega no quadro composto do fim. */
+  var track = document.getElementById("heroTrack");
+  if(track){
+
+  var stage    = track.querySelector(".hero");
+  var bedEl    = document.getElementById("heroBed");
+  var posterEl = document.getElementById("heroPoster");
+  var video    = document.getElementById("heroVideo");
+  var loadEl   = document.getElementById("heroLoad");
+  var ringEl   = loadEl && loadEl.querySelector("circle");
+  var hint     = document.getElementById("scrollHint");
+  var svgLayer = track.querySelector(".hero-svg");
+  var bandEls  = track.querySelectorAll(".band");
+
+  var VIDEO_URL   = "../assets/hero-scrub.mp4";
+  var POSTER_URL  = "../assets/hero-poster.jpg";
+  var VIDEO_BYTES = 6068077;   /* tamanho real, reserva se o servidor nao mandar Content-Length */
+  var RING_AFTER  = 250;       /* so mostra o anel se a espera passar disso */
+
+  var groups = {
+    hudPanel: document.getElementById("hudPanel"),
+    hudGuide: document.getElementById("hudGuide"),
+    hudFlow:  document.getElementById("hudFlow"),
+    hudFrame: document.getElementById("hudFrame")
+  };
+
+  var BANDS = [
+    /* Alcances validados pelo teste de flick, nao escolhidos no olho.
+       Em 560vh cada plato fica entre 83 e 95vh. Os vaos entre faixas sao
+       de proposito: sao os momentos em que a filmagem corre sem texto. */
+    {el: bandEls[0], a: 0.00, b: 0.20, g: "hudPanel", first: true},
+    {el: bandEls[1], a: 0.24, b: 0.45, g: "hudGuide"},
+    {el: bandEls[2], a: 0.50, b: 0.71, g: "hudFlow"},
+    {el: bandEls[3], a: 0.77, b: 1.00, g: "hudFrame", last: true}
+  ];
+
+  /* ---------- divisao do texto, feita uma vez ----------
+     Gerador semeado: o "aleatorio" e identico em toda visita, entao a pagina
+     nunca monta diferente duas vezes. */
+  function rng(seed){
+    var s = seed >>> 0;
+    return function(){ s = (s * 1664525 + 1013904223) >>> 0; return s / 4294967296; };
+  }
+  /* Percorre os nos filhos em vez de ler textContent, senao qualquer marcacao
+     inline morre na divisao. A faixa 3 tem um <span class="num"> em volta de
+     "cinco horas semanais", e era exatamente ele que estava sendo apagado. */
+  function splitText(el, mode, spread, seed){
+    if(!el || el.getAttribute("data-split")) return;
+    var full = el.textContent.replace(/\s+/g, " ").trim();
+    if(!full) return;
+    var rand = rng(seed);
+    var totalWords = full.split(" ").length;
+    var totalChars = full.replace(/ /g, "").length;
+    var n = {w: 0, c: 0};
+
+    function wordSpan(text){
+      var w = document.createElement("span");
+      w.className = "w";
+      w.style.setProperty("--th", (mode === "word"
+        ? (n.w / Math.max(1, totalWords - 1)) * spread + rand() * 0.05
+        : 0).toFixed(3));
+      n.w++;
+      for(var k = 0; k < text.length; k++){
+        var c = document.createElement("span");
+        c.className = "c";
+        c.textContent = text.charAt(k);
+        if(mode === "char"){
+          c.style.setProperty("--th", ((n.c / Math.max(1, totalChars - 1)) * spread + rand() * 0.06).toFixed(3));
+          c.style.setProperty("--jx", ((rand() - 0.5) * 90).toFixed(1) + "px");
+          c.style.setProperty("--jy", ((rand() - 0.5) * 70).toFixed(1) + "px");
+          c.style.setProperty("--jr", ((rand() - 0.5) * 24).toFixed(1) + "deg");
+        }
+        n.c++;
+        w.appendChild(c);
+      }
+      return w;
+    }
+    function walk(src, dst){
+      for(var i = 0; i < src.childNodes.length; i++){
+        var node = src.childNodes[i];
+        if(node.nodeType === 3){
+          var parts = node.nodeValue.replace(/\s+/g, " ").split(" ");
+          for(var q = 0; q < parts.length; q++){
+            if(parts[q]) dst.appendChild(wordSpan(parts[q]));
+            if(q < parts.length - 1) dst.appendChild(document.createTextNode(" "));
+          }
+        }else if(node.nodeType === 1){
+          var clone = node.cloneNode(false);   /* mantem tag e classes, larga o conteudo */
+          walk(node, clone);
+          dst.appendChild(clone);
+        }
+      }
+    }
+
+    var visual = document.createElement("span");
+    visual.setAttribute("aria-hidden", "true");
+    walk(el, visual);
+    var sr = document.createElement("span");
+    sr.className = "sr";
+    sr.textContent = full;
+    el.textContent = "";
+    el.appendChild(sr);
+    el.appendChild(visual);
+    el.setAttribute("data-split", "1");
+  }
+
+  var splitDone = false;
+  function splitAll(){
+    if(splitDone) return;
+    splitDone = true;
+    splitText(BANDS[0].el.querySelector(".line"), "word", 0.55, 20240001);
+    splitText(BANDS[1].el.querySelector(".line"), "word", 0.50, 20240002);
+    splitText(BANDS[2].el.querySelector(".line"), "char", 0.55, 20240003);
+    splitText(BANDS[3].el.querySelector("h1"),    "word", 0.34, 20240004);
+  }
+
+  var drawPaths = [];
+  track.querySelectorAll(".hero-svg .draw").forEach(function(pa){
+    var L = pa.getTotalLength();
+    pa.style.strokeDasharray = L;
+    pa.style.strokeDashoffset = L;
+    drawPaths.push({el: pa, L: L, last: -1});
+  });
+
+  /* ---------- estado do laco ---------- */
+  var target = 0, shown = -1, lastT = 0, raf = null;
+  var lastHint = -1, lastBed = null, lastSvg = null;
+  var onScreen = true, scrubOn = false, loadK = 0, loadT0 = 0;
+
+  function clamp(v, lo, hi){ return v < lo ? lo : (v > hi ? hi : v); }
+  function smoothstep(p, e0, e1){
+    var t = clamp((p - e0) / (e1 - e0), 0, 1);
+    return t * t * (3 - 2 * t);
+  }
+  function progress(){
+    var total = track.offsetHeight - window.innerHeight;
+    if(total <= 0) return 0;
+    return clamp(-track.getBoundingClientRect().top / total, 0, 1);
+  }
+  function resetCaches(){
+    for(var i = 0; i < BANDS.length; i++){ BANDS[i].op = -1; BANDS[i].k = -1; }
+    for(var d = 0; d < drawPaths.length; d++){ drawPaths[d].last = -1; }
+    lastBed = null; lastSvg = null; lastHint = -1;
+  }
+  resetCaches();
+
+  /* ---------- portao de seek ----------
+     Nunca escrever currentTime com um seek em voo: eles empilham, e e isso que
+     separa liso de picotado no Chrome. Guarda so o alvo mais novo, dispara
+     exatamente um seguimento no "seeked", e destrava no "error" para que a
+     trava nunca vire impasse permanente. */
+  var seekBusy = false, pendingTime = null;
+  function requestSeek(t){
+    if(!video || !video.duration || !isFinite(video.duration)) return;
+    t = clamp(t, 0, Math.max(0, video.duration - 0.02));
+    if(seekBusy){ pendingTime = t; return; }
+    if(Math.abs(video.currentTime - t) < 0.016) return;
+    seekBusy = true;
+    try{ video.currentTime = t; }
+    catch(e){ seekBusy = false; pendingTime = null; }
+  }
+  if(video){
+    video.addEventListener("seeked", function(){
+      seekBusy = false;
+      if(pendingTime !== null){ var t = pendingTime; pendingTime = null; requestSeek(t); }
+    });
+    video.addEventListener("error", function(){
+      seekBusy = false; pendingTime = null; failVideo();
+    });
+  }
+
+  /* ---------- pintura: tudo escrito so quando muda ---------- */
+  function paint(p){
+    for(var i = 0; i < BANDS.length; i++){
+      var B = BANDS[i], a = B.a, b = B.b;
+      var f = Math.min(0.02, (b - a) / 3);
+      var op;
+      if(p < a) op = B.first ? 1 : 0;
+      else if(p > b) op = B.last ? 1 : 0;
+      else op = (B.first ? 1 : smoothstep(p, a, a + f)) *
+                (B.last  ? 1 : (1 - smoothstep(p, b - f, b)));
+      var opr = Math.round(op * 100) / 100;
+      if(opr !== B.op){
+        B.op = opr;
+        B.el.style.opacity = opr;
+        B.el.style.visibility = opr > 0 ? "visible" : "hidden";
+        if(groups[B.g]) groups[B.g].style.opacity = opr;
+      }
+      if(opr <= 0) continue;
+
+      var ramp = parseFloat(B.el.getAttribute("data-ramp")) || Math.min(0.025, (b - a) * 0.35);
+      var k = clamp((p - a) / ramp, 0, 1);
+      if(B.first) k = Math.max(k, loadK);
+      var kr = Math.round(k * 125) / 125;          /* portao de 0.008 */
+      if(kr !== B.k){
+        B.k = kr;
+        B.el.style.setProperty("--k", kr);
+        var g = groups[B.g];
+        if(g){
+          var e = 1 - Math.pow(1 - kr, 2);
+          for(var d = 0; d < drawPaths.length; d++){
+            var D = drawPaths[d];
+            if(D.el.parentNode !== g) continue;
+            var off = Math.round(D.L * (1 - e) * 10) / 10;
+            if(off !== D.last){ D.last = off; D.el.style.strokeDashoffset = off; }
+          }
+        }
+      }
+    }
+
+    var h = p > 0.04 ? 0 : 1;
+    if(hint && lastHint !== h){ lastHint = h; hint.style.opacity = h ? ".7" : "0"; }
+
+    /* parallax: o leito anda menos que a instrumentacao vetorial */
+    if(bedEl){
+      var by = (Math.round(p * -600) / 100) + "%";
+      if(by !== lastBed){ lastBed = by; bedEl.style.transform = "translate3d(0," + by + ",0) scale(1.14)"; }
+    }
+    if(svgLayer){
+      var sy = (Math.round(p * 250) / 100) + "%";
+      if(sy !== lastSvg){ lastSvg = sy; svgLayer.style.transform = "translate3d(0," + sy + ",0)"; }
+    }
+
+    if(video && video.readyState >= 2) requestSeek(p * video.duration);
+  }
+
+  /* ---------- laco rAF que descansa ----------
+     A normalizacao por dt e o que faz a sensacao ser a mesma em 60 e em 120Hz.
+     Uma constante por quadro converge o dobro mais rapido num monitor de 120. */
+  function loop(ts){
+    var dt = lastT ? Math.min(100, ts - lastT) : 16.667;
+    lastT = ts;
+    var k = 1 - Math.pow(1 - 0.16, dt / 16.667);
+    shown += (target - shown) * k;
+    var moving = Math.abs(target - shown) >= 0.0005;
+    if(!moving) shown = target;
+    if(loadK < 1 && loadT0){
+      var t = clamp((ts - loadT0) / 900, 0, 1);
+      loadK = t * t * (3 - 2 * t);
+    }
+    paint(shown);
+    if((moving || loadK < 1) && onScreen && scrubOn){ raf = requestAnimationFrame(loop); }
+    else { raf = null; lastT = 0; }
+  }
+  function kick(){
+    if(!scrubOn) return;
+    target = progress();
+    if(shown < 0) shown = target;
+    if(raf === null && onScreen) raf = requestAnimationFrame(loop);
+  }
+
+  /* ---------- carregamento do video ----------
+     Blob inteiro, porque muitos servidores nao suportam download parcial e sem
+     isso todo seek trava em zero no ar enquanto funciona perfeitamente no local. */
+  var heroInit = false, fetchStarted = false;
+  var vWatchdog = null, vRingTimer = null;
+  function initHeroOnce(){
+    if(heroInit) return;
+    heroInit = true;
+    loadT0 = performance.now();
+    var img = new Image();
+    img.onload = function(){
+      posterEl.style.backgroundImage = "url('" + POSTER_URL + "')";
+      posterEl.classList.add("on");
+      startFetch();
+    };
+    img.onerror = startFetch;      /* sem poster a chapa segura, e o video ainda vem */
+    img.src = POSTER_URL;
+    setTimeout(startFetch, 4000);  /* poster travado nunca bloqueia o video para sempre */
+  }
+  function startFetch(){
+    if(fetchStarted) return;
+    fetchStarted = true;
+    try{ loadHeroVideo().catch(failVideo); }
+    catch(e){ failVideo(); }
+  }
+  function ring(frac){
+    if(ringEl) ringEl.style.strokeDashoffset = Math.round(126 * (1 - frac));
+  }
+  function loadHeroVideo(){
+    if(!video || !window.fetch) return Promise.reject(new Error("sem fetch"));
+    var ctrl = ("AbortController" in window) ? new AbortController() : null;
+    function arm(){
+      if(!ctrl) return;
+      clearTimeout(vWatchdog);
+      vWatchdog = setTimeout(function(){ try{ ctrl.abort(); }catch(e){} }, 20000);
+    }
+    arm();
+    return fetch(VIDEO_URL, ctrl ? {signal: ctrl.signal} : undefined).then(function(res){
+      if(!res.ok) throw new Error("http " + res.status);
+      var total = Number(res.headers.get("Content-Length")) || VIDEO_BYTES;
+      /* Um caminho so. Transmitir sempre que houver leitor: para um arquivo
+         pequeno o anel nunca chega a aparecer, e para um grande a pagina nao
+         fica muda esperando o arquivo inteiro cair. */
+      if(!res.body || !res.body.getReader){
+        return res.blob().then(function(b){ clearTimeout(vWatchdog); return b; });
+      }
+      vRingTimer = setTimeout(function(){ if(loadEl) loadEl.classList.add("on"); }, RING_AFTER);
+      var reader = res.body.getReader(), chunks = [], got = 0, lastRing = 0;
+      return (function pump(){
+        return reader.read().then(function(r){
+          if(r.done){ clearTimeout(vWatchdog); clearTimeout(vRingTimer); return new Blob(chunks); }
+          arm();
+          chunks.push(r.value); got += r.value.length;
+          var frac = Math.min(1, got / total), now = performance.now();
+          if(now - lastRing > 100 || frac === 1){ lastRing = now; ring(frac); }
+          return pump();
+        });
+      })();
+    }).then(function(blob){
+      ring(1);
+      clearTimeout(vRingTimer);
+      if(loadEl) loadEl.classList.remove("on");
+      video.src = URL.createObjectURL(blob);
+      video.load();
+      video.addEventListener("loadeddata", function(){
+        if(stage) stage.classList.add("video-ready");
+        resetCaches();
+        shown = -1;
+        kick();
+        requestSeek(progress() * video.duration);
+      }, {once: true});
+    });
+  }
+  function failVideo(){
+    /* Nunca um anel preso. Matar os dois temporizadores antes de esconder o anel:
+       sem isso um ringTimer pendente reacende o anel logo depois da falha, que e
+       exatamente o estado travado que o anel deveria evitar. */
+    clearTimeout(vWatchdog); clearTimeout(vRingTimer);
+    if(loadEl) loadEl.classList.remove("on");
+    if(stage) stage.classList.add("video-failed");
+  }
+
+  /* ---------- os portoes, decididos ao vivo ----------
+     Quatro duros mais o macio. As consultas duras batem caractere por caractere
+     com a lista por virgula do CSS, e o macio depende tambem da escolha guardada.
+     Decidir uma vez no carregamento deixa o hero em branco no instante em que um
+     tablet gira, uma janela encostada e maximizada, ou o movimento reduzido e
+     desligado no meio da sessao: o CSS reexibe o palco e o JS nao esta armado. */
+  function enableScrub(){
+    if(scrubOn) return;
+    scrubOn = true;
+    splitAll();
+    initHeroOnce();
+    addEventListener("scroll", kick, {passive: true});
+    addEventListener("resize", kick, {passive: true});
+    resetCaches();
+    shown = -1;
+    kick();
+  }
+  function disableScrub(){
+    if(!scrubOn) return;
+    scrubOn = false;
+    removeEventListener("scroll", kick);
+    removeEventListener("resize", kick);
+    if(raf !== null){ cancelAnimationFrame(raf); raf = null; lastT = 0; }
+  }
+  function applyHeroMode(){ if(staticMode()) disableScrub(); else enableScrub(); }
+
+  /* ---------- os dois controles do portao macio ----------
+     Nunca ignorar o pedido de menos movimento por conta propria. Oferecer a
+     saida, deixar a pessoa escolher, e guardar a escolha para nao perguntar de
+     novo a cada visita. */
+  var optinEl = document.getElementById("motionOptin");
+  var noteEl  = document.getElementById("motionNote");
+  var offEl   = document.getElementById("motionOff");
+
+  function syncMotionControls(){
+    /* Num celular ou numa janela estreita o portao duro manda, e ai o convite
+       fica escondido: um botao que promete o que nao vai entregar e pior do que
+       botao nenhum. */
+    var offer = RM.matches && !hardMode();
+    if(optinEl) optinEl.classList.toggle("on", offer && !motionOk);
+    if(noteEl)  noteEl.classList.toggle("on", offer && !motionOk);
+    /* o !hardMode() tambem aqui: com portao duro valendo o botao de volta fica
+       dentro de uma trilha escondida, invisivel e sem foco, mas marcado como
+       aceso. Estado inutil nao machuca hoje e mente para quem ler amanha. */
+    if(offEl)   offEl.classList.toggle("on", offer && motionOk);
+  }
+  function setMotionOk(on, moveFocusTo){
+    motionOk = on;
+    document.documentElement.classList.toggle("motion-ok", on);
+    try{
+      if(on) localStorage.setItem(MOTION_KEY, "1");
+      else localStorage.removeItem(MOTION_KEY);
+    }catch(e){}          /* aba anonima e dados do site bloqueados lancam aqui */
+    applyHeroMode();
+    syncMotionControls();
+    /* o botao clicado some junto com o palco que o continha: sem mover o foco
+       ele cai no corpo e quem navega por teclado perde o lugar */
+    if(moveFocusTo && moveFocusTo.classList.contains("on")){
+      try{ moveFocusTo.focus(); }catch(e){}
+    }
+  }
+  if(optinEl) optinEl.addEventListener("click", function(){ setMotionOk(true, offEl); });
+  if(offEl)   offEl.addEventListener("click", function(){
+    setMotionOk(false, optinEl);
+    /* a trilha some e a pagina encolhe: sem voltar ao topo a leitura reaparece
+       no meio de uma secao qualquer */
+    window.scrollTo(0, 0);
+  });
+
+  for(var mi = 0; mi < WATCH.length; mi++){
+    if(WATCH[mi].addEventListener) WATCH[mi].addEventListener("change", onGateChange);
+    else if(WATCH[mi].addListener) WATCH[mi].addListener(onGateChange);
+  }
+  function onGateChange(){ applyHeroMode(); syncMotionControls(); }
+  onGateChange();
+
+  /* o laco nunca roda com o hero fora da tela */
+  if("IntersectionObserver" in window){
+    new IntersectionObserver(function(es){
+      onScreen = es[0].isIntersecting;
+      if(onScreen) kick();
+      else if(raf !== null){ cancelAnimationFrame(raf); raf = null; lastT = 0; }
+    }, {rootMargin: "10% 0px"}).observe(track);
+  }
+
+  }
+
+  /* Nada anima em aba escondida. animation-play-state nao e herdado, entao o
+     seletor precisa alcancar cada elemento e cada pseudo-elemento direto. */
+  document.addEventListener("visibilitychange", function(){
+    document.body.classList.toggle("paused", document.hidden);
+  });
+})();
+</script>
+</body>
+</html>

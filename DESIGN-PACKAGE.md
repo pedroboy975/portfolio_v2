@@ -533,11 +533,27 @@ caça o que entrou sem convite.
 
 | Item | Estado |
 |---|---|
-| Página PT em `site/index.html` | CONSTRUÍDA, arquivo único, sem build e sem npm |
-| Página EN em `/en/` | NÃO CONSTRUÍDA |
-| Fundo do hero | PLACEHOLDER. Gradiente CSS no lugar do vídeo. |
+| Página PT em `docs/index.html` | CONSTRUÍDA, arquivo único, sem build e sem npm |
+| Página EN em `docs/en/index.html` | CONSTRUÍDA, gerada por `ferramentas/build-en.py` |
+| Fundo do hero | CONSTRUÍDO. `assets/hero-scrub.mp4`, 8.04s, dirigido pelo scroll. |
+| Hero estático | CONSTRUÍDO. Quadro de chegada, três composições por formato. |
+| Cartão social | CONSTRUÍDO. `social.jpg` e `social-en.jpg`, 1200x630. |
+| Faixas das seções | CONSTRUÍDAS. Quatro, geradas com `soul_location`. |
 | Prints dos registros | PENDENTES de envio do usuário |
-| Créditos Higgsfield gastos | ZERO. Teste de três dias ainda não ativado. |
+| Créditos Higgsfield gastos | 84.96 de 145.88. Vídeo 84, imagens de apoio 0.96. |
+
+### A edição EN não é escrita à mão
+
+`docs/en/index.html` é gerado a partir do PT por `ferramentas/build-en.py`, e o
+arquivo carrega um aviso no topo dizendo isso. O motivo é o modo de falha que
+duas edições escritas em paralelo sempre têm: divergem em silêncio, e ninguém
+descobre porque ninguém lê as duas lado a lado.
+
+O script declara quantas vezes cada trecho de português deve aparecer. Se o PT
+mudar e uma string sumir, ele para e diz qual. Motor, CSS e estrutura são os
+mesmos bytes por construção; só o texto muda.
+
+**Quando mexer no texto do PT, rode `python ferramentas/build-en.py` de novo.**
 
 O elemento `<video id="heroVideo">` já está no DOM e o seek com portão já está
 escrito dentro do laço de pintura. Quando a filmagem existir, é plugar o Blob e

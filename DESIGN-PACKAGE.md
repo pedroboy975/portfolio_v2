@@ -18,7 +18,7 @@ Nenhum crédito gasto. Nada gerado até o aval do usuário.
 **Decisões travadas na revisão 5, depois da auditoria de direção de arte:**
 - O ciano de sistema saiu. O ouro passa a ser a única cor saturada da página.
 - Trio tipográfico trocado: sai IBM Plex, entra Spline Sans com Spline Sans Mono.
-  Marcado como provisório pelo usuário, sujeito a nova prova.
+  **Confirmado pelo usuário em 07/09/2026, com o site pronto.** Decisão fechada.
 - A seção Entregue na mesa deixa de ser três blocos de número e vira leitura de
   posição, no formato de relatório de caixa.
 - A camada de animação foi cortada de treze para sete peças.
@@ -144,11 +144,18 @@ A Spline é levemente mais quente que a Plex. Isso não briga com a direção de
 aço frio, alivia: a página já é quase preta, com filete de 1px e caixa alta em
 quase tudo. Frio demais não vira preciso, vira ilegível.
 
-**Estado desta decisão: provisória.** O usuário escolheu "por enquanto". A
-prova de tipografia fica em `review/tipografia.html`, com quatro trios sobre o
-texto real, para nova comparação a qualquer momento. A opção que continua na
-mesa é Newsreader no corpo, que é serifa e empurraria a página da prateleira de
-portfólio de tecnologia para a de documento financeiro.
+**Estado desta decisão: fechada em 07/09/2026.** Foi provisória enquanto o site
+não existia inteiro. Com o vídeo, as faixas de seção e o hero estático no lugar,
+o usuário confirmou a Spline.
+
+A alternativa descartada era Newsreader no corpo. Ela não foi rejeitada por ser
+pior: é serifa, e trocar o corpo para serifa move a página da prateleira de
+portfólio de tecnologia para a de documento financeiro. Isso ajudaria com um
+recrutador de tesouraria e atrapalharia com um lead de consultoria em automação.
+Como o site atende os dois públicos, a escolha ficou com a sans.
+
+`review/tipografia.html` continua de pé para uma nova comparação se o
+posicionamento mudar, mas a questão sai da lista de pendências.
 
 ---
 

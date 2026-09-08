@@ -14,3 +14,8 @@ raw*.mp4
 Thumbs.db
 desktop.ini
 .DS_Store
+
+# copia de trabalho do fundo do cartao social. O original mora em
+# docs/assets/hero-ending.jpg e o LEIA-ME manda copiar para ca antes de
+# fotografar, porque o card usa caminho relativo. Versionar seria duplicar.
+ferramentas/hero-ending.jpg

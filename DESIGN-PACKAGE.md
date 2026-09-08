@@ -188,18 +188,18 @@ das réguas de luz do teto.
 | Faixa | Alcance | Momento da filmagem | Copy (literal) | Entrada |
 |---|---|---|---|---|
 | 1 | 0.00 a 0.16 | Início da descida, maquinário passando ao longe | "Centenas de milhões de dólares passam pela minha mesa." | Painel de arquitetura se desenha à esquerda, linha por linha |
-| 2 | 0.20 a 0.40 | Atravessa um plano de luz, respingo na lente | "Brasil e Chile. Caixa, hedge cambial, capital de giro." | Chamada lateral com linha de guia apontando pro maquinário |
+| 2 | 0.20 a 0.40 | Atravessa um plano de luz, respingo na lente | "Brasil e Chile. Caixa, câmbio, hedge, investimentos, seguros e capital de giro." | Chamada lateral com linha de guia apontando pro maquinário |
 | 3 | 0.46 a 0.68 | Descida acelera, instrumentos densos dos dois lados | "Eu apaguei cinco horas semanais de trabalho manual do calendário da equipe." | Fluxo vertical de quatro etapas acendendo uma a uma, o número em ouro |
-| 4 | 0.76 a 1.00 | Chegada, superfície larga e calma | "PEDRO MAIA" / "Especialista de Tesouraria na Kinross Gold." / "Tesouraria, dados e agentes de IA." / [Abrir conversa] | Painel final monta em volta do nome, cantos em colchete fecham por último |
+| 4 | 0.76 a 1.00 | Chegada, superfície larga e calma | "PEDRO MAIA" / "Especialista de Tesouraria na Kinross Gold Corp." / "Tesouraria, dados e agentes de IA." / [Abrir conversa] | Painel final monta em volta do nome, cantos em colchete fecham por último |
 
 ### EN
 
 | Faixa | Copy (literal) |
 |---|---|
 | 1 | "Hundreds of millions of dollars cross my desk." |
-| 2 | "Brazil and Chile. Cash, FX hedging, working capital." |
+| 2 | "Brazil and Chile. Cash, FX, hedging, investments, insurance and working capital." |
 | 3 | "I wiped five hours of manual work a week off my team's calendar." |
-| 4 | "PEDRO MAIA" / "Treasury Specialist at Kinross Gold." / "Treasury, data and AI agents." / [Start a conversation] |
+| 4 | "PEDRO MAIA" / "Treasury Specialist at Kinross Gold Corp." / "Treasury, data and AI agents." / [Start a conversation] |
 
 Faixa 4 é o repouso: a página para aqui e a instrumentação fica montada.
 
@@ -547,9 +547,48 @@ caça o que entrou sem convite.
 | Fundo do hero | CONSTRUÍDO. `assets/hero-scrub.mp4`, 8.04s, dirigido pelo scroll. |
 | Hero estático | CONSTRUÍDO. Quadro de chegada, três composições por formato. |
 | Cartão social | CONSTRUÍDO. `social.jpg` e `social-en.jpg`, 1200x630. |
-| Faixas das seções | CONSTRUÍDAS. Quatro, geradas com `soul_location`. |
+| Faixas das seções | CONSTRUÍDAS. Quatro, refeitas em 08/09/2026 na revisão do Pedro. |
 | Prints dos registros | PENDENTES de envio do usuário |
-| Créditos Higgsfield gastos | 84.96 de 145.88. Vídeo 84, imagens de apoio 0.96. |
+| Créditos Higgsfield gastos | 87.72 de 145.88. Vídeo 84, imagens de apoio 3.72. |
+
+### Por que as faixas das seções foram refeitas
+
+A primeira leva foi gerada direto em 1600x340. Numa faixa fina o modelo enche o
+quadro com o objeto mais próximo, porque não sobra altura para profundidade, e as
+quatro saíram sem ponto de fuga — coladas no objeto e genéricas, que foi
+exatamente a leitura do Pedro. A correção é de processo, não de prompt: **gerar em
+16:9 cheio e recortar a faixa depois**, escolhendo o corte que preserva a fuga.
+
+Três das quatro também mudaram de ideia, não só de execução:
+
+- **A mesa** deixou de ser uma mesa. A seção se chama "O tamanho da operação" e o
+  que ela lista é alcance — países, instrumentos, órgãos, cadência. Alcance se
+  mostra por repetição, e virou uma fila de portas blindadas recuando. Cofre
+  também é o vocabulário certo para tesouraria.
+- **A cadeia** trocou o objeto. Cano parado continua parecendo cano parado por
+  mais luz que se ponha nele; virou um canal aberto no piso com ouro correndo
+  dentro, passando por comporta. O fluxo virou o assunto em vez de ser sugerido.
+- **A base** foi para o chão de verdade: rocha em camadas com veio de ouro, e a
+  estrutura de aço apoiada em cima. A poça anterior estava *no piso*, então lia
+  como buraco. Base precisa de peso em cima para ser base. Numa terceira rodada a
+  câmera ainda recuou: recorte não resolvia, porque a faixa já usava a largura
+  inteira do quadro — quem estava perto era a lente, não o corte. O quadro final
+  é o pórtico inteiro visto de longe, plantado no monte de rocha.
+
+Guarda de pessoas: sete imagens do dia foram descartadas por terem gente dentro,
+e duas delas eram as melhores composições do lote. Há duas causas distintas, e as
+duas correções são de prompt:
+
+1. **Vazio escuro.** O modelo preenche o que a gente manda pintar de sombra.
+   Saída: preencher o negativo com estrutura em vez de pedir escuridão.
+2. **Affordance humana.** Passarela, guarda-corpo, escada de acesso, sala
+   iluminada e luminária são convites — pedir qualquer um deles põe gente. Saída:
+   descrever só o que carrega carga (coluna, viga, chapa) e negar as peças de
+   circulação por nome.
+
+Depois da segunda correção, os dois quadros seguintes saíram limpos de primeira.
+Toda escolhida passa por uma varredura clareada e por um zoom 4x nas zonas de
+estrutura antes de entrar.
 
 ### A edição EN não é escrita à mão
 

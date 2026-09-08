@@ -11,7 +11,7 @@ Nenhum crédito gasto. Nada gerado até o aval do usuário.
 
 **Decisões travadas em revisões anteriores:**
 - LinkedIn correto: `linkedin.com/in/pedrovmaia`
-- 100X Partners fica fora do site.
+- Uma das experiências do currículo fica fora do site, por escolha do usuário.
 - Os números do resumo profissional entram todos.
 - Sem formulário, sem e-mail visível. Canal único: LinkedIn.
 
@@ -518,7 +518,9 @@ O build segue o padrão inteiro de `scrub-pipeline.md`, sem meia memória:
 ## 9. Dados que NÃO entram no site
 
 - Telefone e e-mail pessoal, presentes no currículo. Canal único: LinkedIn.
-- 100X Partners, por escolha do usuário.
+- Uma das experiências do currículo, por escolha do usuário. O nome não é
+  registrado aqui: este repositório é público, e escrever o nome para dizer
+  que ele não aparece publica exatamente o que a decisão queria manter fora.
 - Qualquer informação confidencial da Kinross. Os números usados são os que o
   próprio Pedro publica no resumo do LinkedIn dele.
 

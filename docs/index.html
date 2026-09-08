@@ -16,14 +16,14 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta property="og:url" content="https://pedroboy975.github.io/portfolio_v2/">
 <link rel="canonical" href="https://pedroboy975.github.io/portfolio_v2/">
-<!-- DEPLOY STEP, pendente: og:image espera o cartao social 1200x630, que sai do
-     quadro final da jornada. Tag vazia atrapalha mais que tag ausente, entao ela
-     entra junto com o arquivo:
-     <meta property="og:image" content="https://pedroboy975.github.io/portfolio_v2/assets/social.jpg">
-     <meta property="og:image:width" content="1200">
-     <meta property="og:image:height" content="630">
-     Editar com editor e codificacao explicita, nunca com substituicao de shell:
-     ela le este arquivo na codificacao errada e transforma todo acento em lixo. -->
+<!-- O cartao social. URL absoluta de proposito: rastreador de rede social nao
+     resolve caminho relativo. A fonte e review/card-social.html, montada com as
+     mesmas fontes e tokens do site e fotografada em 1200x630 a 2x. -->
+<meta property="og:image" content="https://pedroboy975.github.io/portfolio_v2/assets/social.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Pedro Maia, Especialista de Tesouraria na Kinross Gold. Ao fundo, uma poca de ouro derretido no piso de uma camara de aco.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@600;800&family=Spline+Sans:wght@400;500&family=Spline+Sans+Mono:wght@400;600&display=swap" rel="stylesheet">
@@ -90,12 +90,21 @@ header.top{
   background:linear-gradient(to bottom,rgba(10,14,19,.9),rgba(10,14,19,0));
   backdrop-filter:blur(3px);
 }
-header.top .mark{color:var(--text-primary);font-weight:600}
+/* nowrap: em 390px o nome quebrava em duas linhas e empurrava o cabeçalho */
+header.top .mark{color:var(--text-primary);font-weight:600;white-space:nowrap}
 header.top .dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent);
   margin-right:8px;vertical-align:middle;animation:pulse 3.2s ease-in-out infinite}
 @keyframes pulse{0%,100%{opacity:.35}50%{opacity:1}}
 header.top nav{display:flex;gap:18px;align-items:center}
 header.top nav a{color:var(--text-secondary)}
+/* Em 390px o nome e os quatro links somam 438px numa faixa de 350. Antes disso o
+   nome quebrava no meio; forçar nowrap só trocou a quebra por colisão. A saída é
+   duas fileiras: nome em cima, menu embaixo espalhado na largura toda. */
+@media (max-width:520px){
+  header.top{flex-wrap:wrap;row-gap:9px;font-size:11px;letter-spacing:.1em}
+  header.top .mark{flex:1 0 100%}
+  header.top nav{width:100%;gap:12px;justify-content:space-between}
+}
 
 /* ---------- hero ---------- */
 /* 560vh de trilha. Nao e capricho: com 420vh cada faixa tinha um plato de 51 a
@@ -224,6 +233,60 @@ header.top nav a{color:var(--text-secondary)}
 
 /* hero estático */
 .hero-static{display:none;position:relative;min-height:100vh;min-height:100dvh;align-items:center;padding:120px var(--gut) 80px;z-index:1}
+
+/* O quadro de chegada como fundo. É o mesmo destino da jornada rolada: quem cai
+   aqui vê o fim, não uma tela lisa. Nos dois pseudo-elementos de propósito —
+   imagem e scrim separados, porque só o scrim muda de força entre os tamanhos.
+   Nada disso baixa onde o hero estático está display:none: pseudo-elemento de
+   elemento não exibido não é gerado, então o desktop normal continua sem custo.
+   z-index -1 fica preso aqui dentro, já que .hero-static abre contexto com z-index 1. */
+.hero-static::before{content:"";position:absolute;inset:0;z-index:-1;
+  background:url("assets/hero-static-sm.jpg") center 62%/cover no-repeat}
+@media (min-width:901px){
+  .hero-static::before{background-image:url("assets/hero-ending.jpg")}
+}
+/* Dois scrims. O da esquerda abre a coluna do texto, o de baixo assenta a base.
+   A poça fica no centro e nenhum dos dois a apaga. */
+.hero-static::after{content:"";position:absolute;inset:0;z-index:-1;
+  background:
+    linear-gradient(100deg,rgba(5,8,12,.95) 0%,rgba(5,8,12,.93) 40%,
+      rgba(5,8,12,.72) 56%,rgba(5,8,12,.30) 70%,rgba(5,8,12,0) 84%),
+    linear-gradient(to top,rgba(5,8,12,.78) 0%,rgba(5,8,12,.1) 38%,rgba(5,8,12,.4) 100%)}
+/* Retrato: a coluna de texto ocupa a largura toda, então o scrim vira vertical.
+   Manter o gradiente lateral aqui deixaria o lado direito do título no claro. */
+/* Retrato: o quadro é deitado e não cabe em pé. Com cover ele vira uma tira
+   vertical e a poça cai exatamente onde o texto está — foi o que aconteceu, e
+   o véu necessário para salvar a leitura apagava a imagem inteira. Então a
+   composição muda: texto no alto, no escuro, e o quadro como faixa ancorada
+   embaixo, com a poça brilhando no rodapé. */
+@media (orientation:portrait){
+  .hero-static{align-items:flex-start}
+  /* Cover, não faixa recortada. Tentei ancorar o quadro embaixo em 130% e a borda
+     de cima cortava seco contra a chapa; máscara não conserta, porque acima da
+     borda não existe imagem para fundir — o degradê só suaviza metade do salto.
+     Com cover não há borda nenhuma, e o scrim faz todo o trabalho: quase opaco em
+     cima, onde mora o texto, e aliviando a partir de 62%, onde a poça aparece. */
+  /* Dimensionado pela ALTURA, não por largura nem cover. Cover amplia tanto num
+     retrato estreito que a poça vira um arco abstrato; largura em porcentagem
+     deixa a borda de cima numa posição que depende da proporção do aparelho, e aí
+     nenhuma máscara acerta. Altura em porcentagem fixa a borda em 36% sempre, e a
+     máscara pode ser escrita contra esse número. A poça inteira volta a caber. */
+  .hero-static::before{background-size:auto 64%;background-position:center bottom;
+    -webkit-mask-image:linear-gradient(to bottom,transparent 36%,#000 56%);
+            mask-image:linear-gradient(to bottom,transparent 36%,#000 56%)}
+  .hero-static::after{background:
+    linear-gradient(to bottom,rgba(5,8,12,.93) 0%,rgba(5,8,12,.88) 56%,
+      rgba(5,8,12,.34) 72%,rgba(5,8,12,.2) 100%)}
+}
+/* Celular deitado: 390px de altura, e o título sozinho ocupa quase o quadro
+   inteiro em cima da poça — medido em 1.00:1, ilegível. Aqui nenhum gradiente
+   direcional resolve, porque não sobra direção livre. O quadro vira textura sob
+   véu chapado, que é a troca honesta: perde-se a imagem, ganha-se o recado. */
+@media (orientation:landscape) and (max-height:560px){
+  .hero-static::after{background:rgba(5,8,12,.9)}
+}
+.hero-static h1,.hero-static .eyebrow,.hero-static p{text-shadow:var(--tshadow)}
+.hero-static .cta{text-shadow:none}
 .hero-static h1{font-family:var(--display);font-weight:800;text-transform:uppercase;
   font-size:clamp(34px,8vw,68px);line-height:.98;margin:0 0 22px}
 .hero-static p{color:var(--text-secondary);max-width:56ch;margin:0 0 30px}

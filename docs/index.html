@@ -417,6 +417,17 @@ h3{font-family:var(--display);font-weight:600;text-transform:uppercase;font-size
 .state.no-ar{color:var(--gold);border-color:rgba(233,180,90,.4)}
 .state.comiss{color:var(--accent);border-color:var(--accent-muted)}
 .card p{margin:0;color:var(--text-secondary);font-size:15px}
+/* Card com destino: o link mora no título, e o ::after estica a área de clique
+   pelo card inteiro. Um <a> em volta do article inteiro faria o leitor de tela
+   anunciar o card todo como um link só. */
+.card.linked{position:relative;cursor:pointer}
+.card .go{color:inherit}
+.card .go::after{content:"";position:absolute;inset:0}
+.card .go:focus-visible{outline:none}
+.card.linked:has(.go:focus-visible){outline:2px solid var(--accent);outline-offset:3px}
+.card .open{margin-top:auto;padding-top:4px;font-family:var(--mono);font-size:11px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--gold)}
+.card .open .arw{display:inline-block;transition:transform .2s var(--ease-out)}
 
 /* 7 — construção */
 #construcao .rows{margin-top:32px;border-top:1px solid var(--panel-line)}
@@ -551,6 +562,8 @@ footer .mono{font-family:var(--mono);font-size:11px;letter-spacing:.14em;opacity
   .cta:hover .arw{transform:translateX(4px)}
   .hold button:hover{border-color:var(--accent);color:var(--accent)}
   .card:hover{border-color:var(--accent-muted);transform:translateY(-2px)}
+  .card.linked:hover{border-color:rgba(233,180,90,.4)}
+  .card.linked:hover .open .arw{transform:translate(2px,-2px)}
   #contato .sec:hover{color:var(--accent)}
 }
 
@@ -926,15 +939,16 @@ body.paused *,body.paused *::before,body.paused *::after{
       <h3>Organização financeira</h3>
       <p>Base de conhecimento que dá nome e categoria à movimentação, com mapeamento de contas e diário das decisões de modelagem. É a espinha de um controle financeiro pessoal. A modelagem está escrita, a aplicação ainda não foi construída.</p>
     </article>
-    <article class="card">
-      <div class="hd"><span class="id">0003</span><span class="state comiss">Em comissionamento</span></div>
-      <h3>Auditor de perfil</h3>
-      <p>Lê um currículo em PDF e monta um dossiê estruturado. O que é conta sai calculado, e os dados pessoais são retirados antes de qualquer coisa sair da máquina. Fecha ponta a ponta na máquina local.</p>
+    <article class="card linked">
+      <div class="hd"><span class="id">0003</span><span class="state no-ar">No ar</span></div>
+      <h3><a class="go" href="https://pedroboy975.github.io/Resume-Reviewer/" target="_blank" rel="noopener">Auditor de perfil</a></h3>
+      <p>Lê um currículo em PDF e monta um dossiê estruturado. O que é conta sai calculado, e os dados pessoais são retirados antes de qualquer coisa sair da máquina. Roda no navegador e não guarda nada do currículo: só entrega o resultado.</p>
+      <span class="open" aria-hidden="true">Abrir a página <span class="arw">&nearr;</span></span>
     </article>
     <article class="card">
       <div class="hd"><span class="id">0004</span><span class="state no-ar">No ar</span></div>
       <h3>IA local</h3>
-      <p>Assistente rodando em Ollama, na própria máquina, com memória em grafo de conhecimento. Orquestra tarefas, monta relatório, revisa código e responde no dia a dia. Não esquece o que já foi dito e nada do que ele lê sai do computador. Único registro no ar, e o mais usado de todos: está ligado agora.</p>
+      <p>Assistente rodando em Ollama, na própria máquina, com memória em grafo de conhecimento. Orquestra tarefas, monta relatório, revisa código e responde no dia a dia. Não esquece o que já foi dito e nada do que ele lê sai do computador. O mais usado de todos: está ligado agora.</p>
     </article>
   </div>
   <p class="closing">Dois deles processam sem mandar nada pra fora da máquina. Quem trabalha com número de empresa sabe por que isso importa.</p>
@@ -988,7 +1002,7 @@ body.paused *,body.paused *::before,body.paused *::after{
     <details><summary>Esses projetos são de trabalho ou pessoais?</summary>
       <p>As duas coisas, e a página separa. A automação com mais de cinco horas semanais eliminadas e os dashboards são trabalho, em produção. Os registros no fim da página são meus, construídos fora do expediente e só com dados públicos, com o estado real de cada um escrito.</p></details>
     <details><summary>Dá pra ver o código?</summary>
-      <p>O código deste site é público no GitHub, com o link no rodapé. O dos registros ainda é privado, e isso está dito aqui, não escondido.</p></details>
+      <p>O código deste site é público no GitHub, com o link no rodapé, e o do Auditor de perfil também. O dos outros registros ainda é privado, e isso está dito aqui, não escondido.</p></details>
     <details><summary>Você quer vaga ou consultoria?</summary>
       <p>As duas conversas me interessam. Papel de liderança onde automação e IA façam parte do modelo de operação da área financeira, ou projeto pontual de automação de processo financeiro. É a mesma habilidade nas duas.</p></details>
   </div>

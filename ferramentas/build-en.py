@@ -258,20 +258,20 @@ T = [
 ('<summary>Dá pra ver o código?</summary>', '<summary>Can I see the code?</summary>', 1),
 ('<p>O código deste site e o do Auditor de perfil estão públicos no meu GitHub, com o link no rodapé. O dos outros registros ainda é privado, e isso está dito aqui, não escondido.</p>',
  '<p>The code for this site and for the Profile auditor is public on my GitHub, linked in the footer. The code for the other records is still private, and that is said here, not hidden.</p>', 1),
-('<summary>Você quer vaga ou consultoria?</summary>', '<summary>Are you after a role or consulting work?</summary>', 1),
-('<p>As duas conversas me interessam. Papel de liderança onde automação e IA façam parte do modelo de operação da área financeira, ou projeto pontual de automação de processo financeiro. É a mesma habilidade nas duas.</p>',
- '<p>Both conversations interest me. A leadership role where automation and AI are part of how the finance function operates, or a one-off financial process automation project. It is the same skill in both.</p>', 1),
+('<summary>Onde você quer chegar?</summary>', '<summary>Where do you want to get to?</summary>', 1),
+('<p>Liderar uma área financeira em que automação e IA sejam parte de como ela opera, não um projeto à parte. É o que eu já faço na mesa onde estou, e quero fazer em escala maior.</p>',
+ '<p>To lead a finance function where automation and AI are part of how it operates, not a side project. It is what I already do at the desk where I sit, and I want to do it at a larger scale.</p>', 1),
 
 # ---------- 10. o que eu procuro ----------
-('<p class="eyebrow">O QUE EU PROCURO</p>', '<p class="eyebrow">WHAT I AM LOOKING FOR</p>', 1),
-('<p class="want">Um papel de liderança em que automação e IA deixem de ser iniciativa isolada e virem parte do modelo de operação da área financeira. Também converso sobre projeto pontual de automação de processo financeiro.</p>',
- '<p class="want">A leadership role where automation and AI stop being an isolated initiative and become part of how the finance function operates. I am also open to a one-off financial process automation project.</p>', 1),
+('<p class="eyebrow">ONDE EU QUERO CHEGAR</p>', '<p class="eyebrow">WHERE I WANT TO GET TO</p>', 1),
+('<p class="want">Um papel de liderança em que automação e IA deixem de ser iniciativa isolada e virem parte do modelo de operação da área financeira.</p>',
+ '<p class="want">A leadership role where automation and AI stop being an isolated initiative and become part of how the finance function operates.</p>', 1),
 
 # ---------- 11. contato ----------
 ('<p class="eyebrow">CONTATO</p>', '<p class="eyebrow">CONTACT</p>', 1),
 ('<h2>A linha está aberta</h2>', '<h2>The line is open</h2>', 1),
-('<p>Se você precisa de alguém que entende o processo financeiro e constrói o sistema, e não só um dos dois, a próxima instrução é sua.</p>',
- '<p>If you need someone who understands the finance process and builds the system, not just one of the two, the next instruction is yours.</p>', 1),
+('<p>Se você trabalha com finanças e quer trocar ideia sobre automação, a próxima instrução é sua.</p>',
+ '<p>If you work in finance and want to swap ideas about automation, the next instruction is yours.</p>', 1),
 
 # ---------- rodape ----------
 ('<p>As imagens de fundo deste site foram geradas por IA. A trajetória, os números e os estados dos projetos são reais.</p>',
